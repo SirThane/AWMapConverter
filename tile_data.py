@@ -608,7 +608,6 @@ AWBW_TERR = {
     176:    999,  # Purple Lightning Port
 }
 
-
-# def find_awbw_terr(awmc_id):
-#     for k, v in AWBW_TERR:
-#
+MAIN_TERR_TO_AWBW = {k: [x for x in AWBW_TERR.keys() if AWBW_TERR.get(x, None) == k]
+                     for k in MAIN_TERR.keys()}
+print(MAIN_TERR_TO_AWBW)

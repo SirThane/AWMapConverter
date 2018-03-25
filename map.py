@@ -1,7 +1,8 @@
 import tile_data
 from collections import Iterable
-# import csv
-
+from io import StringIO
+import csv
+from time import sleep
 # Warp tile = 0 or an empty CSV cell
 # TODO: Test these
 
@@ -36,7 +37,7 @@ class AWMap:
             self.bin_data = bytearray(self.data)
             self.from_aws()
 
-    def __repr__(self):  # TODO: Make a string representation of the tile objects.
+    def __repr__(self):
         nl = "\n"
         return f"{'Map Title: {0}{1}'.format(self.title, nl) if self.title is not None else ''}" \
                f"{'Map Author: {0}{1}'.format(self.author, nl) if self.author is not None else ''}" \
@@ -56,10 +57,14 @@ class AWMap:
         unit_data = [int.from_bytes(self.bin_data[x + (self.map_size * 2) + 13:x + (self.map_size * 2) + 15], 'little')
                      for x in range(0, self.map_size * 2, 2)]
 
-        self.map = [[AWTile(self, x, y, self.terr_from_aws(x, y, terr_data), self.unit_from_aws(x, y, unit_data))
-                     for y in range(self.size_h)] for x in range(self.size_w)]
+        self.map = self.invert_map_axis([[AWTile(self, x, y, self.terr_from_aws(x, y, terr_data),
+                                                 self.unit_from_aws(x, y, unit_data))
+                                          for y in range(self.size_h)] for x in range(self.size_w)])
 
         self.title, self.author, self.desc = self.meta_from_aws(self.bin_data[13 + (self.map_size * 4):])
+
+    def invert_map_axis(self, map):
+        return [[map[x][y] for x in range(self.size_w)] for y in range(self.size_h)]
 
     def terr_from_aws(self, x, y, data):
         # Return 2 byte terrain value from binary data for coordinate (x, y)
@@ -83,12 +88,22 @@ class AWMap:
 
     def tile(self, x, y):
         # Return tile object at coordinate (x, y)
-        return self.map[x][y]
+        try:
+            return self.map[x][y]
+        except IndexError:
+            return False
+
+    def to_awbw(self):
+        si = StringIO()
+        writer = csv.writer(si)
+        for row in [[tile.awbw_id for tile in row] for row in self.map]:
+            writer.writerow(row)
+        return si.getvalue()
 
 
 class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, volcano, etc.
 
-    def __init__(self, awmap: AWMap, x: int, y: int, terr: int, unit: int):
+    def __init__(self, awmap: AWMap, x, y, terr, unit):
         self.x, self.y, self.terr, self.unit, self.awmap = x, y, terr, unit, awmap
 
     def __repr__(self):
@@ -98,6 +113,10 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
 
     def tile(self, x, y):
         return self.awmap.tile(x, y)
+
+    @property
+    def awbw_id(self):
+        return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[0]
 
     def mod_terr(self, terrain):
         pass
