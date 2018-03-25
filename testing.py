@@ -55,4 +55,4 @@ def bread(infile='test.aws'):
         return map.AWMap(bin_file.read(), "AWS")
 
 
-print(bread().map)
+print(bread())

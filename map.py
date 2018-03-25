@@ -1,6 +1,6 @@
 import tile_data
+from collections import Iterable
 # import csv
-
 
 # Warp tile = 0 or an empty CSV cell
 # TODO: Test these
@@ -8,23 +8,40 @@ import tile_data
 # TODO: Also, implement excepting invalid tile data for AWBW export as Warp tile
 # TODO: Guess we'll need to implement excepting invalid tiles for AWS export. Plains?
 
+
+def flatten(items):
+    """Yield items from any nested iterable; see REF."""
+    for x in items:
+        if isinstance(x, Iterable) and not isinstance(x, (str, bytes)):
+            yield from flatten(x)
+        else:
+            yield x
+
+
 class AWMap:
 
     def __init__(self, data, source):
         self.data = data
+        self.map = []
         self.size_w = 0
         self.size_h = 0
         self.map_size = 0
         self.style = 0
-        self.map = []
+        self.title = None
+        self.author = None
+        self.desc = None
         self.source = source
         self.pass_buffer = []  # Buffer tile coords to skip for multi-tile objects e.g. Volcano, Deathray
         if self.source == "AWS":
             self.bin_data = bytearray(self.data)
             self.from_aws()
 
-    # def __str__(self):  # TODO: Make a string representation of the tile objects.
-    #     pass
+    def __repr__(self):  # TODO: Make a string representation of the tile objects.
+        nl = "\n"
+        return f"{'Map Title: {0}{1}'.format(self.title, nl) if self.title is not None else ''}" \
+               f"{'Map Author: {0}{1}'.format(self.author, nl) if self.author is not None else ''}" \
+               f"{'Map Description: {0}{1}'.format(self.desc, nl) if self.desc is not None else ''}\n" \
+               f"{'{0}'.format(nl).join([str(x) for x in flatten(self.map)])}"
 
     def from_aws(self):  # TODO: Make sure the coords are right
         # Width, Height, and graphic style
@@ -42,11 +59,7 @@ class AWMap:
         self.map = [[AWTile(self, x, y, self.terr_from_aws(x, y, terr_data), self.unit_from_aws(x, y, unit_data))
                      for y in range(self.size_h)] for x in range(self.size_w)]
 
-    # def terr_id_from_aws(self, terr_id):
-    #     return tile_data.AWS_TERR[terr_id]
-    #
-    # def unit_id_from_aws(self, unit_id):
-    #     return tile_data.AWS_UNIT[unit_id]
+        self.title, self.author, self.desc = self.meta_from_aws(self.bin_data[13 + (self.map_size * 4):])
 
     def terr_from_aws(self, x, y, data):
         # Return 2 byte terrain value from binary data for coordinate (x, y)
@@ -57,6 +70,16 @@ class AWMap:
         # Return 2 byte unit value from binary data for coordinate (x, y)
         offset = y + (x * self.size_h)
         return tile_data.AWS_UNIT.get(data[offset], 0)
+
+    def meta_from_aws(self, data):
+        t_size = int.from_bytes(data[:4], 'little')
+        a_size = int.from_bytes(data[t_size + 4:t_size + 8], 'little')
+        d_size = int.from_bytes(data[t_size + a_size + 8:t_size + a_size + 12], 'little')
+
+        title = data[4:4 + t_size].decode('utf-8')
+        author = data[8 + t_size:8 + t_size + a_size].decode('utf-8')
+        desc = data[12 + t_size + a_size:12 + t_size + a_size + d_size].decode('utf-8')
+        return title, author, desc
 
     def tile(self, x, y):
         # Return tile object at coordinate (x, y)
