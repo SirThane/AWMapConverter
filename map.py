@@ -1,9 +1,10 @@
 import tile_data
-import csv
+# import csv
 
 
 # Warp tile = 0 or an empty CSV cell
 # TODO: Test these
+
 # TODO: Also, implement excepting invalid tile data for AWBW export as Warp tile
 # TODO: Guess we'll need to implement excepting invalid tiles for AWS export. Plains?
 
@@ -13,6 +14,7 @@ class AWMap:
         self.data = data
         self.size_w = 0
         self.size_h = 0
+        self.map_size = 0
         self.style = 0
         self.map = []
         self.source = source
@@ -27,34 +29,34 @@ class AWMap:
     def from_aws(self):  # TODO: Make sure the coords are right
         # Width, Height, and graphic style
         self.size_w, self.size_h, self.style = self.bin_data[10:13]
-        map_size = self.size_w * self.size_h * 2  # Number of tiles * 2 due to 2 bytes per tile
+        self.map_size = self.size_w * self.size_h  # Number of tiles * 2 due to 2 bytes per tile
 
         # Chop out the terrain data as a list of ints
         terr_data = [int.from_bytes(self.bin_data[x + 13:x + 15], 'little') for x in
-                     range(0, map_size, 2)]
+                     range(0, self.map_size * 2, 2)]
 
         # Chop out the unit data as a list of ints
-        unit_data = [int.from_bytes(self.bin_data[x + map_size + 13:x + map_size + 15], 'little') for x in
-                     range(0, map_size, 2)]
+        unit_data = [int.from_bytes(self.bin_data[x + (self.map_size * 2) + 13:x + (self.map_size * 2) + 15], 'little')
+                     for x in range(0, self.map_size * 2, 2)]
 
-        self.map = [[AWTile(self, x + 1, y + 1, self.terr_from_bin(x, y), self.unit_from_bin(x, y))
-                       for y in range(self.size_h)] for x in range(self.size_w)]
+        self.map = [[AWTile(self, x, y, self.terr_from_aws(x, y, terr_data), self.unit_from_aws(x, y, unit_data))
+                     for y in range(self.size_h)] for x in range(self.size_w)]
 
-    def find_terr_value(self):
-        pass
+    # def terr_id_from_aws(self, terr_id):
+    #     return tile_data.AWS_TERR[terr_id]
+    #
+    # def unit_id_from_aws(self, unit_id):
+    #     return tile_data.AWS_UNIT[unit_id]
 
-    def find_unit_value(self):
-        pass
-
-    def terr_from_bin(self, x, y):
+    def terr_from_aws(self, x, y, data):
         # Return 2 byte terrain value from binary data for coordinate (x, y)
-        offset = (y + (x * self.size_h)) * 2
-        return self.bin_data[offset:offset + 2]
+        offset = y + (x * self.size_h)
+        return tile_data.AWS_TERR.get(data[offset], 0)
 
-    def unit_from_bin(self, x, y):
+    def unit_from_aws(self, x, y, data):
         # Return 2 byte unit value from binary data for coordinate (x, y)
-        offset = ((y + (x * self.size_h)) * 2) + (self.size_h * self.size_w * 2)
-        return self.bin_data[offset:offset + 2]
+        offset = y + (x * self.size_h)
+        return tile_data.AWS_UNIT.get(data[offset], 0)
 
     def tile(self, x, y):
         # Return tile object at coordinate (x, y)
@@ -63,12 +65,12 @@ class AWMap:
 
 class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, volcano, etc.
 
-    def __init__(self, awmap: AWMap, x: int, y: int, terr: int=0, unit: int=0):
+    def __init__(self, awmap: AWMap, x: int, y: int, terr: int, unit: int):
         self.x, self.y, self.terr, self.unit, self.awmap = x, y, terr, unit, awmap
 
     def __repr__(self):
-        return f"({self.x}, {self.y}): " \
-               f"<{tile_data.MAIN_TERR.get(self.terr, 'Plain')}>" \
+        return f"({self.x + 1}, {self.y + 1}): " \
+               f"<{tile_data.MAIN_TERR.get(self.terr, 'Plain')}> " \
                f"<{tile_data.MAIN_UNIT.get(self.unit, 'Empty')}>"
 
     def tile(self, x, y):

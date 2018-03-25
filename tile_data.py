@@ -449,7 +449,7 @@ AWS_TERR = {
 }
 
 AWS_UNIT = {
-
+    65535:  0     # Empty
 }
 
 AWBW_TERR = {
