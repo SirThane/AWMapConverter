@@ -56,7 +56,7 @@ unit_key.aws
 668, 688, 690
 """
 
-MAIN = {
+MAIN_TERR = {
     0:      "Plain",
     1:      "Wood",
     2:      "Mountain",
@@ -139,12 +139,16 @@ MAIN = {
     999:    "NullTile",
 }
 
-AWS = {
+MAIN_UNIT = {
+    0:      "Empty",
+}
+
+AWS_TERR = {
     0: 0,  # Plain
     # 1:
 }
 
-AWBW = {
+AWBW_TERR = {
     'Plain': 1,
     'Mountain': 2,
     'Wood': 3,
