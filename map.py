@@ -2,7 +2,10 @@ import tile_data
 from collections import Iterable
 from io import StringIO
 import csv
-from time import sleep
+from math import cos, sin, pi, trunc
+# from time import sleep
+
+
 # Warp tile = 0 or an empty CSV cell
 # TODO: Test these
 
@@ -63,8 +66,8 @@ class AWMap:
 
         self.title, self.author, self.desc = self.meta_from_aws(self.bin_data[13 + (self.map_size * 4):])
 
-    def invert_map_axis(self, map):
-        return [[map[x][y] for x in range(self.size_w)] for y in range(self.size_h)]
+    def invert_map_axis(self, inverted_map):
+        return [[inverted_map[x][y] for x in range(self.size_w)] for y in range(self.size_h)]
 
     def terr_from_aws(self, x, y, data):
         # Return 2 byte terrain value from binary data for coordinate (x, y)
@@ -91,7 +94,8 @@ class AWMap:
         try:
             return self.map[x][y]
         except IndexError:
-            return False
+            return AWTile(self, x, y, 999, 0)
+            # return False
 
     def to_awbw(self):
         si = StringIO()
@@ -105,6 +109,7 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
 
     def __init__(self, awmap: AWMap, x, y, terr, unit):
         self.x, self.y, self.terr, self.unit, self.awmap = x, y, terr, unit, awmap
+        self.awareness_override = None
 
     def __repr__(self):
         return f"({self.x + 1}, {self.y + 1}): " \
@@ -115,8 +120,26 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
         return self.awmap.tile(x, y)
 
     @property
-    def awbw_id(self):
-        return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[0]
+    def awbw_id(self):  # Adjust for awareness
+        try:
+            print((self.x, self.y), self.adj_match())
+            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[0]  # TODO fix this and fix the dict
+        except IndexError:
+            return ""
+
+    def awbw_awareness(self):
+        pass
+
+    def adj_match(self, terr=None):
+        if not terr:
+            terr = self.terr
+
+        awareness_mask = 0  # #                  West    North   East    South        W  N  E  S
+        for i in range(4):  # Below generates [(-1, 0), (0, 1), (1, 0), (0, -1)] for [1, 2, 3, 4]
+            if self.tile(-trunc(sin(pi * (i + 1)/2)), -trunc(cos(pi * (i + 1)/2))).terr == terr:
+                awareness_mask += 2 ** i
+
+        return awareness_mask, [['W', 'N', 'E', 'S'][i] for i in range(4) if (2 ** i) & awareness_mask == (2 ** i)]
 
     def mod_terr(self, terrain):
         pass

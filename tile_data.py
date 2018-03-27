@@ -149,6 +149,7 @@ MAIN_TERR = {
     514:    "BlackCrystal",
 
     999:    "NullTile",
+    -1:     "OutOfBounds",
 }
 
 MAIN_UNIT = {
@@ -293,10 +294,11 @@ MAIN_UNIT = {
 AWS_TERR = {
     0:      1,    # Plain
     1:      4,    # Road
-    2:      5,    # Bridge
+    2:      5,    # BridgeH
     3:      9,    # River
     16:     10,   # Pipe
     30:     8,    # Reef
+    32:     5,    # BridgeV
     39:     7,    # Shoal
     60:     6,    # Sea
     90:     2,    # Wood
