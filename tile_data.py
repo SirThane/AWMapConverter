@@ -68,6 +68,8 @@ unit_key.aws
 668, 688, 690
 """
 
+# TODO: Combine all properties and units in MAIN with a key for country?
+
 MAIN_TERR = {
     1:      "Plain",
     2:      "Wood",
@@ -612,4 +614,4 @@ AWBW_TERR = {
 
 MAIN_TERR_TO_AWBW = {k: [x for x in AWBW_TERR.keys() if AWBW_TERR.get(x, None) == k]
                      for k in MAIN_TERR.keys()}
-print(MAIN_TERR_TO_AWBW)
+# print(MAIN_TERR_TO_AWBW)

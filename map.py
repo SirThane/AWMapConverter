@@ -1,7 +1,5 @@
 import tile_data
 from collections import Iterable
-from io import StringIO
-import csv
 from math import cos, sin, pi, trunc
 # from time import sleep
 
@@ -50,7 +48,7 @@ class AWMap:
     def from_aws(self):  # TODO: Make sure the coords are right
         # Width, Height, and graphic style
         self.size_w, self.size_h, self.style = self.bin_data[10:13]
-        self.map_size = self.size_w * self.size_h  # Number of tiles * 2 due to 2 bytes per tile
+        self.map_size = self.size_w * self.size_h
 
         # Chop out the terrain data as a list of ints
         terr_data = [int.from_bytes(self.bin_data[x + 13:x + 15], 'little') for x in
@@ -60,14 +58,15 @@ class AWMap:
         unit_data = [int.from_bytes(self.bin_data[x + (self.map_size * 2) + 13:x + (self.map_size * 2) + 15], 'little')
                      for x in range(0, self.map_size * 2, 2)]
 
-        self.map = self.invert_map_axis([[AWTile(self, x, y, self.terr_from_aws(x, y, terr_data),
-                                                 self.unit_from_aws(x, y, unit_data))
-                                          for y in range(self.size_h)] for x in range(self.size_w)])
+        map_data = {x: {y: AWTile(self, x, y, self.terr_from_aws(x, y, terr_data), self.unit_from_aws(x, y, unit_data))
+                        for y in range(self.size_h)} for x in range(self.size_w)}
+
+        self.map = self.correct_map_axis(map_data)
 
         self.title, self.author, self.desc = self.meta_from_aws(self.bin_data[13 + (self.map_size * 4):])
 
-    def invert_map_axis(self, inverted_map):
-        return [[inverted_map[x][y] for x in range(self.size_w)] for y in range(self.size_h)]
+    def correct_map_axis(self, inverted_map):
+        return {y: {x: inverted_map[x][y] for x in range(self.size_w)} for y in range(self.size_h)}
 
     def terr_from_aws(self, x, y, data):
         # Return 2 byte terrain value from binary data for coordinate (x, y)
@@ -92,17 +91,30 @@ class AWMap:
     def tile(self, x, y):
         # Return tile object at coordinate (x, y)
         try:
-            return self.map[x][y]
-        except IndexError:
+            tile = self.map[y][x]
+            try:
+                assert tile.x == x
+                assert tile.y == y
+                return tile
+            except AssertionError:
+                print(f"Received tile from index with differing coordinates\n"
+                      f"Requested:     ({x}, {y})\n"
+                      f"Tile Property: ({tile.x}, {tile.y})\n"
+                      f"Tile Contents: (T: {tile.terr}, U: {tile.unit})")
+                return tile
+        except KeyError:
             return AWTile(self, x, y, 999, 0)
             # return False
 
     def to_awbw(self):
-        si = StringIO()
-        writer = csv.writer(si)
-        for row in [[tile.awbw_id for tile in row] for row in self.map]:
-            writer.writerow(row)
-        return si.getvalue()
+        # si = StringIO()
+        # writer = csv.writer(si)
+        # for row in [[tile.awbw_id for tile in row] for row in self.map]:
+        #     writer.writerow(row)
+        # return si.getvalue()
+
+        return '\n'.join(
+            [','.join([str(self.tile(x, y).awbw_id) for x in range(self.size_w)]) for y in range(self.size_h)])
 
 
 class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, volcano, etc.
@@ -120,6 +132,10 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
         return self.awmap.tile(x, y)
 
     @property
+    def terr_name(self):
+        return tile_data.MAIN_TERR.get(self.terr, "InvalidTerrID")
+
+    @property
     def awbw_id(self):  # Adjust for awareness
         try:
             print((self.x, self.y), self.adj_match())
@@ -135,8 +151,8 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
             terr = self.terr
 
         awareness_mask = 0  # #                  West    North   East    South        W  N  E  S
-        for i in range(4):  # Below generates [(-1, 0), (0, 1), (1, 0), (0, -1)] for [1, 2, 3, 4]
-            if self.tile(-trunc(sin(pi * (i + 1)/2)), -trunc(cos(pi * (i + 1)/2))).terr == terr:
+        for i in range(4):  # Below generates [(-1, 0), (0, 1), (1, 0), (0, -1)] for [0, 1, 2, 3]
+            if self.tile(self.x - trunc(sin(pi * (i + 1)/2)), self.y - trunc(cos(pi * (i + 1)/2))).terr == terr:
                 awareness_mask += 2 ** i
 
         return awareness_mask, [['W', 'N', 'E', 'S'][i] for i in range(4) if (2 ** i) & awareness_mask == (2 ** i)]
