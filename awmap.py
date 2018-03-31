@@ -150,12 +150,12 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
         if not terr:
             terr = self.terr
 
-        awareness_mask = 0  # #                  West    North   East    South        W  N  E  S
+        awareness_mask = 0  # #                  West   South    East    North        W  S  E  N
         for i in range(4):  # Below generates [(-1, 0), (0, 1), (1, 0), (0, -1)] for [0, 1, 2, 3]
             if self.tile(self.x - trunc(sin(pi * (i + 1)/2)), self.y - trunc(cos(pi * (i + 1)/2))).terr == terr:
                 awareness_mask += 2 ** i
 
-        return awareness_mask, [['W', 'N', 'E', 'S'][i] for i in range(4) if (2 ** i) & awareness_mask == (2 ** i)]
+        return awareness_mask
 
     def mod_terr(self, terrain):
         pass

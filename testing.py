@@ -1,12 +1,12 @@
-import map
+import awmap
 
 
 def bread(infile='test.aws'):
     with open(infile, 'rb') as bin_file:
-        return map.AWMap(bin_file.read(), "AWS")
+        return awmap.AWMap(bin_file.read(), "AWS")
 
 
-awmap = bread()
+newmap = bread()
 # with open(f"{awmap.title}.txt", 'w') as outfile:
 #     outfile.write(awmap.to_awbw())
 
@@ -20,4 +20,4 @@ awmap = bread()
 
 # print(awmap.map)
 
-print(awmap.to_awbw())
+print(newmap.to_awbw())
