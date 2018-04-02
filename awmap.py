@@ -138,7 +138,6 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
     @property
     def awbw_id(self):  # Adjust for awareness
         try:
-            print((self.x, self.y), self.adj_match())
             return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[0]  # TODO fix this and fix the dict
         except IndexError:
             return ""
