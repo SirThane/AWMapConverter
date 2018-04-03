@@ -37,43 +37,71 @@ class GUI:
 
         self.root.config(menu=self.menubar)
 
+        # All the shit in the Header
+
+        self.map_info_frame = tk.Frame(self.root, border=5)
+        self.map_info_frame.grid(row=0, column=0, sticky=tk.W)
+
         # Map Meta Data Frame
 
-        self.meta_frame = tk.Frame(self.root, border=5)
+        self.meta_frame = tk.Frame(self.map_info_frame)
         self.meta_frame.grid(row=0, column=0, sticky=tk.W)
 
         self.map_title = tk.Label(self.meta_frame, text="Title: ")
+        self.map_title.grid(row=0, column=0, sticky=tk.E)
         self.map_title_value = tk.StringVar(name="map_title")
         self.map_title_value.trace_add("write", self.update_title)
-        self.map_title_field = tk.Entry(self.meta_frame, state="disabled", textvariable=self.map_title_value)
-        self.map_title.grid(row=0, column=0, sticky=tk.E)
+        self.map_title_field = tk.Entry(self.meta_frame, state=tk.DISABLED, textvariable=self.map_title_value)
         self.map_title_field.grid(row=0, column=1)
 
         self.map_author = tk.Label(self.meta_frame, text="Author: ")
+        self.map_author.grid(row=1, column=0, sticky=tk.E)
         self.map_author_value = tk.StringVar(name="map_author")
         self.map_author_value.trace_add("write", self.update_author)
-        self.map_author_field = tk.Entry(self.meta_frame, state="disabled", textvariable=self.map_author_value)
-        self.map_author.grid(row=1, column=0, sticky=tk.E)
+        self.map_author_field = tk.Entry(self.meta_frame, state=tk.DISABLED, textvariable=self.map_author_value)
         self.map_author_field.grid(row=1, column=1)
 
         self.map_desc = tk.Label(self.meta_frame, text="Description: ")
+        self.map_desc.grid(row=2, column=0, sticky=tk.E)
         self.map_desc_value = tk.StringVar(name="map_desc")
         self.map_desc_value.trace_add("write", self.update_desc)
-        self.map_desc_field = tk.Entry(self.meta_frame, state="disabled", textvariable=self.map_desc_value)
-        self.map_desc.grid(row=2, column=0, sticky=tk.E)
+        self.map_desc_field = tk.Entry(self.meta_frame, state=tk.DISABLED, textvariable=self.map_desc_value)
         self.map_desc_field.grid(row=2, column=1)
 
         # Map Analytics Frame
 
-        pass
+        self.map_analytic_frame = tk.Frame(self.map_info_frame)
+        self.map_analytic_frame.grid(row=0, column=1, padx=5, sticky=tk.N)
+
+        # Map Dimensions
+
+        self.map_dimensions_frame = tk.Frame(self.map_analytic_frame)
+        self.map_dimensions_frame.grid(row=0, column=0, columnspan=2, sticky=tk.N)
+
+        self.map_dimensions_label = tk.Label(self.map_dimensions_frame, text="Dimensions")
+        self.map_dimensions_label.grid(row=0, column=0, columnspan=3)
+
+        self.map_size_w_value = tk.StringVar(name="map_size_w")
+        self.map_size_w_value.trace_add("write", self.unimplemented)
+        self.map_size_w_field = tk.Entry(self.map_dimensions_frame, state=tk.DISABLED,
+                                         textvariable=self.map_size_w_value, width=3)
+        self.map_size_w_field.grid(row=1, column=0)
+
+        self.map_dimensions_x_label = tk.Label(self.map_dimensions_frame, text="x")
+        self.map_dimensions_x_label.grid(row=1, column=1, padx=1)
+
+        self.map_size_h_value = tk.StringVar(name="map_size_h")
+        self.map_size_h_value.trace_add("write", self.unimplemented)
+        self.map_size_h_field = tk.Entry(self.map_dimensions_frame, state=tk.DISABLED,
+                                         textvariable=self.map_size_h_value, width=3)
+        self.map_size_h_field.grid(row=1, column=2)
 
         # Map CSV Display
 
         self.map_frame = tk.Frame(self.root, border=5)
         self.map_frame.grid(row=1, column=0)
 
-        self.map_csv = tk.StringVar()
-        self.map_csv = sc.ScrolledText(self.map_frame, wrap='word', state='disabled', width=45, height=8)
+        self.map_csv = sc.ScrolledText(self.map_frame, wrap='word', state=tk.DISABLED, width=50, height=8)
         self.map_csv.grid(row=0, column=0)
 
         # Save Buttons
@@ -116,30 +144,30 @@ class GUI:
         self.awmap.title = self.map_title_value
 
     def update_title_field(self, value=None):
-        self.map_title_field.config(state="normal")
+        self.map_title_field.config(state=tk.NORMAL)
         self.map_title_value.set(value)
 
     def update_author(self, *args):
         self.awmap.author = self.map_author_value
 
     def update_author_field(self, value=None):
-        self.map_author_field.config(state="normal")
+        self.map_author_field.config(state=tk.NORMAL)
         self.map_author_value.set(value)
 
     def update_desc(self, *args):
         self.awmap.desc = self.map_desc_value
 
     def update_desc_field(self, value=None):
-        self.map_desc_field.config(state="normal")
+        self.map_desc_field.config(state=tk.NORMAL)
         self.map_desc_value.set(value)
 
     # Map CSV Update Methods
 
     def update_map_csv(self, value=None):
-        self.map_csv.config(state='normal')
+        self.map_csv.config(state=tk.NORMAL)
         self.map_csv.delete(1.0, tk.END)
         self.map_csv.insert(tk.INSERT, value)
-        self.map_csv.config(state='disabled')
+        self.map_csv.config(state=tk.DISABLED)
 
     # Unimplemented Features
 
