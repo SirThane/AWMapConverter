@@ -45,7 +45,7 @@ class AWMap:
                f"{'Map Description: {0}{1}'.format(self.desc, nl) if self.desc is not None else ''}\n" \
                f"{'{0}'.format(nl).join([str(x) for x in flatten(self.map)])}"
 
-    def from_aws(self):  # TODO: Make sure the coords are right
+    def from_aws(self):
         # Width, Height, and graphic style
         self.size_w, self.size_h, self.style = self.bin_data[10:13]
         self.map_size = self.size_w * self.size_h
@@ -68,12 +68,12 @@ class AWMap:
     def correct_map_axis(self, inverted_map):
         return {y: {x: inverted_map[x][y] for x in range(self.size_w)} for y in range(self.size_h)}
 
-    def terr_from_aws(self, x, y, data):
+    def terr_from_aws(self, x, y, data):  # TODO: Correct for country consolidation
         # Return 2 byte terrain value from binary data for coordinate (x, y)
         offset = y + (x * self.size_h)
         return tile_data.AWS_TERR.get(data[offset], 0)
 
-    def unit_from_aws(self, x, y, data):
+    def unit_from_aws(self, x, y, data):  # TODO: Correct for country consolidation
         # Return 2 byte unit value from binary data for coordinate (x, y)
         offset = y + (x * self.size_h)
         return tile_data.AWS_UNIT.get(data[offset], 0)
@@ -136,14 +136,17 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
         return tile_data.MAIN_TERR.get(self.terr, "InvalidTerrID")
 
     @property
-    def awbw_id(self):  # Adjust for awareness
+    def awbw_id(self):  # TODO fix this and fix the dict
         try:
-            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[0]  # TODO fix this and fix the dict
+            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[self.awbw_awareness()]
         except IndexError:
             return ""
 
-    def awbw_awareness(self):
-        pass
+    def awbw_awareness(self):  # TODO: Early testing. To be expanded upon.
+        if self.terr in tile_data.MAIN_TERR_TO_AWBW_AWARENESS.keys():
+            return tile_data.MAIN_TERR_TO_AWBW_AWARENESS[self.terr][self.adj_match()]
+        else:
+            return 0
 
     def adj_match(self, terr=None):
         if not terr:
@@ -156,8 +159,8 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
 
         return awareness_mask
 
-    def mod_terr(self, terrain):
-        pass
+    def mod_terr(self, terr):
+        self.terr = terr
 
     def mod_unit(self, unit):
-        pass
+        self.unit = unit

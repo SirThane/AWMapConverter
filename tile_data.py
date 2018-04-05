@@ -87,12 +87,13 @@ MAIN_TERR = {
     14:     "SiloEmpty",
     15:     "Ruins",
 
-    102:    "NCity",
-    103:    "NBase",
-    104:    "NAirport",
-    105:    "NSeaport",
-    106:    "NTower",
-    107:    "NLab",
+    101:    "HQ",
+    102:    "City",
+    103:    "Base",
+    104:    "Airport",
+    105:    "Seaport",
+    106:    "Tower",
+    107:    "Lab",
 
     111:    "OSHQ",
     112:    "OSCity",
@@ -152,6 +153,15 @@ MAIN_TERR = {
 
     999:    "NullTile",
     -1:     "OutOfBounds",
+}
+
+MAIN_CTRY = {
+    0:      "Neutral",
+    1:      "Orange Star",
+    2:      "Blue Moon",
+    3:      "Green Earth",
+    4:      "Yellow Comet",
+    5:      "Black Hole",
 }
 
 MAIN_UNIT = {
@@ -614,4 +624,84 @@ AWBW_TERR = {
 
 MAIN_TERR_TO_AWBW = {k: [x for x in AWBW_TERR.keys() if AWBW_TERR.get(x, None) == k]
                      for k in MAIN_TERR.keys()}
+
+MAIN_TERR_TO_AWBW_AWARENESS = {
+    # Roads: Offset from 15
+    4:      {
+        0:  0,
+        1:  0,
+        2:  1,
+        3:  4,
+        4:  0,
+        5:  0,
+        6:  3,
+        7:  7,
+        8:  1,
+        9:  5,
+        10: 1,
+        11: 8,
+        12: 6,
+        13: 9,
+        14: 10,
+        15: 2
+    },
+
+    # Bridge: Offset from 26
+    # Additionally aware of Land Tiles
+    5:      {
+        0:  0,
+        1:  0,
+        2:  1,
+        3:  1,
+        4:  0,
+        5:  0,
+        6:  1,
+        7:  0,
+        8:  1,
+        9:  1,
+        10: 1,
+        11: 1,
+        12: 1,
+        13: 0,
+        14: 1,
+        15: 1
+    },
+
+    # Shoal: Offset from 29  # TODO
+    # Additionally aware of Land Tiles
+    7:      {},
+
+    # River: Offset from 4
+    9:      {
+        0:  0,
+        1:  0,
+        2:  1,
+        3:  4,
+        4:  0,
+        5:  0,
+        6:  3,
+        7:  7,
+        8:  1,
+        9:  5,
+        10: 1,
+        11: 8,
+        12: 6,
+        13: 9,
+        14: 10,
+        15: 2
+    },
+
+    # Pipe: Offset from 101  # TODO
+    # Additionally aware of Pipe Seam and Destroyed Pipe Seam
+    10:     {},
+
+    # Pipe Seam: Offset from 113  # TODO
+    # Additionally aware of Pipe and Destroyed Pipe Seam
+    11:     {},
+
+    # Destroyed Pipe Seam: Offset from 115  # TODO
+    # Additionally aware of Pipe and Pipe Seam
+    12:     {},
+}
+
 # print(MAIN_TERR_TO_AWBW)
