@@ -82,7 +82,7 @@ class GUI:
         self.map_dimensions_label.grid(row=0, column=0, columnspan=3)
 
         self.map_size_w_value = tk.StringVar(name="map_size_w")
-        self.map_size_w_value.trace_add("write", self.unimplemented)
+        # self.map_size_w_value.trace_add("write", self.unimplemented)
         self.map_size_w_field = tk.Entry(self.map_dimensions_frame, state=tk.DISABLED,
                                          textvariable=self.map_size_w_value, width=3)
         self.map_size_w_field.grid(row=1, column=0)
@@ -91,7 +91,7 @@ class GUI:
         self.map_dimensions_x_label.grid(row=1, column=1, padx=1)
 
         self.map_size_h_value = tk.StringVar(name="map_size_h")
-        self.map_size_h_value.trace_add("write", self.unimplemented)
+        # self.map_size_h_value.trace_add("write", self.unimplemented)
         self.map_size_h_field = tk.Entry(self.map_dimensions_frame, state=tk.DISABLED,
                                          textvariable=self.map_size_h_value, width=3)
         self.map_size_h_field.grid(row=1, column=2)
@@ -115,10 +115,12 @@ class GUI:
         try:
             with tk.filedialog.askopenfile(mode="rb", filetypes=[file_formats["aws"]]) as in_file:
                 self.awmap = awmap.AWMap(in_file.read(), "AWS")
-                self.update_title_field(self.awmap.title)
-                self.update_author_field(self.awmap.author)
-                self.update_desc_field(self.awmap.desc)
-                self.update_map_csv(self.awmap.to_awbw())
+            self.update_title_field(self.awmap.title)
+            self.update_author_field(self.awmap.author)
+            self.update_desc_field(self.awmap.desc)
+            self.update_map_csv(self.awmap.to_awbw())
+            self.update_map_size_w(self.awmap.size_w)
+            self.update_map_size_h(self.awmap.size_h)
         except AttributeError:
             pass  # TODO: Add MessageDialog with Error details.
 
@@ -161,6 +163,18 @@ class GUI:
         self.map_desc_field.config(state=tk.NORMAL)
         self.map_desc_value.set(value)
 
+    # Update Map Analytics Methods
+
+    def update_map_size_w(self, w):
+        self.map_size_w_field.config(state=tk.NORMAL, disabledbackground="white", disabledforeground="black")
+        self.map_size_w_value.set(w)
+        self.map_size_w_field.config(state=tk.DISABLED)
+
+    def update_map_size_h(self, h):
+        self.map_size_h_field.config(state=tk.NORMAL, disabledbackground="white", disabledforeground="black")
+        self.map_size_h_value.set(h)
+        self.map_size_h_field.config(state=tk.DISABLED)
+
     # Map CSV Update Methods
 
     def update_map_csv(self, value=None):
@@ -171,7 +185,7 @@ class GUI:
 
     # Unimplemented Features
 
-    def unimplemented(self):
+    def unimplemented(self, *args, **kwargs):
         tk.messagebox.showinfo("Unimplemented", "This feature is not yet implemented.")
 
     # Exit/Quit Button Method

@@ -119,7 +119,7 @@ class AWMap:
 
 class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, volcano, etc.
 
-    def __init__(self, awmap: AWMap, x, y, terr, unit):
+    def __init__(self, awmap: AWMap, x=0, y=0, terr=0, unit=0):
         self.x, self.y, self.terr, self.unit, self.awmap = x, y, terr, unit, awmap
         self.awareness_override = None
 
@@ -129,6 +129,7 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
                f"<{tile_data.MAIN_UNIT.get(self.unit, 'Empty')}>"
 
     def tile(self, x, y):
+        """ Grab the AWTile object from AWMap using AWMap.tile()"""
         return self.awmap.tile(x, y)
 
     @property
@@ -138,13 +139,17 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
     @property
     def awbw_id(self):  # TODO fix this and fix the dict
         try:
-            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[self.awbw_awareness()]
+            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[self.awbw_awareness]
         except IndexError:
             return ""
 
-    def awbw_awareness(self):  # TODO: Early testing. To be expanded upon.
+    @property
+    def awbw_awareness(self):
         if self.terr in tile_data.MAIN_TERR_TO_AWBW_AWARENESS.keys():
-            return tile_data.MAIN_TERR_TO_AWBW_AWARENESS[self.terr][self.adj_match()]
+            mask = 0
+            for tile in tile_data.MAIN_TERR_TO_AWBW_AWARENESS["aware_of"][self.terr]:
+                mask = mask | self.adj_match(tile)
+            return tile_data.MAIN_TERR_TO_AWBW_AWARENESS[self.terr][mask]
         else:
             return 0
 

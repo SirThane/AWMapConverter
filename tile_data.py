@@ -70,6 +70,8 @@ unit_key.aws
 
 # TODO: Combine all properties and units in MAIN with a key for country?
 
+# Internal IDs for
+
 MAIN_TERR = {
     1:      "Plain",
     2:      "Wood",
@@ -154,6 +156,15 @@ MAIN_TERR = {
     999:    "NullTile",
     -1:     "OutOfBounds",
 }
+
+# MAIN Terrain Categories
+MAIN_TERR_CAT = {
+    "land":         [1, 2, 3, 4, 5, 7, 9, 10, 11, 12, 13, 14, 15],
+    "sea":          [6, 8],
+    "properties":   [x for x in MAIN_TERR.keys() if 100 < x < 300],
+}
+
+MAIN_TERR_CAT["land"] += MAIN_TERR_CAT["properties"]
 
 MAIN_CTRY = {
     0:      "Neutral",
@@ -302,6 +313,10 @@ MAIN_UNIT = {
     545:    "BHBattleship",
     546:    "BHCarrier",
 }
+
+######################################
+# Advance Wars Series Map Editor IDs #
+######################################
 
 AWS_TERR = {
     0:      1,    # Plain
@@ -466,6 +481,11 @@ AWS_UNIT = {
     65535:  0     # Empty
 }
 
+
+###########################
+# Advance Wars By Web IDs #
+###########################
+
 AWBW_TERR = {
     1:      1,    # Plain
     2:      3,    # Mountain
@@ -622,11 +642,14 @@ AWBW_TERR = {
     176:    999,  # Purple Lightning Port
 }
 
+# Relate MAIN IDs to AWBW IDs
 MAIN_TERR_TO_AWBW = {k: [x for x in AWBW_TERR.keys() if AWBW_TERR.get(x, None) == k]
                      for k in MAIN_TERR.keys()}
 
+#
 MAIN_TERR_TO_AWBW_AWARENESS = {
     # Roads: Offset from 15
+    # Additionally aware of Bridge and Properties
     4:      {
         0:  0,
         1:  0,
@@ -669,7 +692,24 @@ MAIN_TERR_TO_AWBW_AWARENESS = {
 
     # Shoal: Offset from 29  # TODO
     # Additionally aware of Land Tiles
-    7:      {},
+    7:      {
+        0:  0,
+        1:  0,
+        2:  0,
+        3:  0,
+        4:  0,
+        5:  0,
+        6:  0,
+        7:  0,
+        8:  0,
+        9:  0,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: 0
+    },
 
     # River: Offset from 4
     9:      {
@@ -691,17 +731,78 @@ MAIN_TERR_TO_AWBW_AWARENESS = {
         15: 2
     },
 
-    # Pipe: Offset from 101  # TODO
+    # Pipe: Offset from 101
     # Additionally aware of Pipe Seam and Destroyed Pipe Seam
-    10:     {},
+    10:     {
+        0:  0,
+        1:  7,
+        2:  6,
+        3:  4,
+        4:  9,
+        5:  1,
+        6:  3,
+        7:  1,
+        8:  8,
+        9:  5,
+        10: 0,
+        11: 0,
+        12: 2,
+        13: 1,
+        14: 0,
+        15: 1
+    },
 
-    # Pipe Seam: Offset from 113  # TODO
+    # Pipe Seam: Offset from 113
     # Additionally aware of Pipe and Destroyed Pipe Seam
-    11:     {},
+    11:     {
+        0:  0,
+        1:  0,
+        2:  1,
+        3:  0,
+        4:  0,
+        5:  0,
+        6:  0,
+        7:  0,
+        8:  1,
+        9:  0,
+        10: 1,
+        11: 1,
+        12: 0,
+        13: 0,
+        14: 1,
+        15: 0
+    },
 
-    # Destroyed Pipe Seam: Offset from 115  # TODO
+    # Destroyed Pipe Seam: Offset from 115
     # Additionally aware of Pipe and Pipe Seam
-    12:     {},
+    12:     {
+        0:  0,
+        1:  0,
+        2:  1,
+        3:  0,
+        4:  0,
+        5:  0,
+        6:  0,
+        7:  0,
+        8:  1,
+        9:  0,
+        10: 1,
+        11: 1,
+        12: 0,
+        13: 0,
+        14: 1,
+        15: 0
+    },
+
+    "aware_of": {
+        4:  [4, 5, 13, 14, *MAIN_TERR_CAT["properties"]],
+        5:  MAIN_TERR_CAT["land"],
+        7:  MAIN_TERR_CAT["land"],
+        9:  [9],
+        10: [10, 11, 12],
+        11: [10, 11, 12],
+        12: [10, 11, 12],
+    }
 }
 
 # print(MAIN_TERR_TO_AWBW)
