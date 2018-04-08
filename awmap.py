@@ -45,6 +45,11 @@ class AWMap:
                f"{'Map Description: {0}{1}'.format(self.desc, nl) if self.desc is not None else ''}\n" \
                f"{'{0}'.format(nl).join([str(x) for x in flatten(self.map)])}"
 
+    def __iter__(self):
+        for y in range(self.size_h):
+            for x in range(self.size_w):
+                yield self.tile(x, y)
+
     def from_aws(self):
         # Width, Height, and graphic style
         self.size_w, self.size_h, self.style = self.bin_data[10:13]
