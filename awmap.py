@@ -1,4 +1,6 @@
 import tile_data
+import csv
+import os
 from collections import Iterable
 from math import cos, sin, pi, trunc
 # from time import sleep
@@ -22,21 +24,23 @@ def flatten(items):
 
 class AWMap:
 
-    def __init__(self, data, source):
+    def __init__(self, data, source, **kwargs):
         self.data = data
-        self.map = []
+        self.map = None
         self.size_w = 0
         self.size_h = 0
         self.map_size = 0
         self.style = 0
-        self.title = None
-        self.author = None
-        self.desc = None
+        self.title = ""
+        self.author = ""
+        self.desc = ""
         self.source = source
         self.pass_buffer = []  # Buffer tile coords to skip for multi-tile objects e.g. Volcano, Deathray
         if self.source == "AWS":
             self.bin_data = bytearray(self.data)
             self.from_aws()
+        elif self.source == "AWBW":
+            self.from_awbw(kwargs.get("title", None))
 
     def __repr__(self):
         nl = "\n"
@@ -72,6 +76,17 @@ class AWMap:
 
     def correct_map_axis(self, inverted_map):
         return {y: {x: inverted_map[x][y] for x in range(self.size_w)} for y in range(self.size_h)}
+
+    def from_awbw(self, title=None):
+        csv_map = [*csv.reader(self.data.split('\n'))]  # Calling method will need to catch AssertionError for below
+        assert all(map(lambda x: len(x) == len(csv_map[0]), csv_map))
+        self.size_h, self.size_w = len(csv_map), len(csv_map[0])
+        try:
+            self.title = os.path.basename(title)
+        except TypeError:
+            self.title = "[Untitled]"
+        self.map = {y: {x: AWTile(self, x, y, *self.terr_from_awbw(csv_map[y][x]))
+                        for x in range(self.size_w)} for y in range(self.size_h)}
 
     def terr_from_aws(self, x, y, data):  # TODO: Correct for country consolidation
         # Return 2 byte terrain value from binary data for coordinate (x, y)
@@ -109,24 +124,43 @@ class AWMap:
                 return tile
         except KeyError:
             return AWTile(self, x, y, 999, 0)
-            # return False
 
+    def terr_from_awbw(self, terr):
+        terr = int(terr)
+        main_id = tile_data.AWBW_TERR.get(terr, 1)
+        orientation = terr - tile_data.MAIN_TERR_TO_AWBW.get(main_id)[0]
+        return main_id, orientation
+
+    @property
     def to_awbw(self):
-        # si = StringIO()
-        # writer = csv.writer(si)
-        # for row in [[tile.awbw_id for tile in row] for row in self.map]:
-        #     writer.writerow(row)
-        # return si.getvalue()
-
         return '\n'.join(
             [','.join([str(self.tile(x, y).awbw_id) for x in range(self.size_w)]) for y in range(self.size_h)])
+
+    @property
+    def to_aws(self):
+        ret = bytearray(b'AWSMap001') + b'\x00'
+
+        for b in [m.to_bytes(1, 'little') for m in [self.size_w, self.size_h, self.style]]:
+            ret += b
+        for b in [terr.to_bytes(2, 'little') for terr in
+                  [self.tile(x, y).aws_terr_id for x in range(self.size_w) for y in range(self.size_h)]]:
+            ret += b
+        for b in [unit.to_bytes(2, 'little') for unit in
+                  [self.tile(x, y).aws_unit_id for x in range(self.size_w) for y in range(self.size_h)]]:
+            ret += b
+
+        ret += len(self.title).to_bytes(4, 'little') + self.title.encode('utf-8')
+        ret += len(self.author).to_bytes(4, 'little') + self.author.encode('utf-8')
+        ret += len(self.desc).to_bytes(4, 'little') + self.desc.encode('utf-8')
+
+        return ret
 
 
 class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, volcano, etc.
 
-    def __init__(self, awmap: AWMap, x=0, y=0, terr=0, unit=0):
+    def __init__(self, awmap: AWMap, x=0, y=0, terr=0, unit=0, awareness_override=None):
         self.x, self.y, self.terr, self.unit, self.awmap = x, y, terr, unit, awmap
-        self.awareness_override = None
+        self.awareness_override = awareness_override
 
     def __repr__(self):
         return f"({self.x + 1}, {self.y + 1}): " \
@@ -142,9 +176,26 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
         return tile_data.MAIN_TERR.get(self.terr, "InvalidTerrID")
 
     @property
-    def awbw_id(self):  # TODO fix this and fix the dict
+    def aws_terr_id(self):
         try:
-            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[self.awbw_awareness]
+            return tile_data.MAIN_TERR_TO_AWS.get(self.terr, 1)[0]
+        except IndexError:
+            return 0
+
+    @property
+    def aws_unit_id(self):
+        try:
+            return tile_data.MAIN_UNIT_TO_AWS.get(self.terr, 0)[0]
+        except IndexError:
+            return 65535
+        except TypeError:
+            return 65535
+
+    @property
+    def awbw_id(self):  # TODO fix this and fix the dict
+        awareness = self.awareness_override if self.awareness_override else self.awbw_awareness
+        try:
+            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[awareness]
         except IndexError:
             return ""
 

@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 import awmap
 from tkinter import filedialog, messagebox
 from tkinter import scrolledtext as sc
@@ -26,7 +27,9 @@ class GUI:
         self.file_menu = tk.Menu(self.menubar, tearoff=False)
         self.menubar.add_cascade(label="File", menu=self.file_menu)
         self.file_menu.add_command(label="Open from AWS File...", command=self.open_from_aws)
+        self.file_menu.add_command(label="Open from AWBW File...", command=self.open_from_awbw)
         self.file_menu.add_separator()
+        self.file_menu.add_command(label="Save to AWS File...", command=self.save_to_aws)
         self.file_menu.add_command(label="Save to AWBW File...", command=self.save_to_awbw)
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit", command=self.quit)
@@ -115,49 +118,68 @@ class GUI:
         try:
             with tk.filedialog.askopenfile(mode="rb", filetypes=[file_formats["aws"]]) as in_file:
                 self.awmap = awmap.AWMap(in_file.read(), "AWS")
-            self.update_title_field(self.awmap.title)
-            self.update_author_field(self.awmap.author)
-            self.update_desc_field(self.awmap.desc)
-            self.update_map_csv(self.awmap.to_awbw())
-            self.update_map_size_w(self.awmap.size_w)
-            self.update_map_size_h(self.awmap.size_h)
+            self.init_fields()
         except AttributeError:
             pass  # TODO: Add MessageDialog with Error details.
+
+    def open_from_awbw(self):
+        try:
+            with tk.filedialog.askopenfile(mode="r", filetypes=[file_formats["txt"]]) as in_file:
+                try:
+                    title = os.path.splitext(in_file.name)[0]
+                    title = os.path.basename(title)
+                except Exception as e:
+                    print(e)
+                    self.root.quit()
+                self.awmap = awmap.AWMap(in_file.read(), "AWBW", title=title)
+            self.init_fields()
+        except AttributeError:
+            pass
+
+    def init_fields(self):
+        self.update_title_field(self.awmap.title)
+        self.update_author_field(self.awmap.author)
+        self.update_desc_field(self.awmap.desc)
+        self.update_map_csv(self.awmap.to_awbw)
+        self.update_map_size_w(self.awmap.size_w)
+        self.update_map_size_h(self.awmap.size_h)
 
     # Save File Dialog Buttons
 
     def save_to_aws(self):
         try:
-            with tk.filedialog.asksaveasfile(mode="wb", filetypes=[file_formats["aws"]]) as out_file:
-                out_file.write(self.awmap.to_aws())
+            with tk.filedialog.asksaveasfile(mode="wb", defaultextension=".aws",
+                                             filetypes=[file_formats["aws"]]) as out_file:
+                out_file.write(self.awmap.to_aws)
         except AttributeError:
             pass  # TODO: Add MessageDialog with Error details.
 
     def save_to_awbw(self):
         try:
-            with tk.filedialog.asksaveasfile(mode="w", filetypes=[file_formats["txt"]]) as out_file:
-                out_file.write(self.awmap.to_awbw())
+            with tk.filedialog.asksaveasfile(mode="w", defaultextension=".txt",
+                                             filetypes=[file_formats["txt"]]) as out_file:
+                out_file.write(self.awmap.to_awbw)
         except AttributeError:
             pass  # TODO: Add MessageDialog with Error details.
 
     # Map Meta Data Update Methods
 
     def update_title(self, *args):
-        self.awmap.title = self.map_title_value
+        self.awmap.title = self.map_title_value.get()
 
     def update_title_field(self, value=None):
         self.map_title_field.config(state=tk.NORMAL)
         self.map_title_value.set(value)
 
     def update_author(self, *args):
-        self.awmap.author = self.map_author_value
+        self.awmap.author = self.map_author_value.get()
 
     def update_author_field(self, value=None):
         self.map_author_field.config(state=tk.NORMAL)
         self.map_author_value.set(value)
 
     def update_desc(self, *args):
-        self.awmap.desc = self.map_desc_value
+        self.awmap.desc = self.map_desc_value.get()
 
     def update_desc_field(self, value=None):
         self.map_desc_field.config(state=tk.NORMAL)

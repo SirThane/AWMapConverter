@@ -90,7 +90,7 @@ MAIN_TERR = {
 
 # MAIN Terrain Categories
 MAIN_TERR_CAT = {
-    "land":         [1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15],
+    "land":         [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15],
     "sea":          [6, 8],
     "properties":   [x for x in MAIN_TERR.keys() if 100 < x < 300],
 }
@@ -269,30 +269,35 @@ AWS_TERR = {
     303:    114,  # OSAirport
     304:    115,  # OSSeaport
     305:    116,  # OSTower
+    306:    117,  # NLab
     310:    121,  # BMHQ
     311:    122,  # BMCity
     312:    123,  # BMBase
     313:    124,  # BMAirport
     314:    125,  # BMSeaport
     315:    126,  # BMTower
+    316:    127,  # NLab
     320:    131,  # GEHQ
     321:    132,  # GECity
     322:    133,  # GEBase
     323:    134,  # GEAirport
     324:    135,  # GESeaport
     325:    136,  # GETower
+    326:    137,  # NLab
     330:    141,  # YCHQ
     331:    142,  # YCCity
     332:    143,  # YCBase
     333:    144,  # YCAirport
     334:    145,  # YCSeaport
     335:    146,  # YCTower
+    336:    147,  # NLab
     340:    151,  # BHHQ
     341:    152,  # BHCity
     342:    153,  # BHBase
     343:    154,  # BHAirport
     344:    155,  # BHSeaport
     345:    156,  # BHTower
+    346:    157,  # NLab
     350:    13,   # Silo
     351:    102,  # NCity
     352:    103,  # Nbase
@@ -405,13 +410,26 @@ AWS_TERR = {
     1051:   503,  # FlyingFortressLandSWSW
     1052:   503,  # FlyingFortressLandSWS
     1053:   503,  # FlyingFortressLandSES
-    1054:   503,  # FlyingFortressLandSESE
+    1054:   503,  # FlyingFortressLandSESE  # TODO: Add Flying Fortress SEA
 }
 
 AWS_UNIT = {
     65535:  0     # Empty
 }
 
+# Relate MAIN TERR IDs to AWS TERR IDs
+MAIN_TERR_TO_AWS = {k: [x for x in AWS_TERR.keys() if AWS_TERR.get(x, None) == k]
+                    for k in MAIN_TERR.keys()}
+MAIN_TERR_TO_AWS[14] = [350]
+MAIN_TERR_TO_AWS[15] = [167]
+MAIN_TERR_TO_AWS[101] = [102]
+
+# Relate MAIN UNIT IDs to AWS UNIT IDs
+MAIN_UNIT_TO_AWS = {k: [x for x in AWS_UNIT.keys() if AWS_UNIT.get(x, None) == k]
+                    for k in MAIN_UNIT.keys()}
+for k, v in MAIN_UNIT_TO_AWS.items():  # Non-AWBW tiles become warp-tiles
+    if len(v) == 0:
+        MAIN_UNIT_TO_AWS[k] = [65535]
 
 ###########################
 # Advance Wars By Web IDs #
@@ -647,6 +665,7 @@ MAIN_TERR_TO_AWBW_AWARENESS = {
     },
 
     # River: Offset from 4
+    # Additionally aware of Bridge
     9:      {
         0:  0,
         1:  0,
@@ -731,13 +750,13 @@ MAIN_TERR_TO_AWBW_AWARENESS = {
 
     "aware_of": {
         4:  [4, 5, 13, 14, *MAIN_TERR_CAT["properties"]],  # Road
-        5:  [7, *MAIN_TERR_CAT["land"]],  # Bridge
-        7:  MAIN_TERR_CAT["land"],  # Shoal
-        9:  [9],  # River
+        5:  [7, *MAIN_TERR_CAT["land"]],  # Bridge  # TODO: Figure out why bridges are ignoring awareness
+        7:  [9, *MAIN_TERR_CAT["land"]],  # Shoal
+        9:  [5, 9],  # River
         10: [10, 11, 12],  # Pipe
         11: [10, 11, 12],  # Pipe Seam
         12: [10, 11, 12],  # Destroyed Pipe Seam
     }
 }
 
-# print(MAIN_TERR_TO_AWBW)
+# print(MAIN_UNIT_TO_AWS)
