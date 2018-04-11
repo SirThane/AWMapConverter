@@ -1,4 +1,4 @@
-import tile_data
+from . import tile_data
 import csv
 from collections import Iterable
 from math import cos, sin, pi, trunc
