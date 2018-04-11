@@ -1,9 +1,7 @@
 import tile_data
 import csv
-import os
 from collections import Iterable
 from math import cos, sin, pi, trunc
-# from time import sleep
 
 
 # Warp tile = 0 or an empty CSV cell
@@ -24,8 +22,8 @@ def flatten(items):
 
 class AWMap:
 
-    def __init__(self, data, source, **kwargs):
-        self.data = data
+    def __init__(self):
+        self.raw_data = None
         self.map = None
         self.size_w = 0
         self.size_h = 0
@@ -34,13 +32,7 @@ class AWMap:
         self.title = ""
         self.author = ""
         self.desc = ""
-        self.source = source
-        self.pass_buffer = []  # Buffer tile coords to skip for multi-tile objects e.g. Volcano, Deathray
-        if self.source == "AWS":
-            self.bin_data = bytearray(self.data)
-            self.from_aws()
-        elif self.source == "AWBW":
-            self.from_awbw(kwargs.get("title", None))
+        self.pass_buffer = []  # Buffer tile coords to skip for multi-tile objects e.g. Volcano, Deathray  # TODO
 
     def __repr__(self):
         nl = "\n"
@@ -54,17 +46,23 @@ class AWMap:
             for x in range(self.size_w):
                 yield self.tile(x, y)
 
-    def from_aws(self):
+    """
+        # Opening File Methods #
+    """
+
+    def from_aws(self, data):
+        self.raw_data = bytearray(data)
+
         # Width, Height, and graphic style
-        self.size_w, self.size_h, self.style = self.bin_data[10:13]
+        self.size_w, self.size_h, self.style = self.raw_data[10:13]
         self.map_size = self.size_w * self.size_h
 
         # Chop out the terrain data as a list of ints
-        terr_data = [int.from_bytes(self.bin_data[x + 13:x + 15], 'little') for x in
+        terr_data = [int.from_bytes(self.raw_data[x + 13:x + 15], 'little') for x in
                      range(0, self.map_size * 2, 2)]
 
         # Chop out the unit data as a list of ints
-        unit_data = [int.from_bytes(self.bin_data[x + (self.map_size * 2) + 13:x + (self.map_size * 2) + 15], 'little')
+        unit_data = [int.from_bytes(self.raw_data[x + (self.map_size * 2) + 13:x + (self.map_size * 2) + 15], 'little')
                      for x in range(0, self.map_size * 2, 2)]
 
         map_data = {x: {y: AWTile(self, x, y, self.terr_from_aws(x, y, terr_data), self.unit_from_aws(x, y, unit_data))
@@ -72,21 +70,24 @@ class AWMap:
 
         self.map = self.correct_map_axis(map_data)
 
-        self.title, self.author, self.desc = self.meta_from_aws(self.bin_data[13 + (self.map_size * 4):])
+        self.title, self.author, self.desc = self.meta_from_aws(self.raw_data[13 + (self.map_size * 4):])
+
+        return self
 
     def correct_map_axis(self, inverted_map):
         return {y: {x: inverted_map[x][y] for x in range(self.size_w)} for y in range(self.size_h)}
 
-    def from_awbw(self, title=None):
-        csv_map = [*csv.reader(self.data.split('\n'))]  # Calling method will need to catch AssertionError for below
+    def from_awbw(self, data, title=None):
+        self.raw_data = data
+
+        csv_map = [*csv.reader(data.split('\n'))]  # Calling method will need to catch AssertionError for below
         assert all(map(lambda x: len(x) == len(csv_map[0]), csv_map))
         self.size_h, self.size_w = len(csv_map), len(csv_map[0])
-        try:
-            self.title = os.path.basename(title)
-        except TypeError:
-            self.title = "[Untitled]"
+        self.title = title if title else "[Untitled]"
         self.map = {y: {x: AWTile(self, x, y, *self.terr_from_awbw(csv_map[y][x]))
                         for x in range(self.size_w)} for y in range(self.size_h)}
+
+        return self
 
     def terr_from_aws(self, x, y, data):  # TODO: Correct for country consolidation
         # Return 2 byte terrain value from binary data for coordinate (x, y)
@@ -98,7 +99,7 @@ class AWMap:
         offset = y + (x * self.size_h)
         return tile_data.AWS_UNIT.get(data[offset], 0)
 
-    def meta_from_aws(self, data):
+    def meta_from_aws(self, data):  # TODO: This needs refactoring.
         t_size = int.from_bytes(data[:4], 'little')
         a_size = int.from_bytes(data[t_size + 4:t_size + 8], 'little')
         d_size = int.from_bytes(data[t_size + a_size + 8:t_size + a_size + 12], 'little')
@@ -107,6 +108,12 @@ class AWMap:
         author = data[8 + t_size:8 + t_size + a_size].decode('utf-8')
         desc = data[12 + t_size + a_size:12 + t_size + a_size + d_size].decode('utf-8')
         return title, author, desc
+
+    def terr_from_awbw(self, terr):
+        terr = int(terr)
+        main_id = tile_data.AWBW_TERR.get(terr, 1)
+        orientation = terr - tile_data.MAIN_TERR_TO_AWBW.get(main_id)[0]
+        return main_id, orientation
 
     def tile(self, x, y):
         # Return tile object at coordinate (x, y)
@@ -125,15 +132,9 @@ class AWMap:
         except KeyError:
             return AWTile(self, x, y, 999, 0)
 
-    def terr_from_awbw(self, terr):
-        terr = int(terr)
-        main_id = tile_data.AWBW_TERR.get(terr, 1)
-        orientation = terr - tile_data.MAIN_TERR_TO_AWBW.get(main_id)[0]
-        return main_id, orientation
-
     @property
     def to_awbw(self):
-        return '\n'.join(
+        return '\n'.join(  # String cat with list comps was just way easier than dealing with csv and StringIO
             [','.join([str(self.tile(x, y).awbw_id) for x in range(self.size_w)]) for y in range(self.size_h)])
 
     @property

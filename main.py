@@ -117,7 +117,7 @@ class GUI:
     def open_from_aws(self):
         try:
             with tk.filedialog.askopenfile(mode="rb", filetypes=[file_formats["aws"]]) as in_file:
-                self.awmap = awmap.AWMap(in_file.read(), "AWS")
+                self.awmap = awmap.AWMap().from_aws(in_file.read())
             self.init_fields()
         except AttributeError:
             pass  # TODO: Add MessageDialog with Error details.
@@ -131,7 +131,7 @@ class GUI:
                 except Exception as e:
                     print(e)
                     self.root.quit()
-                self.awmap = awmap.AWMap(in_file.read(), "AWBW", title=title)
+                self.awmap = awmap.AWMap().from_awbw(in_file.read(), title=title)
             self.init_fields()
         except AttributeError:
             pass
