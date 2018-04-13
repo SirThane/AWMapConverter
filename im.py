@@ -1,6 +1,4 @@
-import PIL
-from pprint import pprint
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageSequence
 
 
 def layer(bitmask):
@@ -28,8 +26,8 @@ palette = {
     "teal1":    (68,  172, 163),    # TG light
     "teal2":    (10,  89,  82),     # TG dark
 
-    "grey1":    (166, 182, 153),    # JS light
-    "grey2":    (184, 176, 168),    # Road; Bridge
+    "grey1":    (166, 182, 153),    # JS
+    "grey2":    (184, 176, 168),    # Road; Bridge; Silo
     "grey3":    (129, 127, 128),    # GS light
     "grey4":    (86,  92,  114),    # GS dark
 
@@ -58,12 +56,6 @@ palette = {
 }
 
 spec = {
-    "silo": [
-        {
-            "xy": layer("1111111111111111b0"),
-            "fill": palette["white"]
-        }
-    ],
     "plain": [
         {
             "xy":   layer("1111110111110111b0"),
@@ -133,15 +125,201 @@ spec = {
             "xy":   layer("1111111111111111b0"),
             "fill": palette["blue1"]
         }
-    ]
+    ],
+    "reef": [
+        {
+            "xy":   layer("1000001000000000b0"),
+            "fill": palette["orange1"]
+        },
+        {
+            "xy":   layer("0000100000100000b0"),
+            "fill": palette["orange4"]
+        },
+        {
+            "xy":   layer("0000010010010010b0"),
+            "fill": palette["blue1"]
+        },
+        {
+            "xy":   layer("0000000001000001b0"),
+            "fill": palette["blue2"]
+        },
+        {
+            "xy":   layer("0111000100001100b0"),
+            "fill": palette["blue3"]
+        },
+    ],
+    "pipe": [
+        {
+            "xy":   layer("1111111111111111b0"),
+            "fill": palette["red1"]
+        }
+    ],
+    "silo": [
+        {
+            "xy":   layer("1010101010100000b0"),
+            "fill": palette["white"]
+        },
+        {
+            "xy":   layer("0100010001000000b0"),
+            "fill": palette["grey2"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "osprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["red2"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "bmprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["blue3"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "geprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["green3"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "ycprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["yellow"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "bhprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["purple3"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["purple4"]
+        }
+    ],
+    "rfprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["red2"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["red4"]
+        }
+    ],
+    "gsprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["grey3"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["grey4"]
+        }
+    ],
+    "bdprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["orange2"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["orange5"]
+        }
+    ],
+    "abprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["orange3"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "jsprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["grey1"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "ciprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["blue4"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["blue5"]
+        }
+    ],
+    "pcprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["pink"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["brown2"]
+        }
+    ],
+    "tgprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["teal1"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["teal2"]
+        }
+    ],
+    "plprop": [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": palette["purple1"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": palette["purple2"]
+        }
+    ],
 }
 
 
 im = Image.new("RGBA", (4, 4))
 draw = ImageDraw.Draw(im)
-for layer in spec["shoal"]:
+for layer in spec["bmprop"]:
     draw.point(**layer)
 im.save("test.png")
+
+
+
+
 
 # im = Image.open("test.png", mode="r")
 # print(dir(im))
