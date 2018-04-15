@@ -43,11 +43,12 @@ PALETTE = {
     "green3":   (88,  200, 16),     # Wood light; GE
     "green4":   (82,  164, 16),     # Wood dark
 
-    "blue1":    (112, 176, 248),    # Shoal; Reef light
-    "blue2":    (56,  120, 248),    # Reef medium; River light
+    "blue1":    (112, 176, 248),    # Shoal
+    "blue2":    (56,  120, 248),    # Reef medium
     "blue3":    (88,  104, 248),    # River dark; BM; Sea
     "blue4":    (54,  86,  209),    # CI light
     "blue5":    (20,  43,  135),    # CI dark
+    "blue6":    (93,  112, 184),    # River light
 
     "teal1":    (68,  172, 163),    # TG light
     "teal2":    (10,  89,  82),     # TG dark
@@ -160,7 +161,7 @@ SPEC = {
     "river":    [
         {
             "xy":   layer("1111001111111000b0"),
-            "fill": PALETTE["blue1"]
+            "fill": PALETTE["blue6"]
         },
         {
             "xy":   layer("0000110000000111b0"),
