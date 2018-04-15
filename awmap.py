@@ -1,4 +1,4 @@
-from . import tile_data
+import tile_data, minimap
 import csv
 from collections import Iterable
 from math import cos, sin, pi, trunc
@@ -155,6 +155,10 @@ class AWMap:
         ret += len(self.desc).to_bytes(4, 'little') + self.desc.encode('utf-8')
 
         return ret
+
+    @property
+    def minimap(self):
+        return minimap.AWMinimap(self).map
 
 
 class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, volcano, etc.

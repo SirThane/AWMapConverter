@@ -1,9 +1,9 @@
-import awmap
+from awmap import AWMap
 
 
-def bread(infile='test.aws'):
+def bread(infile='TestFiles\\test.aws'):
     with open(infile, 'rb') as bin_file:
-        return awmap.AWMap(bin_file.read(), "AWS")
+        return AWMap().from_aws(bin_file.read())
 
 
 newmap = bread()
@@ -20,4 +20,4 @@ newmap = bread()
 
 # print(awmap.map)
 
-print(newmap.to_awbw())
+newmap.minimap.save("TestFiles\\test.gif")
