@@ -534,7 +534,6 @@ class AWMinimap:
         self.anim_buffer = []
         for x in range(awmap.size_w):
             for y in range(awmap.size_h):
-                print(x, y)
                 terr, animated = AWMinimap.get_sprite(awmap.tile(x, y).terr)
                 if animated:
                     self.anim_buffer.append((x, y, terr))
