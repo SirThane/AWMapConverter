@@ -57,8 +57,6 @@ PALETTE = {
     "grey2":    (184, 176, 168),    # Road; Bridge; Silo
     "grey3":    (129, 127, 128),    # GS light
     "grey4":    (86,  92,  114),    # GS dark
-    "grey5":    (144, 136, 120),    # Blink frame 2
-    "grey6":    (208, 208, 216),    # Blink frame 3
 
     "red1":     (176, 144, 136),    # ~~Pipe; Pipe Seam; Broken Pipe Seam~~ AWBW ONLY
     "red2":     (248, 72,  48),     # OS
@@ -81,14 +79,15 @@ PALETTE = {
     "orange5":  (147, 82,  50),     # BD dark
 
     "brown1":   (152, 104, 48),     # Mountain dark; Pipe dark
-    "brown2":   (104, 80,  56),     # Borders; Blink frame 1
-    "brown3":   (80,  56,  24),     # Blink frame 5
-    "brown4":   (128, 104, 88),     # Blink frame 6
+    "brown2":   (104, 80,  56),     # Borders
 
     "black":    (0,   0,   0),      # Teleport
 
-    "BLINK":    [(1,   1,   1),   (64,  64,  64),  (127, 127, 127), (190, 190, 190),
-                 (253, 253, 253), (190, 190, 190), (127, 127, 127), (64,  64,  64)]
+    # "BLINK":    [(1,   1,   1),   (64,  64,  64),  (127, 127, 127), (190, 190, 190),
+    #              (253, 253, 253), (190, 190, 190), (127, 127, 127), (64,  64,  64)],
+
+    "BLINK":    [(45,  40,  30),  (81,  76,  65),  (108, 103, 92),  (182, 177, 166),
+                 (238, 233, 233), (182, 177, 166), (108, 103, 92),  (81,  76,  65)],
 }
 
 SPEC = {
@@ -695,7 +694,7 @@ class AWMinimap:
     def compile_gif(frames):
         byteImgIO = BytesIO()
         first_frame = frames.pop(0)
-        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150)
+        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150, palette=Image.LANCZOS)
         byteImgIO.seek(0)
         compiled_gif = Image.open(byteImgIO)
         return compiled_gif
