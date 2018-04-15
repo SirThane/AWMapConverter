@@ -38,9 +38,10 @@ def layer(bitmask):
 PALETTE = {
     "white":    (255, 255, 255),
 
-    "green1":   (168, 240, 80),     # Plain light; Wood light
+    "green1":   (168, 240, 80),     # Plain light
     "green2":   (104, 232, 56),     # Plain dark
-    "green3":   (88,  200, 16),     # Wood dark; GE
+    "green3":   (88,  200, 16),     # Wood light; GE
+    "green4":   (82,  164, 16),     # Wood dark
 
     "blue1":    (112, 176, 248),    # Shoal; Reef light
     "blue2":    (56,  120, 248),    # Reef medium; River light
@@ -118,6 +119,20 @@ SPEC = {
             "fill": PALETTE["brown1"]
         }
     ],
+    # "wood":     [  # Original cart colors
+    #     {
+    #         "xy":   layer("1001000000001001b0"),
+    #         "fill": PALETTE["green1"]
+    #     },
+    #     {
+    #         "xy":   layer("0110111011000000b0"),
+    #         "fill": PALETTE["green2"]
+    #     },
+    #     {
+    #         "xy":   layer("0000000100110110b0"),
+    #         "fill": PALETTE["green3"]
+    #     }
+    # ],
     "wood":     [
         {
             "xy":   layer("1001000000001001b0"),
@@ -125,21 +140,31 @@ SPEC = {
         },
         {
             "xy":   layer("0110111011000000b0"),
-            "fill": PALETTE["green2"]
+            "fill": PALETTE["green3"]
         },
         {
             "xy":   layer("0000000100110110b0"),
-            "fill": PALETTE["green3"]
+            "fill": PALETTE["green4"]
         }
     ],
+    # "river":    [  # Original cart colors
+    #     {
+    #         "xy":   layer("1111001111111000b0"),
+    #         "fill": PALETTE["blue2"]
+    #     },
+    #     {
+    #         "xy":   layer("0000110000000111b0"),
+    #         "fill": PALETTE["blue3"]
+    #     }
+    # ],
     "river":    [
         {
             "xy":   layer("1111001111111000b0"),
-            "fill": PALETTE["blue2"]
+            "fill": PALETTE["blue1"]
         },
         {
             "xy":   layer("0000110000000111b0"),
-            "fill": PALETTE["blue3"]
+            "fill": PALETTE["blue2"]
         }
     ],
     "road":     [
@@ -362,16 +387,26 @@ SPEC = {
             "fill": PALETTE["purple2"]
         }
     ],
-    "seam":     [
+    # "seam":     [
+    #     {
+    #         "xy":   [layer("1010010110100101b0")] * 8,
+    #         "fill": [PALETTE["brown1"]] * 8
+    #     },
+    #     {
+    #         "xy":   [layer("0101101001011010b0")] * 8,
+    #         "fill": PALETTE["BLINK"]
+    #     }
+    # ],
+    "seam":     [  # Changed to static
         {
-            "xy":   [layer("1010010110100101b0")] * 8,
-            "fill": [PALETTE["brown1"]] * 8
+            "xy":   layer("1010010110100101b0"),
+            "fill": PALETTE["brown1"]
         },
         {
-            "xy":   [layer("0101101001011010b0")] * 8,
-            "fill": PALETTE["BLINK"]
+            "xy":   layer("0101101001011010b0"),
+            "fill": PALETTE["white"]
         }
-    ],  # TODO: Change seams to static
+    ],
     "nhq":      [
         {
             "xy":   [layer("0000011001100000b0")] * 8,
@@ -568,6 +603,7 @@ class AWMinimap:
         "shoal":    [7],
         "reef":     [8],
         "pipe":     [10],
+        "seam":     [11],
         "silo":     [13, 14],
         "tele":     [],  # TODO
         "nprop":    [102, 103, 104, 105, 106],
@@ -588,7 +624,7 @@ class AWMinimap:
     }
 
     ANIM_ID_TO_SPEC = {
-        "seam":     [11],
+        # "seam":     [11],  # Changed to static
         "nhq":      [101, 107],
         "oshq":     [111, 117],
         "bmhq":     [121, 127],
