@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageSequence
+from PIL import Image, ImageDraw, ImageSequence, ImageFilter
 from io import BytesIO
 
 
@@ -84,6 +84,9 @@ PALETTE = {
     "brown4":   (128, 104, 88),     # Blink frame 6
 
     "black":    (0,   0,   0),      # Teleport
+
+    "BLINK":    [(1,   1,   1),   (64,  64,  64),  (127, 127, 127), (190, 190, 190),
+                 (253, 253, 253), (190, 190, 190), (127, 127, 127), (64,  64,  64)]
 }
 
 SPEC = {
@@ -188,7 +191,7 @@ SPEC = {
             "xy":   layer("0101101001011010b0"),
             "fill": PALETTE["orange4"]
         }
-    ],  # TODO: Pipe seam should be anim
+    ],
     "silo":     [
         {
             "xy":   layer("1010101010100000b0"),
@@ -207,6 +210,16 @@ SPEC = {
         {
             "xy":   layer("1111111111111111b0"),
             "fill": PALETTE["black"]
+        }
+    ],
+    "nprop":    [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": PALETTE["white"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": PALETTE["brown2"]
         }
     ],
     "osprop":   [
@@ -349,17 +362,166 @@ SPEC = {
             "fill": PALETTE["purple2"]
         }
     ],
+    "seam":     [
+        {
+            "xy":   [layer("1010010110100101b0")] * 8,
+            "fill": [PALETTE["brown1"]] * 8
+        },
+        {
+            "xy":   [layer("0101101001011010b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],  # TODO: Change seams to static
+    "nhq":      [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["white"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
     "oshq":     [
         {
             "xy":   [layer("0000011001100000b0")] * 8,
-            "fill": ["red2"] * 8
+            "fill": [PALETTE["red2"]] * 8
         },
         {
-            "xy":   [layer("1111100110011111")] * 8,
-            "fill": [(1,   1,   1),   (64,  64,  64),  (127, 127, 127), (190, 190, 190),
-                     (253, 253, 253), (190, 190, 190), (127, 127, 127), (64,  64,  64)]
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
         }
-    ]
+    ],
+    "bmhq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["blue3"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "gehq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["green3"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "ychq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["yellow"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "bhhq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["purple3"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "rfhq":     [  # ALTERED FROM red2 TO red4 TO AVOID CONFLICT WITH OS
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["red4"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "gshq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["grey3"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "bdhq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["orange2"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "abhq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["orange3"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "jshq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["grey1"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "cihq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["blue4"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "pchq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["pink"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "tghq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["teal1"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "plhq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["purple1"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
 }
 
 
@@ -367,18 +529,35 @@ class AWMinimap:
 
     def __init__(self, awmap):
         self.im = Image.new("RGBA", (4 * awmap.size_w, 4 * awmap.size_h))
+        self.ims = []
+        self.animated = False
+        self.anim_buffer = []
         for x in range(awmap.size_w):
             for y in range(awmap.size_h):
                 print(x, y)
-                minimap = Iterator(self.im)
-                terr = Iterator(AWMinimap.get_sprite(awmap.tile(x, y).terr))
-                if minimap.static:
-                    minimap = [self.im] * 8
-                if terr.static:
-                    terr = [terr[0]] * 8
-                for frame in range(8):
-                    minimap[frame].paste(terr[frame], box=(x * 4, y * 4))
-                # self.im.paste(, (x * 4, y * 4))
+                terr, animated = AWMinimap.get_sprite(awmap.tile(x, y).terr)
+                if animated:
+                    self.anim_buffer.append((x, y, terr))
+                    self.animated = True
+                    continue
+                self.im.paste(terr, (x * 4, y * 4))
+        if self.anim_buffer:
+            self.ims = []
+            for _ in range(8):
+                self.ims.append(self.im.copy())
+            for x, y, sprite in self.anim_buffer:
+                for i in range(8):
+                    self.ims[i].paste(sprite[i], (x * 4, y * 4))
+
+        if awmap.size_w * awmap.size_h <= 400:
+            if self.animated:
+                for i in range(len(self.ims)):
+                    self.ims[i] = self.ims[i].resize((awmap.size_w * 2, awmap.size_h * 2))
+            else:
+                self.im = self.im.resize((awmap.size_w * 2, awmap.size_h * 2))
+
+        if self.animated:
+            self.im = AWMinimap.compile_gif(self.ims)
 
     STATIC_ID_TO_SPEC = {
         "plain":    [1, 12],
@@ -448,8 +627,9 @@ class AWMinimap:
         if sprite_id in [i for v in AWMinimap.STATIC_ID_TO_SPEC.values() for i in v]:
             sprite_name = [k for k, v in AWMinimap.STATIC_ID_TO_SPEC.items() if sprite_id in v][0]
             return AWMinimap.get_static_sprite(sprite_name)
-        elif sprite_id in [i for v in AWMinimap.STATIC_ID_TO_SPEC.values() for i in v]:
-            return AWMinimap.get_anim_sprite(sprite_id)
+        elif sprite_id in [i for v in AWMinimap.ANIM_ID_TO_SPEC.values() for i in v]:
+            sprite_name = [k for k, v in AWMinimap.ANIM_ID_TO_SPEC.items() if sprite_id in v][0]
+            return AWMinimap.get_anim_sprite(sprite_name)
         else:
             print("No Sprite")
             return Image.new("RGBA", (4, 4))
@@ -461,23 +641,25 @@ class AWMinimap:
         spec = SPEC[sprite_name]
         for _layer in spec:
             draw.point(**_layer)
-        return im  # .resize((8, 8))
+        return im, False  # .resize((8, 8))
 
     @staticmethod
     def get_anim_sprite(sprite_name):
-        ims = [Image.new("RGBA", (4, 4))] * 8
+        ims = []
+        for _ in range(8):
+            ims.append(Image.new("RGBA", (4, 4)))
         spec = SPEC[sprite_name]
         for frame in range(8):
             draw = ImageDraw.Draw(ims[frame])
             for _layer in spec:
                 draw.point(xy=_layer["xy"][frame], fill=_layer["fill"][frame])
-        return AWMinimap.compile_gif(ims)  # .resize((8, 8))
+        return ims, True  # .resize((8, 8))
 
     @staticmethod
     def compile_gif(frames):
         byteImgIO = BytesIO()
         first_frame = frames.pop(0)
-        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=300, optimize=False)
+        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150, transparency=255)
         byteImgIO.seek(0)
         compiled_gif = Image.open(byteImgIO)
         return compiled_gif
@@ -498,3 +680,7 @@ class AWMinimap:
 # ims = Iterator(testgif)
 # print(len(ims))
 # testgif.save("TestGif.gif", save_all=True)
+
+# giftest, _ = AWMinimap.get_anim_sprite("oshq")
+# giftest = AWMinimap.compile_gif(giftest)
+# giftest.save(f"oshq.gif", save_all=True)

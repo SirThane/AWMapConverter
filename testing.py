@@ -1,7 +1,7 @@
 from awmap import AWMap
 
 
-def bread(infile='TestFiles\\test.aws'):
+def bread(infile='TestFiles\\BB.aws'):
     with open(infile, 'rb') as bin_file:
         return AWMap().from_aws(bin_file.read())
 
@@ -20,4 +20,4 @@ newmap = bread()
 
 # print(awmap.map)
 
-newmap.minimap.save("TestFiles\\test.gif")
+newmap.minimap.save("TestFiles\\test.gif", save_all=True)
