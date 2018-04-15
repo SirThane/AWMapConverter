@@ -552,9 +552,9 @@ class AWMinimap:
         if awmap.size_w * awmap.size_h <= 400:
             if self.animated:
                 for i in range(len(self.ims)):
-                    self.ims[i] = self.ims[i].resize((awmap.size_w * 2, awmap.size_h * 2))
+                    self.ims[i] = self.ims[i].resize((awmap.size_w * 8, awmap.size_h * 8))
             else:
-                self.im = self.im.resize((awmap.size_w * 2, awmap.size_h * 2))
+                self.im = self.im.resize((awmap.size_w * 8, awmap.size_h * 8))
 
         if self.animated:
             self.im = AWMinimap.compile_gif(self.ims)
