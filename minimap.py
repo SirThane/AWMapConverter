@@ -658,7 +658,7 @@ class AWMinimap:
     def compile_gif(frames):
         byteImgIO = BytesIO()
         first_frame = frames.pop(0)
-        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150, transparency=255)
+        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150)
         byteImgIO.seek(0)
         compiled_gif = Image.open(byteImgIO)
         return compiled_gif

@@ -1,4 +1,8 @@
-import tile_data, minimap
+try:
+    import tile_data
+    import minimap
+except ImportError:  # Relative Path hackfix for including in other projects.
+    from . import tile_data, minimap
 import csv
 from collections import Iterable
 from math import cos, sin, pi, trunc
