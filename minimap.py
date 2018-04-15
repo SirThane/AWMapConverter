@@ -48,7 +48,7 @@ PALETTE = {
     "blue3":    (88,  104, 248),    # River dark; BM; Sea
     "blue4":    (54,  86,  209),    # CI light
     "blue5":    (20,  43,  135),    # CI dark
-    "blue6":    (93,  112, 184),    # River light
+    "blue6":    (68,  153, 247),    # River light
 
     "teal1":    (68,  172, 163),    # TG light
     "teal2":    (10,  89,  82),     # TG dark
@@ -165,7 +165,7 @@ SPEC = {
         },
         {
             "xy":   layer("0000110000000111b0"),
-            "fill": PALETTE["blue2"]
+            "fill": PALETTE["blue3"]
         }
     ],
     "road":     [
