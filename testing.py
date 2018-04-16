@@ -1,12 +1,14 @@
 from awmap import AWMap
 
 
-def bread(infile='TestFiles\\gifglitch.aws'):
+def bread(infile='TestFiles\\key_unit.aws'):
     with open(infile, 'rb') as bin_file:
         return AWMap().from_aws(bin_file.read())
 
 
 newmap = bread()
+
+
 # with open(f"{awmap.title}.txt", 'w') as outfile:
 #     outfile.write(awmap.to_awbw())
 
@@ -20,4 +22,12 @@ newmap = bread()
 
 # print(awmap.map)
 
-newmap.minimap.save("TestFiles\\gifglitch.gif", save_all=True)
+# with open("test.gif", "wb") as out_file:
+#     out_file.write(newmap.minimap)
+
+# print(newmap)
+
+# with open("TestFiles\\BHTestWrite.aws", "wb") as out_file:
+#     out_file.write(newmap.to_aws)
+
+newmap.minimap.save("TestFiles\\key_unit.gif", save_all=True)

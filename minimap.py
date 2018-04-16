@@ -1,5 +1,6 @@
-from PIL import Image, ImageDraw, ImageSequence, ImageFilter
+from PIL import Image, ImageDraw, ImageSequence, ImagePalette
 from io import BytesIO
+# import imageio
 
 
 class Iterator(ImageSequence.Iterator):
@@ -88,7 +89,24 @@ PALETTE = {
 
     "BLINK":    [(45,  40,  30),  (81,  76,  65),  (108, 103, 92),  (182, 177, 166),
                  (238, 233, 233), (182, 177, 166), (108, 103, 92),  (81,  76,  65)],
+
+    # "blink1":   (45,  40,  30),
+    # "blink2":   (81,  76,  65),
+    # "blink3":   (108, 103, 92),
+    # "blink4":   (182, 177, 166),
+    # "blink5":   (238, 233, 233),
 }
+
+
+# IMAGEPALETTE = PALETTE.copy()
+# IMAGEPALETTE.pop("BLINK")
+# IMAGEPALETTE = [v for k, v in IMAGEPALETTE.items()]
+# IMAGEPALETTE.sort(key=lambda x: x[0])
+# IMAGEPALETTE = [i for v in IMAGEPALETTE for i in v]
+# print(IMAGEPALETTE)
+# IMAGEPALETTE = ImagePalette.Palette("RGB", IMAGEPALETTE)
+# print(IMAGEPALETTE)
+
 
 SPEC = {
     "plain":    [
@@ -557,6 +575,212 @@ SPEC = {
             "fill": PALETTE["BLINK"]
         }
     ],
+    "nunit":    [
+        {
+            "xy":   layer("0000011001100000b0"),
+            "fill": PALETTE["white"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        }
+    ],
+    "osunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["red2"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "bmunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["blue3"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "geunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["green3"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "ycunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["yellow"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "bhunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["purple3"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["purple4"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "rfunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["red2"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["red4"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "gsunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["grey3"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["grey4"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "bdunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["orange2"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["orange5"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "abunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["orange3"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "jsunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["grey1"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "ciunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["blue4"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["blue5"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "pcunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["pink"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["brown2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "tgunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["teal1"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["teal2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "plunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["purple1"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["purple2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
 }
 
 
@@ -567,23 +791,33 @@ class AWMinimap:
         self.ims = []
         self.animated = False
         self.anim_buffer = []
+
         for x in range(awmap.size_w):
             for y in range(awmap.size_h):
-                terr, animated = AWMinimap.get_sprite(awmap.tile(x, y).terr)
+                sprite, animated = AWMinimap.get_sprite(awmap.tile(x, y).terr)
                 if animated:
-                    self.anim_buffer.append((x, y, terr))
+                    self.anim_buffer.append((x, y, sprite))
                     self.animated = True
                     continue
-                self.im.paste(terr, (x * 4, y * 4))
+                self.im.paste(sprite, (x * 4, y * 4))
+
+        for x in range(awmap.size_w):
+            for y in range(awmap.size_h):
+                unit = awmap.tile(x, y).unit
+                if unit:
+                    sprite = AWMinimap.get_sprite(unit, True)
+                    self.anim_buffer.append((x, y, sprite))
+
         if self.anim_buffer:
             self.ims = []
             for _ in range(8):
                 self.ims.append(self.im.copy())
             for x, y, sprite in self.anim_buffer:
                 for i in range(8):
-                    self.ims[i].paste(sprite[i], (x * 4, y * 4))
+                    self.ims[i].paste(sprite[i], (x * 4, y * 4, (x * 4) + 4, (y * 4) + 4), sprite[i])
+                    # left, upper, right, and lower
 
-        if awmap.size_w * awmap.size_h <= 400:
+        if awmap.size_w * awmap.size_h <= 1600:
             if self.animated:
                 for i in range(len(self.ims)):
                     self.ims[i] = self.ims[i].resize((awmap.size_w * 8, awmap.size_h * 8))
@@ -643,35 +877,43 @@ class AWMinimap:
     }
 
     UNIT_ID_TO_SPEC = {
-        "os":       [],
-        "bm":       [],
-        "ge":       [],
-        "yc":       [],
-        "bh":       [],
-        "rf":       [],
-        "gs":       [],
-        "bd":       [],
-        "ab":       [],
-        "pc":       [],
-        "tg":       [],
-        "pl":       [],
+        "osunit":   list(range(101,  147)),
+        "bmunit":   list(range(201,  247)),
+        "geunit":   list(range(301,  347)),
+        "ycunit":   list(range(401,  447)),
+        "bhunit":   list(range(501,  547)),
+        "rfunit":   list(range(601,  647)),
+        "gsunit":   list(range(701,  747)),
+        "bdunit":   list(range(801,  847)),
+        "abunit":   list(range(901,  947)),
+        "jsunit":   list(range(1001, 1047)),
+        "ciunit":   list(range(1101, 1147)),
+        "pcunit":   list(range(1201, 1247)),
+        "tgunit":   list(range(1301, 1347)),
+        "plunit":   list(range(1401, 1447)),
     }
 
     @staticmethod
-    def get_sprite(sprite_id):
-        if sprite_id in [i for v in AWMinimap.STATIC_ID_TO_SPEC.values() for i in v]:
-            sprite_name = [k for k, v in AWMinimap.STATIC_ID_TO_SPEC.items() if sprite_id in v][0]
-            return AWMinimap.get_static_sprite(sprite_name)
-        elif sprite_id in [i for v in AWMinimap.ANIM_ID_TO_SPEC.values() for i in v]:
-            sprite_name = [k for k, v in AWMinimap.ANIM_ID_TO_SPEC.items() if sprite_id in v][0]
-            return AWMinimap.get_anim_sprite(sprite_name)
+    def get_sprite(sprite_id, unit=False):
+        if unit:
+            if sprite_id in [i for v in AWMinimap.UNIT_ID_TO_SPEC.values() for i in v]:
+                sprite_name = [k for k, v in AWMinimap.UNIT_ID_TO_SPEC.items() if sprite_id in v][0]
+                return AWMinimap.get_unit_sprite(sprite_name)
+            else:
+                return Image.new("RGBA", (4, 4)), False
         else:
-            print("No Sprite")
-            return Image.new("RGBA", (4, 4))
+            if sprite_id in [i for v in AWMinimap.STATIC_ID_TO_SPEC.values() for i in v]:
+                sprite_name = [k for k, v in AWMinimap.STATIC_ID_TO_SPEC.items() if sprite_id in v][0]
+                return AWMinimap.get_static_sprite(sprite_name)
+            elif sprite_id in [i for v in AWMinimap.ANIM_ID_TO_SPEC.values() for i in v]:
+                sprite_name = [k for k, v in AWMinimap.ANIM_ID_TO_SPEC.items() if sprite_id in v][0]
+                return AWMinimap.get_anim_sprite(sprite_name)
+            else:
+                return Image.new("RGBA", (4, 4)), False
 
     @staticmethod
     def get_static_sprite(sprite_name):
-        im = Image.new("RGBA", (4, 4))
+        im = Image.new("RGB", (4, 4))
         draw = ImageDraw.Draw(im)
         spec = SPEC[sprite_name]
         for _layer in spec:
@@ -691,13 +933,60 @@ class AWMinimap:
         return ims, True  # .resize((8, 8))
 
     @staticmethod
+    def get_unit_sprite(sprite_name):
+        ims = []
+        for _ in range(8):
+            ims.append(Image.new("RGBA", (4, 4)))
+        spec = SPEC[sprite_name]
+        for i in range(8):
+            if 1 < i < 6:
+                draw = ImageDraw.Draw(ims[i])
+                for _layer in spec:
+                    draw.point(**_layer)
+        return ims
+
+    @staticmethod
     def compile_gif(frames):
         byteImgIO = BytesIO()
         first_frame = frames.pop(0)
-        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150, palette=Image.LANCZOS)
+        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150,
+                         version='GIF89a')
         byteImgIO.seek(0)
         compiled_gif = Image.open(byteImgIO)
         return compiled_gif
+
+    # @staticmethod
+    # def compile_gif(frames):
+    #     bin_frames = []
+    #     for frame in frames:
+    #         bytes_frame = BytesIO()
+    #         frame.save(bytes_frame, "PNG")
+    #         bytes_frame.seek(0)
+    #         bin_frames.append(bytes_frame)
+    #
+    #     imageio_frames = []
+    #     for frame in bin_frames:
+    #         imageio_frames.append(imageio.read(frame.read()))
+    #
+    #     imageio_gif = BytesIO()
+    #     imageio.mimsave(imageio_gif, imageio_frames, format="gif", duration=150 / 1000)
+    #     # imageio_gif.name = "temp.gif"
+    #     # imageio_gif.ext = "gif"
+    #     imageio_gif.seek(0)
+    #
+    #     # imageio.mimsave("temp.gif", imageio_frames, format="gif", duration=150 / 1000)
+    #     #
+    #     # compiled_gif = Image.open("temp.gif")
+    #     # __import__("os").remove("temp.gif")
+    #     return imageio_gif
+
+    # @staticmethod
+    # def compile_gif(frames):
+    #     first_frame = frames.pop(0)
+    #     first_frame.save("temp.gif", "GIF", save_all=True, append_images=frames, loop=0, duration=150,
+    #                      palette=Image.LANCZOS, transparency=255)
+    #     compiled_gif = Image.open("temp.gif")
+    #     return compiled_gif
 
     @property
     def map(self):

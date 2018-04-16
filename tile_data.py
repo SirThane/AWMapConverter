@@ -1,5 +1,6 @@
 
 # TODO: Combine all properties and units in MAIN with a key for country?
+# TODO: This module is going to need some refactoring to account for IDs present in one format and not another.
 
 # Internal IDs for tile
 
@@ -369,6 +370,249 @@ MAIN_UNIT = {
     544:    "BHSubmarine",
     545:    "BHBattleship",
     546:    "BHCarrier",
+
+    601:    "RFInfantry",
+    602:    "RFMech",
+    611:    "RFAPC",
+    612:    "RFRecon",
+    613:    "RFTank",
+    614:    "RFMDTank",
+    615:    "RFNeotank",
+    616:    "RFMegatank",
+    617:    "RFAntiAir",
+    621:    "RFArtillery",
+    622:    "RFRocket",
+    623:    "RFMissile",
+    624:    "RFPipeRunner",
+    625:    "RFOozium",
+    631:    "RFTCopter",
+    632:    "RFBCopter",
+    633:    "RFFighter",
+    634:    "RFBomber",
+    635:    "RFStealth",
+    636:    "RFBBomb",
+    641:    "RFBBoat",
+    642:    "RFLander",
+    643:    "RFCruiser",
+    644:    "RFSubmarine",
+    645:    "RFBattleship",
+    646:    "RFCarrier",
+
+    701:    "GSInfantry",
+    702:    "GSMech",
+    711:    "GSAPC",
+    712:    "GSRecon",
+    713:    "GSTank",
+    714:    "GSMDTank",
+    715:    "GSNeotank",
+    716:    "GSMegatank",
+    717:    "GSAntiAir",
+    721:    "GSArtillery",
+    722:    "GSRocket",
+    723:    "GSMissile",
+    724:    "GSPipeRunner",
+    725:    "GSOozium",
+    731:    "GSTCopter",
+    732:    "GSBCopter",
+    733:    "GSFighter",
+    734:    "GSBomber",
+    735:    "GSStealth",
+    736:    "GSBBomb",
+    741:    "GSBBoat",
+    742:    "GSLander",
+    743:    "GSCruiser",
+    744:    "GSSubmarine",
+    745:    "GSBattleship",
+    746:    "GSCarrier",
+
+    801:    "BDInfantry",
+    802:    "BDMech",
+    811:    "BDAPC",
+    812:    "BDRecon",
+    813:    "BDTank",
+    814:    "BDMDTank",
+    815:    "BDNeotank",
+    816:    "BDMegatank",
+    817:    "BDAntiAir",
+    821:    "BDArtillery",
+    822:    "BDRocket",
+    823:    "BDMissile",
+    824:    "BDPipeRunner",
+    825:    "BDOozium",
+    831:    "BDTCopter",
+    832:    "BDBCopter",
+    833:    "BDFighter",
+    834:    "BDBomber",
+    835:    "BDStealth",
+    836:    "BDBBomb",
+    841:    "BDBBoat",
+    842:    "BDLander",
+    843:    "BDCruiser",
+    844:    "BDSubmarine",
+    845:    "BDBattleship",
+    846:    "BDCarrier",
+
+    901:    "ABInfantry",
+    902:    "ABMech",
+    911:    "ABAPC",
+    912:    "ABRecon",
+    913:    "ABTank",
+    914:    "ABMDTank",
+    915:    "ABNeotank",
+    916:    "ABMegatank",
+    917:    "ABAntiAir",
+    921:    "ABArtillery",
+    922:    "ABRocket",
+    923:    "ABMissile",
+    924:    "ABPipeRunner",
+    925:    "ABOozium",
+    931:    "ABTCopter",
+    932:    "ABBCopter",
+    933:    "ABFighter",
+    934:    "ABBomber",
+    935:    "ABStealth",
+    936:    "ABBBomb",
+    941:    "ABBBoat",
+    942:    "ABLander",
+    943:    "ABCruiser",
+    944:    "ABSubmarine",
+    945:    "ABBattleship",
+    946:    "ABCarrier",
+
+    1001:   "JSInfantry",
+    1002:   "JSMech",
+    1011:   "JSAPC",
+    1012:   "JSRecon",
+    1013:   "JSTank",
+    1014:   "JSMDTank",
+    1015:   "JSNeotank",
+    1016:   "JSMegatank",
+    1017:   "JSAntiAir",
+    1021:   "JSArtillery",
+    1022:   "JSRocket",
+    1023:   "JSMissile",
+    1024:   "JSPipeRunner",
+    1025:   "JSOozium",
+    1031:   "JSTCopter",
+    1032:   "JSBCopter",
+    1033:   "JSFighter",
+    1034:   "JSBomber",
+    1035:   "JSStealth",
+    1036:   "JSBBomb",
+    1041:   "JSBBoat",
+    1042:   "JSLander",
+    1043:   "JSCruiser",
+    1044:   "JSSubmarine",
+    1045:   "JSBattleship",
+    1046:   "JSCarrier",
+
+    1101:   "CIInfantry",
+    1102:   "CIMech",
+    1111:   "CIAPC",
+    1112:   "CIRecon",
+    1113:   "CITank",
+    1114:   "CIMDTank",
+    1115:   "CINeotank",
+    1116:   "CIMegatank",
+    1117:   "CIAntiAir",
+    1121:   "CIArtillery",
+    1122:   "CIRocket",
+    1123:   "CIMissile",
+    1124:   "CIPipeRunner",
+    1125:   "CIOozium",
+    1131:   "CITCopter",
+    1132:   "CIBCopter",
+    1133:   "CIFighter",
+    1134:   "CIBomber",
+    1135:   "CIStealth",
+    1136:   "CIBBomb",
+    1141:   "CIBBoat",
+    1142:   "CILander",
+    1143:   "CICruiser",
+    1144:   "CISubmarine",
+    1145:   "CIBattleship",
+    1146:   "CICarrier",
+
+    1201:   "PCInfantry",
+    1202:   "PCMech",
+    1211:   "PCAPC",
+    1212:   "PCRecon",
+    1213:   "PCTank",
+    1214:   "PCMDTank",
+    1215:   "PCNeotank",
+    1216:   "PCMegatank",
+    1217:   "PCAntiAir",
+    1221:   "PCArtillery",
+    1222:   "PCRocket",
+    1223:   "PCMissile",
+    1224:   "PCPipeRunner",
+    1225:   "PCOozium",
+    1231:   "PCTCopter",
+    1232:   "PCBCopter",
+    1233:   "PCFighter",
+    1234:   "PCBomber",
+    1235:   "PCStealth",
+    1236:   "PCBBomb",
+    1241:   "PCBBoat",
+    1242:   "PCLander",
+    1243:   "PCCruiser",
+    1244:   "PCSubmarine",
+    1245:   "PCBattleship",
+    1246:   "PCCarrier",
+
+    1301:   "TGInfantry",
+    1302:   "TGMech",
+    1311:   "TGAPC",
+    1312:   "TGRecon",
+    1313:   "TGTank",
+    1314:   "TGMDTank",
+    1315:   "TGNeotank",
+    1316:   "TGMegatank",
+    1317:   "TGAntiAir",
+    1321:   "TGArtillery",
+    1322:   "TGRocket",
+    1323:   "TGMissile",
+    1324:   "TGPipeRunner",
+    1325:   "TGOozium",
+    1331:   "TGTCopter",
+    1332:   "TGBCopter",
+    1333:   "TGFighter",
+    1334:   "TGBomber",
+    1335:   "TGStealth",
+    1336:   "TGBBomb",
+    1341:   "TGBBoat",
+    1342:   "TGLander",
+    1343:   "TGCruiser",
+    1344:   "TGSubmarine",
+    1345:   "TGBattleship",
+    1346:   "TGCarrier",
+
+    1401:   "PLInfantry",
+    1402:   "PLMech",
+    1411:   "PLAPC",
+    1412:   "PLRecon",
+    1413:   "PLTank",
+    1414:   "PLMDTank",
+    1415:   "PLNeotank",
+    1416:   "PLMegatank",
+    1417:   "PLAntiAir",
+    1421:   "PLArtillery",
+    1422:   "PLRocket",
+    1423:   "PLMissile",
+    1424:   "PLPipeRunner",
+    1425:   "PLOozium",
+    1431:   "PLTCopter",
+    1432:   "PLBCopter",
+    1433:   "PLFighter",
+    1434:   "PLBomber",
+    1435:   "PLStealth",
+    1436:   "PLBBomb",
+    1441:   "PLBBoat",
+    1442:   "PLLander",
+    1443:   "PLCruiser",
+    1444:   "PLSubmarine",
+    1445:   "PLBattleship",
+    1446:   "PLCarrier",
 }
 
 ######################################
@@ -540,7 +784,142 @@ AWS_TERR = {
 }
 
 AWS_UNIT = {
-    65535:  0     # Empty
+    65535:  0,     # Empty
+
+    500:    101,   # OSInfantry
+    520:    102,   # OSMech
+    522:    111,   # OSAPC
+    502:    112,   # OSRecon
+    521:    113,   # OSTank
+    501:    114,   # OSMDTank
+    509:    115,   # OSNeotank
+    510:    116,   # OSMegatank
+    504:    117,   # OSAntiAir
+    503:    121,   # OSArtillery
+    523:    122,   # OSRocket
+    524:    123,   # OSMissile
+    511:    124,   # OSPipeRunner
+    512:    125,   # OSOozium
+    526:    131,   # OSTCopter
+    506:    132,   # OSBCopter
+    505:    133,   # OSFighter
+    525:    134,   # OSBomber
+    531:    135,   # OSStealth
+    532:    136,   # OSBBomb
+    529:    141,   # OSBBoat
+    508:    142,   # OSLander
+    527:    143,   # OSCruiser
+    528:    144,   # OSSubmarine
+    507:    145,   # OSBattleship
+    530:    146,   # OSCarrier
+
+    540:    201,   # BMInfantry
+    560:    202,   # BMMech
+    562:    211,   # BMAPC
+    542:    212,   # BMRecon
+    561:    213,   # BMTank
+    541:    214,   # BMMDTank
+    549:    215,   # BMNeotank
+    550:    216,   # BMMegatank
+    544:    217,   # BMAntiAir
+    543:    221,   # BMArtillery
+    563:    222,   # BMRocket
+    564:    223,   # BMMissile
+    551:    224,   # BMPipeRunner
+    552:    225,   # BMOozium
+    566:    231,   # BMTCopter
+    546:    232,   # BMBCopter
+    545:    233,   # BMFighter
+    565:    234,   # BMBomber
+    571:    235,   # BMStealth
+    572:    236,   # BMBBomb
+    569:    241,   # BMBBoat
+    548:    242,   # BMLander
+    567:    243,   # BMCruiser
+    568:    244,   # BMSubmarine
+    547:    245,   # BMBattleship
+    570:    246,   # BMCarrier
+
+    580:    301,   # GEInfantry
+    600:    302,   # GEMech
+    602:    311,   # GEAPC
+    582:    312,   # GERecon
+    601:    313,   # GETank
+    581:    314,   # GEMDTank
+    589:    315,   # GENeotank
+    590:    316,   # GEMegatank
+    584:    317,   # GEAntiAir
+    583:    321,   # GEArtillery
+    603:    322,   # GERocket
+    604:    323,   # GEMissile
+    591:    324,   # GEPipeRunner
+    592:    325,   # GEOozium
+    606:    331,   # GETCopter
+    586:    332,   # GEBCopter
+    585:    333,   # GEFighter
+    605:    334,   # GEBomber
+    611:    335,   # GEStealth
+    612:    336,   # GEBBomb
+    609:    341,   # GEBBoat
+    588:    342,   # GELander
+    607:    343,   # GECruiser
+    608:    344,   # GESubmarine
+    587:    345,   # GEBattleship
+    610:    346,   # GECarrier
+
+    620:    401,   # YCInfantry
+    640:    402,   # YCMech
+    642:    411,   # YCAPC
+    622:    412,   # YCRecon
+    641:    413,   # YCTank
+    621:    414,   # YCMDTank
+    629:    415,   # YCNeotank
+    630:    416,   # YCMegatank
+    624:    417,   # YCAntiAir
+    623:    421,   # YCArtillery
+    643:    422,   # YCRocket
+    644:    423,   # YCMissile
+    631:    424,   # YCPipeRunner
+    632:    425,   # YCOozium
+    646:    431,   # YCTCopter
+    626:    432,   # YCBCopter
+    625:    433,   # YCFighter
+    645:    434,   # YCBomber
+    651:    435,   # YCStealth
+    652:    436,   # YCBBomb
+    649:    441,   # YCBBoat
+    628:    442,   # YCLander
+    647:    443,   # YCCruiser
+    648:    444,   # YCSubmarine
+    627:    445,   # YCBattleship
+    650:    446,   # YCCarrier
+
+    660:    501,   # BHInfantry
+    680:    502,   # BHMech
+    682:    511,   # BHAPC
+    662:    512,   # BHRecon
+    681:    513,   # BHTank
+    661:    514,   # BHMDTank
+    669:    515,   # BHNeotank
+    670:    516,   # BHMegatank
+    664:    517,   # BHAntiAir
+    663:    521,   # BHArtillery
+    683:    522,   # BHRocket
+    684:    523,   # BHMissile
+    671:    524,   # BHPipeRunner
+    672:    525,   # BHOozium
+    686:    531,   # BHTCopter
+    666:    532,   # BHBCopter
+    665:    533,   # BHFighter
+    685:    534,   # BHBomber
+    691:    535,   # BHStealth
+    692:    536,   # BHBBomb
+    689:    541,   # BHBBoat
+    668:    542,   # BHLander
+    687:    543,   # BHCruiser
+    688:    544,   # BHSubmarine
+    667:    545,   # BHBattleship
+    690:    546,   # BHCarrier
 }
 
 # Relate MAIN TERR IDs to AWS TERR IDs
@@ -553,9 +932,11 @@ MAIN_TERR_TO_AWS[101] = [102]
 # Relate MAIN UNIT IDs to AWS UNIT IDs
 MAIN_UNIT_TO_AWS = {k: [x for x in AWS_UNIT.keys() if AWS_UNIT.get(x, None) == k]
                     for k in MAIN_UNIT.keys()}
-for k, v in MAIN_UNIT_TO_AWS.items():  # Non-AWBW tiles become warp-tiles
+for k, v in MAIN_UNIT_TO_AWS.items():
     if len(v) == 0:
         MAIN_UNIT_TO_AWS[k] = [65535]
+
+# print(MAIN_UNIT_TO_AWS)
 
 ###########################
 # Advance Wars By Web IDs #
@@ -725,7 +1106,6 @@ for k, v in MAIN_TERR_TO_AWBW.items():  # Non-AWBW tiles become warp-tiles
     if len(v) == 0:
         MAIN_TERR_TO_AWBW[k] = [""]
 
-#
 MAIN_TERR_TO_AWBW_AWARENESS = {
     # Roads: Offset from 15
     # Additionally aware of Bridge and Properties
@@ -884,5 +1264,3 @@ MAIN_TERR_TO_AWBW_AWARENESS = {
         12: [10, 11, 12],  # Destroyed Pipe Seam
     }
 }
-
-# print(MAIN_UNIT_TO_AWS)

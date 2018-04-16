@@ -15,13 +15,13 @@ from math import cos, sin, pi, trunc
 # TODO: Guess we'll need to implement excepting invalid tiles for AWS export. Plains?
 
 
-def flatten(items):
-    """Yield items from any nested iterable; see REF."""
-    for x in items:
-        if isinstance(x, Iterable) and not isinstance(x, (str, bytes)):
-            yield from flatten(x)
-        else:
-            yield x
+# def flatten(items):
+#     """Yield items from any nested iterable; see REF."""
+#     for x in items:
+#         if isinstance(x, Iterable) and not isinstance(x, (str, bytes)):
+#             yield from flatten(x)
+#         else:
+#             yield x
 
 
 class AWMap:
@@ -38,12 +38,17 @@ class AWMap:
         self.desc = ""
         self.pass_buffer = []  # Buffer tile coords to skip for multi-tile objects e.g. Volcano, Deathray  # TODO
 
+        self.nyv = False
+
     def __repr__(self):
         nl = "\n"
         return f"{'Map Title: {0}{1}'.format(self.title, nl) if self.title is not None else ''}" \
                f"{'Map Author: {0}{1}'.format(self.author, nl) if self.author is not None else ''}" \
                f"{'Map Description: {0}{1}'.format(self.desc, nl) if self.desc is not None else ''}\n" \
-               f"{'{0}'.format(nl).join([str(x) for x in flatten(self.map)])}"
+               f"{'{0}'.format(nl.join([str(x) for x in list(self)]))}"
+
+    def __str__(self):
+        return self.__repr__()
 
     def __iter__(self):
         for y in range(self.size_h):
@@ -173,8 +178,11 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
 
     def __repr__(self):
         return f"({self.x + 1}, {self.y + 1}): " \
-               f"<{tile_data.MAIN_TERR.get(self.terr, 'Plain')}> " \
-               f"<{tile_data.MAIN_UNIT.get(self.unit, 'Empty')}>"
+               f"<{self.terr}:{tile_data.MAIN_TERR.get(self.terr, 'Plain')}> " \
+               f"<{self.unit}:{tile_data.MAIN_UNIT.get(self.unit, 'Empty')}>"
+
+    def __str__(self):
+        return self.__repr__()
 
     def tile(self, x, y):
         """ Grab the AWTile object from AWMap using AWMap.tile()"""
@@ -194,10 +202,9 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
     @property
     def aws_unit_id(self):
         try:
-            return tile_data.MAIN_UNIT_TO_AWS.get(self.terr, 0)[0]
+            return tile_data.MAIN_UNIT_TO_AWS.get(self.unit, 0)[0]
         except IndexError:
-            return 65535
-        except TypeError:
+            print("IndexError")
             return 65535
 
     @property
