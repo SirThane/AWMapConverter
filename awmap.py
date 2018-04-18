@@ -195,14 +195,14 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
     @property
     def aws_terr_id(self):
         try:
-            return tile_data.MAIN_TERR_TO_AWS.get(self.terr, 1)[0]
+            return tile_data.MAIN_TERR_TO_AWS.get(self.terr, [1])[0]
         except IndexError:
             return 0
 
     @property
     def aws_unit_id(self):
         try:
-            return tile_data.MAIN_UNIT_TO_AWS.get(self.unit, 0)[0]
+            return tile_data.MAIN_UNIT_TO_AWS.get(self.unit, [65535])[0]
         except IndexError:
             print("IndexError")
             return 65535
