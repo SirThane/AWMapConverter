@@ -89,11 +89,11 @@ class AWMap:
     def from_awbw(self, data, title=None):
         self.raw_data = data
 
-        csv_map = [*csv.reader(data.split('\n'))]  # Calling method will need to catch AssertionError for below
+        csv_map = [*csv.reader(data.strip('\n').split('\n'))]  # Calling method will need to catch AssertionError below
         assert all(map(lambda x: len(x) == len(csv_map[0]), csv_map))
         self.size_h, self.size_w = len(csv_map), len(csv_map[0])
         self.title = title if title else "[Untitled]"
-        self.map = {y: {x: AWTile(self, x, y, *self.terr_from_awbw(csv_map[y][x]))
+        self.map = {y: {x: AWTile(self, x, y, **self.terr_from_awbw(csv_map[y][x]))
                         for x in range(self.size_w)} for y in range(self.size_h)}
 
         return self
@@ -122,7 +122,7 @@ class AWMap:
         terr = int(terr)
         main_id = tile_data.AWBW_TERR.get(terr, 1)
         orientation = terr - tile_data.MAIN_TERR_TO_AWBW.get(main_id)[0]
-        return main_id, orientation
+        return {"terr": main_id, "awareness_override": orientation}
 
     def tile(self, x, y):
         # Return tile object at coordinate (x, y)

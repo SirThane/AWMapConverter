@@ -807,6 +807,7 @@ class AWMinimap:
                 if unit:
                     sprite = AWMinimap.get_sprite(unit, True)
                     self.anim_buffer.append((x, y, sprite))
+                    print(awmap.tile(x, y), sprite)
 
         if self.anim_buffer:
             self.ims = []
