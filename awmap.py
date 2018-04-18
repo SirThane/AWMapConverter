@@ -36,7 +36,7 @@ class AWMap:
         self.title = ""
         self.author = ""
         self.desc = ""
-        self.awbw_url = ""
+        self.awbw_id = ""
         self.pass_buffer = []  # Buffer tile coords to skip for multi-tile objects e.g. Volcano, Deathray  # TODO
 
         self.nyv = False
