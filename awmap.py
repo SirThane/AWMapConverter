@@ -226,7 +226,7 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
             except IndexError:
                 return terr[0]
         else:
-            return terr
+            return terr[0]
 
     @property
     def awbw_awareness(self):
