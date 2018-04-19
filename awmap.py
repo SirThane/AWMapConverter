@@ -36,9 +36,11 @@ class AWMap:
         self.title = ""
         self.author = ""
         self.desc = ""
-        self.awbw_id = ""
         self.pass_buffer = []  # Buffer tile coords to skip for multi-tile objects e.g. Volcano, Deathray  # TODO
 
+        # Params used from outside class instance
+        self.awbw_id = ""
+        self.override_awareness = True
         self.nyv = False
 
     def __repr__(self):
@@ -109,7 +111,7 @@ class AWMap:
         offset = y + (x * self.size_h)
         return tile_data.AWS_UNIT.get(data[offset], 0)
 
-    def meta_from_aws(self, data):  # TODO: This needs refactoring.
+    def meta_from_aws(self, data):  # TODO: This needs refactoring. Can be optimized.
         t_size = int.from_bytes(data[:4], 'little')
         a_size = int.from_bytes(data[t_size + 4:t_size + 8], 'little')
         d_size = int.from_bytes(data[t_size + a_size + 8:t_size + a_size + 12], 'little')
@@ -122,8 +124,13 @@ class AWMap:
     def terr_from_awbw(self, terr):
         terr = int(terr)
         main_id = tile_data.AWBW_TERR.get(terr, 1)
-        orientation = terr - tile_data.MAIN_TERR_TO_AWBW.get(main_id)[0]
-        return {"terr": main_id, "awareness_override": orientation}
+        if main_id in tile_data.MAIN_TERR_TO_AWBW_AWARENESS["aware_of"].keys():
+            offset = terr - tile_data.MAIN_TERR_TO_AWBW.get(main_id)[0]
+            _awareness = tile_data.MAIN_TERR_TO_AWBW_AWARENESS[main_id]
+            override = list(_awareness.keys())[list(_awareness.values()).index(offset)]
+            return {"terr": main_id, "awareness_override": override}
+        else:
+            return {"terr": main_id}
 
     def tile(self, x, y):
         # Return tile object at coordinate (x, y)
@@ -151,8 +158,7 @@ class AWMap:
     def to_aws(self):
         ret = bytearray(b'AWSMap001') + b'\x00'
 
-        if not self.style:
-            style = 5
+        style = self.style if self.style else 5
 
         for b in [m.to_bytes(1, 'little') for m in [self.size_w, self.size_h, style]]:
             ret += b
@@ -176,7 +182,7 @@ class AWMap:
 
 class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, volcano, etc.
 
-    def __init__(self, awmap: AWMap, x=0, y=0, terr=0, unit=0, awareness_override=None):
+    def __init__(self, awmap: AWMap, x=0, y=0, terr=0, unit=0, awareness_override=0):
         self.x, self.y, self.terr, self.unit, self.awmap = x, y, terr, unit, awmap
         self.awareness_override = awareness_override
 
@@ -213,19 +219,25 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
 
     @property
     def awbw_id(self):  # TODO fix this and fix the dict
-        awareness = self.awareness_override if self.awareness_override else self.awbw_awareness
-        try:
-            return tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)[awareness]
-        except IndexError:
-            return ""
+        terr = tile_data.MAIN_TERR_TO_AWBW.get(self.terr, 1)
+        if self.terr in tile_data.MAIN_TERR_TO_AWBW_AWARENESS["aware_of"].keys():
+            try:
+                return terr[self.awbw_awareness]
+            except IndexError:
+                return terr[0]
+        else:
+            return terr
 
     @property
     def awbw_awareness(self):
         if self.terr in tile_data.MAIN_TERR_TO_AWBW_AWARENESS.keys():
-            mask = 0
-            for tile in tile_data.MAIN_TERR_TO_AWBW_AWARENESS["aware_of"][self.terr]:
-                mask = mask | self.adj_match(tile)
-            return tile_data.MAIN_TERR_TO_AWBW_AWARENESS[self.terr][mask]
+            if self.awmap.override_awareness:
+                return tile_data.MAIN_TERR_TO_AWBW_AWARENESS[self.terr][self.awareness_override]
+            else:
+                mask = 0
+                for tile in tile_data.MAIN_TERR_TO_AWBW_AWARENESS["aware_of"][self.terr]:
+                    mask = mask | self.adj_match(tile)
+                return tile_data.MAIN_TERR_TO_AWBW_AWARENESS[self.terr][mask]
         else:
             return 0
 
@@ -241,7 +253,13 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
         return awareness_mask
 
     def mod_terr(self, terr):
-        self.terr = terr
+        if terr in tile_data.MAIN_TERR.keys():
+            self.terr = terr
+        else:
+            raise ValueError("Invalid Terrain ID")
 
     def mod_unit(self, unit):
-        self.unit = unit
+        if unit in tile_data.MAIN_UNIT.keys():
+            self.unit = unit
+        else:
+            raise ValueError("Invalid Unit ID")
