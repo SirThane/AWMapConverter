@@ -1000,26 +1000,26 @@ AWBW_TERR = {
     55:     144,  # Yellow Comet Airport
     56:     145,  # Yellow Comet Port
     57:     141,  # Yellow Comet HQ
-    81:     999,  # Red Fire City
-    82:     999,  # Red Fire Base
-    83:     999,  # Red Fire Airport
-    84:     999,  # Red Fire Port
-    85:     999,  # Red Fire HQ
-    86:     999,  # Grey Sky City
-    87:     999,  # Grey Sky Base
-    88:     999,  # Grey Sky Airport
-    89:     999,  # Grey Sky Port
-    90:     999,  # Grey Sky HQ
+    81:     162,  # Red Fire City
+    82:     163,  # Red Fire Base
+    83:     164,  # Red Fire Airport
+    84:     165,  # Red Fire Port
+    85:     161,  # Red Fire HQ
+    86:     172,  # Grey Sky City
+    87:     173,  # Grey Sky Base
+    88:     174,  # Grey Sky Airport
+    89:     175,  # Grey Sky Port
+    90:     171,  # Grey Sky HQ
     91:     152,  # Black Hole City
     92:     153,  # Black Hole Base
     93:     154,  # Black Hole Airport
     94:     155,  # Black Hole Port
     95:     151,  # Black Hole HQ
-    96:     999,  # Brown Desert City
-    97:     999,  # Brown Desert Base
-    98:     999,  # Brown Desert Airport
-    99:     999,  # Brown Desert Port
-    100:    999,  # Brown Desert HQ
+    96:     182,  # Brown Desert City
+    97:     183,  # Brown Desert Base
+    98:     184,  # Brown Desert Airport
+    99:     185,  # Brown Desert Port
+    100:    181,  # Brown Desert HQ
     101:    10,   # VPipe
     102:    10,   # HPipe
     103:    10,   # NEPipe
@@ -1036,66 +1036,66 @@ AWBW_TERR = {
     114:    11,   # VPipe Seam
     115:    12,   # HPipe Rubble
     116:    12,   # VPipe Rubble
-    117:    999,  # Amber Blaze Airport
-    118:    999,  # Amber Blaze Base
-    119:    999,  # Amber Blaze City
-    120:    999,  # Amber Blaze HQ
-    121:    999,  # Amber Blaze Port
-    122:    999,  # Jade Sun Airport
-    123:    999,  # Jade Sun Base
-    124:    999,  # Jade Sun City
-    125:    999,  # Jade Sun HQ
-    126:    999,  # Jade Sun Port
-    127:    999,  # Amber Blaze Com Tower
+    117:    194,  # Amber Blaze Airport
+    118:    193,  # Amber Blaze Base
+    119:    192,  # Amber Blaze City
+    120:    191,  # Amber Blaze HQ
+    121:    195,  # Amber Blaze Port
+    122:    204,  # Jade Sun Airport
+    123:    203,  # Jade Sun Base
+    124:    202,  # Jade Sun City
+    125:    201,  # Jade Sun HQ
+    126:    205,  # Jade Sun Port
+    127:    196,  # Amber Blaze Com Tower
     128:    156,  # Black Hole Com Tower
     129:    126,  # Blue Moon Com Tower
-    130:    999,  # Brown Desert Com Tower
+    130:    186,  # Brown Desert Com Tower
     131:    136,  # Green Earth Com Tower
-    132:    999,  # Jade Sun Com Tower
+    132:    206,  # Jade Sun Com Tower
     133:    106,  # Neutral Com Tower
     134:    116,  # Orange Star Com Tower
-    135:    999,  # Red Fire Com Tower
+    135:    166,  # Red Fire Com Tower
     136:    146,  # Yellow Comet Com Tower
-    137:    999,  # Grey Sky Com Tower
-    138:    999,  # Amber Blaze Lab
+    137:    176,  # Grey Sky Com Tower
+    138:    197,  # Amber Blaze Lab
     139:    157,  # Black Hole Lab
     140:    127,  # Blue Moon Lab
-    141:    999,  # Brown Desert Lab
+    141:    187,  # Brown Desert Lab
     142:    137,  # Green Earth Lab
-    143:    999,  # Grey Sky Lab
-    144:    999,  # Jade Sun Lab
+    143:    177,  # Grey Sky Lab
+    144:    207,  # Jade Sun Lab
     145:    107,  # Neutral Lab
     146:    117,  # Orange Star Lab
-    147:    999,  # Red Fire Lab
+    147:    167,  # Red Fire Lab
     148:    147,  # Yellow Comet Lab
-    149:    999,  # Cobalt Ice Airport
-    150:    999,  # Cobalt Ice Base
-    151:    999,  # Cobalt Ice City
-    152:    999,  # Cobalt Ice Com Tower
-    153:    999,  # Cobalt Ice HQ
-    154:    999,  # Cobalt Ice Lab
-    155:    999,  # Cobalt Ice Port
-    156:    999,  # Pink Cosmos Airport
-    157:    999,  # Pink Cosmos Base
-    158:    999,  # Pink Cosmos City
-    159:    999,  # Pink Cosmos Com Tower
-    160:    999,  # Pink Cosmos HQ
-    161:    999,  # Pink Cosmos Lab
-    162:    999,  # Pink Cosmos Port
-    163:    999,  # Teal Galaxy Airport
-    164:    999,  # Teal Galaxy Base
-    165:    999,  # Teal Galaxy City
-    166:    999,  # Teal Galaxy Com Tower
-    167:    999,  # Teal Galaxy HQ
-    168:    999,  # Teal Galaxy Lab
-    169:    999,  # Teal Galaxy Port
-    170:    999,  # Purple Lightning Airport
-    171:    999,  # Purple Lightning Base
-    172:    999,  # Purple Lightning City
-    173:    999,  # Purple Lightning Com Tower
-    174:    999,  # Purple Lightning HQ
-    175:    999,  # Purple Lightning Lab
-    176:    999,  # Purple Lightning Port
+    149:    214,  # Cobalt Ice Airport
+    150:    213,  # Cobalt Ice Base
+    151:    212,  # Cobalt Ice City
+    152:    216,  # Cobalt Ice Com Tower
+    153:    211,  # Cobalt Ice HQ
+    154:    217,  # Cobalt Ice Lab
+    155:    215,  # Cobalt Ice Port
+    156:    224,  # Pink Cosmos Airport
+    157:    223,  # Pink Cosmos Base
+    158:    222,  # Pink Cosmos City
+    159:    226,  # Pink Cosmos Com Tower
+    160:    221,  # Pink Cosmos HQ
+    161:    227,  # Pink Cosmos Lab
+    162:    225,  # Pink Cosmos Port
+    163:    234,  # Teal Galaxy Airport
+    164:    233,  # Teal Galaxy Base
+    165:    232,  # Teal Galaxy City
+    166:    236,  # Teal Galaxy Com Tower
+    167:    231,  # Teal Galaxy HQ
+    168:    237,  # Teal Galaxy Lab
+    169:    235,  # Teal Galaxy Port
+    170:    244,  # Purple Lightning Airport
+    171:    243,  # Purple Lightning Base
+    172:    242,  # Purple Lightning City
+    173:    246,  # Purple Lightning Com Tower
+    174:    241,  # Purple Lightning HQ
+    175:    247,  # Purple Lightning Lab
+    176:    245,  # Purple Lightning Port
 }
 
 # Relate MAIN IDs to AWBW IDs
