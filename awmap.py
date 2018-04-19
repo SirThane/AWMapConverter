@@ -151,7 +151,10 @@ class AWMap:
     def to_aws(self):
         ret = bytearray(b'AWSMap001') + b'\x00'
 
-        for b in [m.to_bytes(1, 'little') for m in [self.size_w, self.size_h, self.style]]:
+        if not self.style:
+            style = 5
+
+        for b in [m.to_bytes(1, 'little') for m in [self.size_w, self.size_h, style]]:
             ret += b
         for b in [terr.to_bytes(2, 'little') for terr in
                   [self.tile(x, y).aws_terr_id for x in range(self.size_w) for y in range(self.size_h)]]:
