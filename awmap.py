@@ -43,6 +43,10 @@ class AWMap:
         self.override_awareness = True
         self.nyv = False
 
+        self.countries = []
+        self.custom_countries = []
+        self.country_conversion = dict()
+
     def __repr__(self):
         nl = "\n"
         return f"{'Map Title: {0}{1}'.format(self.title, nl) if self.title is not None else ''}" \
