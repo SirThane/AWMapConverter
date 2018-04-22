@@ -9,7 +9,7 @@ from awmap import AWMap
 # newmap = bread()
 
 
-newmap = AWMap().from_awbw("""
+newmap = AWMap().from_awbw(title="Test", data="""
 2,2,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,2,2
 2,28,28,30,30,30,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,30,30,30,28,28,2
 28,28,28,42,1,34,28,28,28,28,28,28,28,28,30,30,28,28,28,28,28,28,28,28,34,1,47,28,28,28
@@ -32,6 +32,8 @@ newmap = AWMap().from_awbw("""
 2,2,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,2,2
 """)
 
+# newmap = AWMap().from_awbw(awbw_id=74065)
+
 
 # with open(f"{awmap.title}.txt", 'w') as outfile:
 #     outfile.write(awmap.to_awbw())
@@ -51,9 +53,9 @@ newmap = AWMap().from_awbw("""
 
 # print(newmap)
 
-# with open("TestFiles\\BHTestWrite.aws", "wb") as out_file:
-#     out_file.write(newmap.to_aws)
+with open("TestFiles\\newtest.aws", "wb") as out_file:
+    out_file.write(newmap.to_aws)
 
 # print(newmap.to_awbw)
 
-newmap.minimap.save("TestFiles\\1006.gif", save_all=True)
+# newmap.minimap.save("TestFiles\\74065.gif", save_all=True)
