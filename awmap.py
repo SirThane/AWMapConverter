@@ -3,9 +3,12 @@ try:
     import minimap
 except ImportError:  # Relative Path hackfix for including in other projects.
     from . import tile_data, minimap
-import csv
-from collections import Iterable
+
 from math import cos, sin, pi, trunc
+from bs4 import BeautifulSoup as bs
+
+import csv
+import requests
 
 
 # Warp tile = 0 or an empty CSV cell
@@ -28,7 +31,7 @@ class AWMap:
 
     def __init__(self):
         self.raw_data = None
-        self.map = None
+        self.map = {}
         self.size_w = 0
         self.size_h = 0
         self.map_size = 0
@@ -93,17 +96,90 @@ class AWMap:
     def correct_map_axis(self, inverted_map):
         return {y: {x: inverted_map[x][y] for x in range(self.size_w)} for y in range(self.size_h)}
 
-    def from_awbw(self, data, title=None):
+    def from_awbw(self, data="", title="", awbw_id=None):
         self.raw_data = data
 
-        csv_map = [*csv.reader(data.strip('\n').split('\n'))]  # Calling method will need to catch AssertionError below
-        assert all(map(lambda x: len(x) == len(csv_map[0]), csv_map))
-        self.size_h, self.size_w = len(csv_map), len(csv_map[0])
-        self.title = title if title else "[Untitled]"
-        self.map = {y: {x: AWTile(self, x, y, **self.terr_from_awbw(csv_map[y][x]))
-                        for x in range(self.size_w)} for y in range(self.size_h)}
+        if awbw_id:
+            payload = {
+                "maps_id": awbw_id
+            }
+            r_prev = requests.get("http://awbw.amarriner.com/prevmaps.php", params=payload)
+            s_prev = bs(r_prev.text, 'html.parser')
+            r_text = requests.get("http://awbw.amarriner.com/text_map.php", params=payload)
+            s_text = bs(r_text.text, 'html.parser')
 
-        return self
+            title_href = s_text.find_all("a", href=f"prevmaps.php?maps_id={awbw_id}")
+
+            # Will not be a title if Invalid Map
+            if len(title_href) == 0:
+                return
+
+            # Cut the CSV text map out of the text_map.php page
+            map_table = s_text.find_all("td", "menu")[0].find_next("table").find_next("table").find_all_next("td")
+            map_csv = "\n".join([t.contents[0] for t in map_table])
+
+            # Catch AssertionError if not all map rows are same length
+            try:
+                self._parse_awbw_csv(map_csv)
+            except AssertionError:
+                return
+
+            # Find exact location of map image on page (top, left
+            divmap = s_prev.find(id="map")
+            map_style = divmap.find(id="mapImage").get("style").replace(";", "").split(" ")
+            map_style = {x: y for x, y in [z.split(':') for z in map_style]}
+            origin = {x: int(y.replace("px", "")) for x, y in map_style.items() if x in ["top", "left"]}
+
+            # Find all unit sprites and mod them into the map
+            sprites = divmap.find_all("img")[1:]
+            if sprites:
+                for sprite in sprites:
+                    main_id = tile_data.AWBW_UNIT_SPRITE.get(sprite.get("src").split("/")[-1])
+                    if main_id:
+                        sprite_style = sprite.parent.get("style").replace(";", "").split(" ")[:2]
+                        sprite_style = {x: y for x, y in [z.split(':') for z in sprite_style]}
+                        coords = {x: int(y.replace("px", "")) for x, y in sprite_style.items() if x in ["top", "left"]}
+                        coords = {
+                            "x": (coords["left"] - origin["left"]) // 16,
+                            "y": (coords["top"] - origin["top"]) // 16,
+                        }
+                        self.tile(**coords).mod_unit(main_id)
+
+            # Add the map meta data
+            author = s_prev.find_all("td", "menu")[0].next_sibling.span.a.contents
+            if author:
+                self.author = author[0]
+            self.title = title_href[0].contents[0]
+            self.awbw_id = str(awbw_id)
+            self.desc = r_prev.url
+
+            return self
+
+        elif data:
+            try:
+                self._parse_awbw_csv(data)
+            except AssertionError:
+                return
+
+            self.title = title if title else "[Untitled]"
+
+            return self
+
+        return
+
+    def _parse_awbw_csv(self, data):
+        csv_map = [*csv.reader(data.strip('\n').split('\n'))]
+
+        # Make sure all rows passed are equal length
+        # Calling method will need to catch AssertionError
+        assert all(map(lambda r: len(r) == len(csv_map[0]), csv_map))
+
+        self.size_h, self.size_w = len(csv_map), len(csv_map[0])
+
+        for y in range(self.size_h):
+            self.map[y] = {}
+            for x in range(self.size_w):
+                self.map[y][x] = AWTile(self, x, y, **self.terr_from_awbw(csv_map[y][x]))
 
     def terr_from_aws(self, x, y, data):  # TODO: Correct for country consolidation
         # Return 2 byte terrain value from binary data for coordinate (x, y)
