@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageSequence, ImagePalette
 from io import BytesIO
-# import imageio
+import imageio
 
 
 class Iterator(ImageSequence.Iterator):
@@ -99,16 +99,6 @@ PALETTE = {
     # "blink4":   (182, 177, 166),
     # "blink5":   (238, 233, 233),
 }
-
-
-# IMAGEPALETTE = PALETTE.copy()
-# IMAGEPALETTE.pop("BLINK")
-# IMAGEPALETTE = [v for k, v in IMAGEPALETTE.items()]
-# IMAGEPALETTE.sort(key=lambda x: x[0])
-# IMAGEPALETTE = [i for v in IMAGEPALETTE for i in v]
-# print(IMAGEPALETTE)
-# IMAGEPALETTE = ImagePalette.Palette("RGB", IMAGEPALETTE)
-# print(IMAGEPALETTE)
 
 
 SPEC = {
@@ -843,7 +833,7 @@ class AWMinimap:
         "pipe":     [10],
         "seam":     [11],
         "silo":     [13, 14],
-        "tele":     [],  # TODO
+        "tele":     [999],  # TODO
         "nprop":    [102, 103, 104, 105, 106],
         "osprop":   [112, 113, 114, 115, 116],
         "bmprop":   [122, 123, 124, 125, 126],
@@ -917,7 +907,7 @@ class AWMinimap:
 
     @staticmethod
     def get_static_sprite(sprite_name):
-        im = Image.new("RGB", (4, 4))
+        im = Image.new("RGBA", (4, 4))
         draw = ImageDraw.Draw(im)
         spec = SPEC[sprite_name]
         for _layer in spec:
@@ -951,12 +941,12 @@ class AWMinimap:
 
     @staticmethod
     def compile_gif(frames):
-        byteImgIO = BytesIO()
+        img_bytes = BytesIO()
         first_frame = frames.pop(0)
-        first_frame.save(byteImgIO, "GIF", save_all=True, append_images=frames, loop=0, duration=150,
+        first_frame.save(img_bytes, "GIF", save_all=True, append_images=frames, loop=0, duration=150, optimize=True,
                          version='GIF89a')
-        byteImgIO.seek(0)
-        compiled_gif = Image.open(byteImgIO)
+        img_bytes.seek(0)
+        compiled_gif = Image.open(img_bytes)
         return compiled_gif
 
     # @staticmethod
@@ -970,10 +960,13 @@ class AWMinimap:
     #
     #     imageio_frames = []
     #     for frame in bin_frames:
-    #         imageio_frames.append(imageio.read(frame.read()))
+    #         imageio_frame = imageio.get_reader(frame.read(), format='i')
+    #         imageio_frames.append(imageio_frame)
     #
     #     imageio_gif = BytesIO()
-    #     imageio.mimsave(imageio_gif, imageio_frames, format="gif", duration=150 / 1000)
+    #     writer = imageio.get_writer(imageio_gif, format="gif", duration=150 / 1000)
+    #     for frame in imageio_frames:
+    #         writer.append_data(frame)
     #     # imageio_gif.name = "temp.gif"
     #     # imageio_gif.ext = "gif"
     #     imageio_gif.seek(0)

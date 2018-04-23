@@ -202,8 +202,11 @@ class AWMap:
         return title, author, desc
 
     def terr_from_awbw(self, terr):
-        terr = int(terr)
-        main_id = tile_data.AWBW_TERR.get(terr, 1)
+        if terr == "":
+            main_id = 999
+        else:
+            terr = int(terr)
+            main_id = tile_data.AWBW_TERR.get(terr, 1)
         if main_id in tile_data.MAIN_TERR_TO_AWBW_AWARENESS["aware_of"].keys():
             offset = terr - tile_data.MAIN_TERR_TO_AWBW.get(main_id)[0]
             _awareness = tile_data.MAIN_TERR_TO_AWBW_AWARENESS[main_id]
@@ -292,9 +295,8 @@ class AWTile:  # TODO: Account for multi-tile terrain objects e.g. death ray, vo
     @property
     def aws_unit_id(self):
         try:
-            return tile_data.MAIN_UNIT_TO_AWS.get(self.unit, [65535])[0]
-        except IndexError:
-            print("IndexError")
+            return tile_data.MAIN_UNIT_TO_AWS.get(self.unit, 65535)
+        except:
             return 65535
 
     @property

@@ -1,10 +1,12 @@
 
+from pprint import pprint
+
 # TODO: Combine all properties and units in MAIN with a key for country?
 # TODO: This module is going to need some refactoring to account for IDs present in one format and not another.
 
-###########################################
-# Advance Wars Map Converter Internal IDs #
-###########################################
+"""###########################################
+   # Advance Wars Map Converter Internal IDs #
+   ###########################################"""
 
 # MAIN terrain IDs with internal names
 MAIN_TERR = {
@@ -201,7 +203,6 @@ MAIN_TERR = {
     514:    "BlackCrystal",
 
     999:    "NullTile",
-    -1:     "OutOfBounds",
 }
 
 
@@ -623,9 +624,9 @@ MAIN_UNIT = {
 }
 
 
-######################################
-# Advance Wars Series Map Editor IDs #
-######################################
+"""######################################
+   # Advance Wars Series Map Editor IDs #
+   ######################################"""
 
 # Relate AWS terrain IDs to MAIN terrain IDs
 AWS_TERR = {
@@ -935,27 +936,30 @@ AWS_UNIT = {
 
 
 # Relate MAIN terrain IDs to AWS terr IDs
-MAIN_TERR_TO_AWS = {k: [x for x in AWS_TERR.keys() if AWS_TERR.get(x, None) == k]
-                    for k in MAIN_TERR.keys()}
+MAIN_TERR_TO_AWS = {k: [x for x in AWS_TERR.keys() if AWS_TERR.get(x, None) == k] for k in MAIN_TERR.keys()}
 MAIN_TERR_TO_AWS[14] = [350]
 MAIN_TERR_TO_AWS[15] = [167]
-MAIN_TERR_TO_AWS[101] = [102]
+MAIN_TERR_TO_AWS[101] = [102]  # TODO: Refactor for Teletiles
+MAIN_TERR_TO_AWS[999] = [921]
 
 
 # Relate MAIN unit IDs to AWS unit IDs
-MAIN_UNIT_TO_AWS = {k: [x for x in AWS_UNIT.keys() if AWS_UNIT.get(x, None) == k]
+MAIN_UNIT_TO_AWS = {k: [x for x in AWS_UNIT.keys() if AWS_UNIT.get(x) == k]
                     for k in MAIN_UNIT.keys()}
 for k, v in MAIN_UNIT_TO_AWS.items():
     if len(v) == 0:
-        MAIN_UNIT_TO_AWS[k] = [65535]
+        MAIN_UNIT_TO_AWS[k] = 65535
+    else:
+        MAIN_UNIT_TO_AWS[k] = v[0]
 
 
-###########################
-# Advance Wars By Web IDs #
-###########################
+"""###########################
+   # Advance Wars By Web IDs #
+   ###########################"""
 
 # Relate AWBW terrain IDs to MAIN terrain IDs
 AWBW_TERR = {
+    "":     999,  # Teleport Tile
     1:      1,    # Plain
     2:      3,    # Mountain
     3:      2,    # Wood
@@ -1492,8 +1496,7 @@ AWBW_UNIT_SPRITE = {
 
 
 # Relate MAIN IDs to AWBW IDs
-MAIN_TERR_TO_AWBW = {k: [x for x in AWBW_TERR.keys() if AWBW_TERR.get(x, None) == k]
-                     for k in MAIN_TERR.keys()}
+MAIN_TERR_TO_AWBW = {k: [x for x in AWBW_TERR.keys() if AWBW_TERR.get(x, None) == k] for k in MAIN_TERR.keys()}
 MAIN_TERR_TO_AWBW[999] = [""]
 for k, v in MAIN_TERR_TO_AWBW.items():  # Non-AWBW tiles become warp-tiles
     if len(v) == 0:
