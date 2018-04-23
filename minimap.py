@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageSequence, ImagePalette
 from io import BytesIO
-import imageio
+# import imageio
 
 
 class Iterator(ImageSequence.Iterator):
