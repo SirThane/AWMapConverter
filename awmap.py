@@ -119,10 +119,7 @@ class AWMap:
             map_csv = "\n".join([t.contents[0] for t in map_table])
 
             # Catch AssertionError if not all map rows are same length
-            try:
-                self._parse_awbw_csv(map_csv)
-            except AssertionError:
-                return
+            self._parse_awbw_csv(map_csv)
 
             # Find exact location of map image on page (top, left
             divmap = s_prev.find(id="map")
@@ -156,10 +153,7 @@ class AWMap:
             return self
 
         elif data:
-            try:
-                self._parse_awbw_csv(data)
-            except AssertionError:
-                return
+            self._parse_awbw_csv(data)
 
             self.title = title if title else "[Untitled]"
 
