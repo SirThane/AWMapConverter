@@ -51,14 +51,14 @@ class AWMap:
         self.country_conversion = dict()
 
     def __repr__(self):
+        return f"<{self.__class__.__name__}: Title='{self.title}' Author='{self.author}"
+
+    def __str__(self):
         nl = "\n"
         return f"{'Map Title: {0}{1}'.format(self.title, nl) if self.title is not None else ''}" \
                f"{'Map Author: {0}{1}'.format(self.author, nl) if self.author is not None else ''}" \
                f"{'Map Description: {0}{1}'.format(self.desc, nl) if self.desc is not None else ''}\n" \
                f"{'{0}'.format(nl.join([str(x) for x in list(self)]))}"
-
-    def __str__(self):
-        return self.__repr__()
 
     def __iter__(self):
         for y in range(self.size_h):
