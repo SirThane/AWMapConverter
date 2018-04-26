@@ -51,7 +51,7 @@ class AWMap:
         self.country_conversion = dict()
 
     def __repr__(self):
-        return f"<{self.__class__.__name__}: Title='{self.title}' Author='{self.author}"
+        return f"<{self.__class__.__name__}: Title='{self.title}' Author='{self.author}'"
 
     def __str__(self):
         nl = "\n"
@@ -143,7 +143,13 @@ class AWMap:
                         self.tile(**coords).mod_unit(main_id)
 
             # Add the map meta data
-            author = s_prev.find_all("td", "menu")[0].next_sibling.span.a.contents
+            author_span = s_prev.find_all("td", "menu")[0].next_sibling.span
+            if author_span.contents[0].startswith("(Design Map by "):
+                author = author_span.a.contents[0]
+            else:
+                author = "[Unknown]"
+
+
             if author:
                 self.author = author[0]
             self.title = title_href[0].contents[0]
