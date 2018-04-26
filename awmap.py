@@ -151,7 +151,7 @@ class AWMap:
 
 
             if author:
-                self.author = author[0]
+                self.author = author
             self.title = title_href[0].contents[0]
             self.awbw_id = str(awbw_id)
             self.desc = r_prev.url
