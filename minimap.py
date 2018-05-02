@@ -1,6 +1,6 @@
-from PIL import Image, ImageDraw, ImageSequence, ImagePalette
+from PIL import Image, ImageDraw, ImageSequence
 from io import BytesIO
-# import imageio
+from pprint import pprint
 
 
 class Iterator(ImageSequence.Iterator):
@@ -777,6 +777,75 @@ SPEC = {
 }
 
 
+STATIC_ID_TO_SPEC = {
+    "plain":    [1, 12],
+    "mountain": [3],
+    "wood":     [2],
+    "river":    [9],
+    "road":     [4, 5],
+    "sea":      [6],
+    "shoal":    [7],
+    "reef":     [8],
+    "pipe":     [10],
+    "seam":     [11],
+    "silo":     [13, 14],
+    "tele":     [999],  # TODO
+    "nprop":    [102, 103, 104, 105, 106],
+    "osprop":   [112, 113, 114, 115, 116],
+    "bmprop":   [122, 123, 124, 125, 126],
+    "geprop":   [132, 133, 134, 135, 136],
+    "ycprop":   [142, 143, 144, 145, 146],
+    "bhprop":   [152, 153, 154, 155, 156],
+    "rfprop":   [162, 163, 164, 165, 166],
+    "gsprop":   [172, 173, 174, 175, 176],
+    "bdprop":   [182, 183, 184, 185, 186],
+    "abprop":   [192, 193, 194, 195, 196],
+    "jsprop":   [202, 203, 204, 205, 206],
+    "ciprop":   [212, 213, 214, 215, 216],
+    "pcprop":   [222, 223, 224, 225, 226],
+    "tgprop":   [232, 233, 234, 235, 236],
+    "plprop":   [242, 243, 244, 245, 246],
+}
+
+
+ANIM_ID_TO_SPEC = {
+    # "seam":     [11],  # Changed to static
+    "nhq":      [101, 107],
+    "oshq":     [111, 117],
+    "bmhq":     [121, 127],
+    "gehq":     [131, 137],
+    "ychq":     [141, 147],
+    "bhhq":     [151, 157],
+    "rfhq":     [161, 167],
+    "gshq":     [171, 177],
+    "bdhq":     [181, 187],
+    "abhq":     [191, 197],
+    "jshq":     [201, 207],
+    "cihq":     [211, 217],
+    "pchq":     [221, 227],
+    "tghq":     [231, 237],
+    "plhq":     [241, 247],
+}
+
+
+UNIT_ID_TO_SPEC = {
+    "osunit":   list(range(101,  147)),
+    "bmunit":   list(range(201,  247)),
+    "geunit":   list(range(301,  347)),
+    "ycunit":   list(range(401,  447)),
+    "bhunit":   list(range(501,  547)),
+    "rfunit":   list(range(601,  647)),
+    "gsunit":   list(range(701,  747)),
+    "bdunit":   list(range(801,  847)),
+    "abunit":   list(range(901,  947)),
+    "jsunit":   list(range(1001, 1047)),
+    "ciunit":   list(range(1101, 1147)),
+    "pcunit":   list(range(1201, 1247)),
+    "tgunit":   list(range(1301, 1347)),
+    "plunit":   list(range(1401, 1447)),
+}
+
+
 class AWMinimap:
 
     def __init__(self, awmap):
@@ -785,32 +854,40 @@ class AWMinimap:
         self.animated = False
         self.anim_buffer = []
 
+        # Add all terrain sprites (buffer animated sprites)
         for x in range(awmap.size_w):
             for y in range(awmap.size_h):
-                sprite, animated = AWMinimap.get_sprite(awmap.tile(x, y).terr)
+                terr = awmap.tile(x, y).terr + (awmap.tile(x, y).t_ctry * 10)
+                sprite, animated = AWMinimap.get_sprite(terr)
                 if animated:
                     self.anim_buffer.append((x, y, sprite))
                     self.animated = True
                     continue
                 self.im.paste(sprite, (x * 4, y * 4))
 
+        # Add all unit sprites to buffer
         for x in range(awmap.size_w):
             for y in range(awmap.size_h):
-                unit = awmap.tile(x, y).unit
+                unit = awmap.tile(x, y).unit + (awmap.tile(x, y).u_ctry * 100)
                 if unit:
                     sprite = AWMinimap.get_sprite(unit, True)
                     self.animated = True
                     self.anim_buffer.append((x, y, sprite))
 
-        if self.anim_buffer:
+        # Copy map to 8 frames, then add the animated sprites
+        if self.animated:
             self.ims = []
             for _ in range(8):
                 self.ims.append(self.im.copy())
             for x, y, sprite in self.anim_buffer:
                 for i in range(8):
-                    self.ims[i].paste(sprite[i], (x * 4, y * 4, (x * 4) + 4, (y * 4) + 4), sprite[i])
-                    # left, upper, right, and lower
+                    self.ims[i].paste(
+                        sprite[i],
+                        (x * 4, y * 4, (x * 4) + 4, (y * 4) + 4),
+                        sprite[i]
+                    )
 
+        # Smaller maps can be sized up
         if awmap.size_w * awmap.size_h <= 1600:
             if self.animated:
                 for i in range(len(self.ims)):
@@ -821,86 +898,20 @@ class AWMinimap:
         if self.animated:
             self.im = AWMinimap.compile_gif(self.ims)
 
-    STATIC_ID_TO_SPEC = {
-        "plain":    [1, 12],
-        "mountain": [3],
-        "wood":     [2],
-        "river":    [9],
-        "road":     [4, 5],
-        "sea":      [6],
-        "shoal":    [7],
-        "reef":     [8],
-        "pipe":     [10],
-        "seam":     [11],
-        "silo":     [13, 14],
-        "tele":     [999],  # TODO
-        "nprop":    [102, 103, 104, 105, 106],
-        "osprop":   [112, 113, 114, 115, 116],
-        "bmprop":   [122, 123, 124, 125, 126],
-        "geprop":   [132, 133, 134, 135, 136],
-        "ycprop":   [142, 143, 144, 145, 146],
-        "bhprop":   [152, 153, 154, 155, 156],
-        "rfprop":   [162, 163, 164, 165, 166],
-        "gsprop":   [172, 173, 174, 175, 176],
-        "bdprop":   [182, 183, 184, 185, 186],
-        "abprop":   [192, 193, 194, 195, 196],
-        "jsprop":   [202, 203, 204, 205, 206],
-        "ciprop":   [212, 213, 214, 215, 216],
-        "pcprop":   [222, 223, 224, 225, 226],
-        "tgprop":   [232, 233, 234, 235, 236],
-        "plprop":   [242, 243, 244, 245, 246],
-    }
-
-    ANIM_ID_TO_SPEC = {
-        # "seam":     [11],  # Changed to static
-        "nhq":      [101, 107],
-        "oshq":     [111, 117],
-        "bmhq":     [121, 127],
-        "gehq":     [131, 137],
-        "ychq":     [141, 147],
-        "bhhq":     [151, 157],
-        "rfhq":     [161, 167],
-        "gshq":     [171, 177],
-        "bdhq":     [181, 187],
-        "abhq":     [191, 197],
-        "jshq":     [201, 207],
-        "cihq":     [211, 217],
-        "pchq":     [221, 227],
-        "tghq":     [231, 237],
-        "plhq":     [241, 247],
-    }
-
-    UNIT_ID_TO_SPEC = {
-        "osunit":   list(range(101,  147)),
-        "bmunit":   list(range(201,  247)),
-        "geunit":   list(range(301,  347)),
-        "ycunit":   list(range(401,  447)),
-        "bhunit":   list(range(501,  547)),
-        "rfunit":   list(range(601,  647)),
-        "gsunit":   list(range(701,  747)),
-        "bdunit":   list(range(801,  847)),
-        "abunit":   list(range(901,  947)),
-        "jsunit":   list(range(1001, 1047)),
-        "ciunit":   list(range(1101, 1147)),
-        "pcunit":   list(range(1201, 1247)),
-        "tgunit":   list(range(1301, 1347)),
-        "plunit":   list(range(1401, 1447)),
-    }
-
     @staticmethod
     def get_sprite(sprite_id, unit=False):
         if unit:
-            if sprite_id in [i for v in AWMinimap.UNIT_ID_TO_SPEC.values() for i in v]:
-                sprite_name = [k for k, v in AWMinimap.UNIT_ID_TO_SPEC.items() if sprite_id in v][0]
+            if sprite_id in [i for v in UNIT_ID_TO_SPEC.values() for i in v]:
+                sprite_name = [k for k, v in UNIT_ID_TO_SPEC.items() if sprite_id in v][0]
                 return AWMinimap.get_unit_sprite(sprite_name)
             else:
                 return Image.new("RGBA", (4, 4)), False
         else:
-            if sprite_id in [i for v in AWMinimap.STATIC_ID_TO_SPEC.values() for i in v]:
-                sprite_name = [k for k, v in AWMinimap.STATIC_ID_TO_SPEC.items() if sprite_id in v][0]
+            if sprite_id in [i for v in STATIC_ID_TO_SPEC.values() for i in v]:
+                sprite_name = [k for k, v in STATIC_ID_TO_SPEC.items() if sprite_id in v][0]
                 return AWMinimap.get_static_sprite(sprite_name)
-            elif sprite_id in [i for v in AWMinimap.ANIM_ID_TO_SPEC.values() for i in v]:
-                sprite_name = [k for k, v in AWMinimap.ANIM_ID_TO_SPEC.items() if sprite_id in v][0]
+            elif sprite_id in [i for v in ANIM_ID_TO_SPEC.values() for i in v]:
+                sprite_name = [k for k, v in ANIM_ID_TO_SPEC.items() if sprite_id in v][0]
                 return AWMinimap.get_anim_sprite(sprite_name)
             else:
                 return Image.new("RGBA", (4, 4)), False
@@ -924,7 +935,7 @@ class AWMinimap:
             draw = ImageDraw.Draw(ims[frame])
             for _layer in spec:
                 draw.point(xy=_layer["xy"][frame], fill=_layer["fill"][frame])
-        return ims, True  # .resize((8, 8))
+        return ims, True
 
     @staticmethod
     def get_unit_sprite(sprite_name):
@@ -943,8 +954,10 @@ class AWMinimap:
     def compile_gif(frames):
         img_bytes = BytesIO()
         first_frame = frames.pop(0)
-        first_frame.save(img_bytes, "GIF", save_all=True, append_images=frames, loop=0, duration=150, optimize=True,
-                         version='GIF89a')
+        first_frame.save(
+            img_bytes, "GIF", save_all=True, append_images=frames, loop=0,
+            duration=150, optimize=True, version='GIF89a'
+        )
         img_bytes.seek(0)
         compiled_gif = Image.open(img_bytes)
         return compiled_gif
@@ -988,20 +1001,3 @@ class AWMinimap:
     @property
     def map(self):
         return self.im
-
-
-# sprites = []
-# for sprite_name in ["plain", "mountain", "wood", "road", "river", "sea"]:
-#     sprite = Image.new("RGBA", (4, 4))
-#     draw = ImageDraw.Draw(sprite)
-#     for layer in SPEC[sprite_name]:
-#         draw.point(**layer)
-#     sprites.append(sprite)
-# testgif = AWMinimap.compile_gif(sprites)
-# ims = Iterator(testgif)
-# print(len(ims))
-# testgif.save("TestGif.gif", save_all=True)
-
-# giftest, _ = AWMinimap.get_anim_sprite("oshq")
-# giftest = AWMinimap.compile_gif(giftest)
-# giftest.save(f"oshq.gif", save_all=True)

@@ -1,8 +1,6 @@
+"""IDs and other tile data necessary constructing
+and manipulating `AWMap` instances"""
 
-from pprint import pprint
-
-# TODO: Combine all properties and units in MAIN with a key for country?
-# TODO: This module is going to need some refactoring to account for IDs present in one format and not another.
 
 """###########################################
    # Advance Wars Map Converter Internal IDs #
@@ -34,158 +32,6 @@ MAIN_TERR = {
     106:    "Tower",
     107:    "Lab",
 
-    111:    "OSHQ",
-    112:    "OSCity",
-    113:    "OSBase",
-    114:    "OSAirport",
-    115:    "OSSeaport",
-    116:    "OSTower",
-    117:    "OSLab",
-
-    121:    "BMHQ",
-    122:    "BMCity",
-    123:    "BMBase",
-    124:    "BMAirport",
-    125:    "BMSeaport",
-    126:    "BMTower",
-    127:    "BMLab",
-
-    131:    "GEHQ",
-    132:    "GECity",
-    133:    "GEBase",
-    134:    "GEAirport",
-    135:    "GESeaport",
-    136:    "GETower",
-    137:    "GELab",
-
-    141:    "YCHQ",
-    142:    "YCCity",
-    143:    "YCBase",
-    144:    "YCAirport",
-    145:    "YCSeaport",
-    146:    "YCTower",
-    147:    "YCLab",
-
-    151:    "BHHQ",
-    152:    "BHCity",
-    153:    "BHBase",
-    154:    "BHAirport",
-    155:    "BHSeaport",
-    156:    "BHTower",
-    157:    "BHLab",
-
-    161:    "RFHQ",
-    162:    "RFCity",
-    163:    "RFBase",
-    164:    "RFAirport",
-    165:    "RFSeaport",
-    166:    "RFTower",
-    167:    "RFLab",
-
-    171:    "GSHQ",
-    172:    "GSCity",
-    173:    "GSBase",
-    174:    "GSAirport",
-    175:    "GSSeaport",
-    176:    "GSTower",
-    177:    "GSLab",
-
-    181:    "BDHQ",
-    182:    "BDCity",
-    183:    "BDBase",
-    184:    "BDAirport",
-    185:    "BDSeaport",
-    186:    "BDTower",
-    187:    "BDLab",
-
-    191:    "ABHQ",
-    192:    "ABCity",
-    193:    "ABBase",
-    194:    "ABAirport",
-    195:    "ABSeaport",
-    196:    "ABTower",
-    197:    "ABLab",
-
-    201:    "JSHQ",
-    202:    "JSCity",
-    203:    "JSBase",
-    204:    "JSAirport",
-    205:    "JSSeaport",
-    206:    "JSTower",
-    207:    "JSLab",
-
-    211:    "CIHQ",
-    212:    "CICity",
-    213:    "CIBase",
-    214:    "CIAirport",
-    215:    "CISeaport",
-    216:    "CITower",
-    217:    "CILab",
-
-    221:    "PCHQ",
-    222:    "PCCity",
-    223:    "PCBase",
-    224:    "PCAirport",
-    225:    "PCSeaport",
-    226:    "PCTower",
-    227:    "PCLab",
-
-    231:    "TGHQ",
-    232:    "TGCity",
-    233:    "TGBase",
-    234:    "TGAirport",
-    235:    "TGSeaport",
-    236:    "TGTower",
-    237:    "TGLab",
-
-    241:    "PLHQ",
-    242:    "PLCity",
-    243:    "PLBase",
-    244:    "PLAirport",
-    245:    "PLSeaport",
-    246:    "PLTower",
-    247:    "PLLab",
-
-    # 251:    "TBDHQ",
-    # 252:    "TBDCity",
-    # 253:    "TBDBase",
-    # 254:    "TBDAirport",
-    # 255:    "TBDSeaport",
-    # 256:    "TBDTower",
-    # 257:    "TBDLab",
-
-    # 261:    "TBDHQ",
-    # 262:    "TBDCity",
-    # 263:    "TBDBase",
-    # 264:    "TBDAirport",
-    # 265:    "TBDSeaport",
-    # 266:    "TBDTower",
-    # 267:    "TBDLab",
-
-    # 271:    "TBDHQ",
-    # 272:    "TBDCity",
-    # 273:    "TBDBase",
-    # 274:    "TBDAirport",
-    # 275:    "TBDSeaport",
-    # 276:    "TBDTower",
-    # 277:    "TBDLab",
-
-    # 281:    "TBDHQ",
-    # 282:    "TBDCity",
-    # 283:    "TBDBase",
-    # 284:    "TBDAirport",
-    # 285:    "TBDSeaport",
-    # 286:    "TBDTower",
-    # 287:    "TBDLab",
-
-    # 291:    "TBDHQ",
-    # 292:    "TBDCity",
-    # 293:    "TBDBase",
-    # 294:    "TBDAirport",
-    # 295:    "TBDSeaport",
-    # 296:    "TBDTower",
-    # 297:    "TBDLab",
-
     500:    "Volcano",
     501:    "GiantMissile",
     502:    "Fortress",
@@ -210,9 +56,42 @@ MAIN_TERR = {
 MAIN_TERR_CAT = {
     "land":         [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15],
     "sea":          [6, 8],
-    "properties":   [x for x in MAIN_TERR.keys() if 100 < x < 300],
+    "properties":   [101, 102, 103, 104, 105, 106, 107],
 }
-MAIN_TERR_CAT["land"] += MAIN_TERR_CAT["properties"]
+MAIN_TERR_CAT["land"].append(MAIN_TERR_CAT["properties"])
+
+
+# MAIN unit IDs with internal names
+MAIN_UNIT = {
+    0:      "Empty",
+
+    1:      "Infantry",
+    2:      "Mech",
+    11:     "APC",
+    12:     "Recon",
+    13:     "Tank",
+    14:     "MDTank",
+    15:     "Neotank",
+    16:     "Megatank",
+    17:     "AntiAir",
+    21:     "Artillery",
+    22:     "Rocket",
+    23:     "Missile",
+    24:     "PipeRunner",
+    25:     "Oozium",
+    31:     "TCopter",
+    32:     "BCopter",
+    33:     "Fighter",
+    34:     "Bomber",
+    35:     "Stealth",
+    36:     "BBomb",
+    41:     "BBoat",
+    42:     "Lander",
+    43:     "Cruiser",
+    44:     "Submarine",
+    45:     "Battleship",
+    46:     "Carrier",
+}
 
 
 # Country IDs in country order
@@ -227,400 +106,11 @@ MAIN_CTRY = {
     7:      "Grey Sky",
     8:      "Brown Desert",
     9:      "Amber Blaze",
-    10:      "Jade Sun",
+    10:     "Jade Sun",
     11:     "Cobalt Ice",
     12:     "Pink Cosmos",
     13:     "Teal Galaxy",
     14:     "Purple Lightning",
-    # 15:     "TBD",
-    # 16:     "TBD",
-    # 17:     "TBD",
-    # 18:     "TBD",
-    # 19:     "TBD",
-}
-
-
-# MAIN unit IDs with internal names
-MAIN_UNIT = {
-    0:      "Empty",
-
-    101:    "OSInfantry",
-    102:    "OSMech",
-    111:    "OSAPC",
-    112:    "OSRecon",
-    113:    "OSTank",
-    114:    "OSMDTank",
-    115:    "OSNeotank",
-    116:    "OSMegatank",
-    117:    "OSAntiAir",
-    121:    "OSArtillery",
-    122:    "OSRocket",
-    123:    "OSMissile",
-    124:    "OSPipeRunner",
-    125:    "OSOozium",
-    131:    "OSTCopter",
-    132:    "OSBCopter",
-    133:    "OSFighter",
-    134:    "OSBomber",
-    135:    "OSStealth",
-    136:    "OSBBomb",
-    141:    "OSBBoat",
-    142:    "OSLander",
-    143:    "OSCruiser",
-    144:    "OSSubmarine",
-    145:    "OSBattleship",
-    146:    "OSCarrier",
-
-    201:    "BMInfantry",
-    202:    "BMMech",
-    211:    "BMAPC",
-    212:    "BMRecon",
-    213:    "BMTank",
-    214:    "BMMDTank",
-    215:    "BMNeotank",
-    216:    "BMMegatank",
-    217:    "BMAntiAir",
-    221:    "BMArtillery",
-    222:    "BMRocket",
-    223:    "BMMissile",
-    224:    "BMPipeRunner",
-    225:    "BMOozium",
-    231:    "BMTCopter",
-    232:    "BMBCopter",
-    233:    "BMFighter",
-    234:    "BMBomber",
-    235:    "BMStealth",
-    236:    "BMBBomb",
-    241:    "BMBBoat",
-    242:    "BMLander",
-    243:    "BMCruiser",
-    244:    "BMSubmarine",
-    245:    "BMBattleship",
-    246:    "BMCarrier",
-
-    301:    "GEInfantry",
-    302:    "GEMech",
-    311:    "GEAPC",
-    312:    "GERecon",
-    313:    "GETank",
-    314:    "GEMDTank",
-    315:    "GENeotank",
-    316:    "GEMegatank",
-    317:    "GEAntiAir",
-    321:    "GEArtillery",
-    322:    "GERocket",
-    323:    "GEMissile",
-    324:    "GEPipeRunner",
-    325:    "GEOozium",
-    331:    "GETCopter",
-    332:    "GEBCopter",
-    333:    "GEFighter",
-    334:    "GEBomber",
-    335:    "GEStealth",
-    336:    "GEBBomb",
-    341:    "GEBBoat",
-    342:    "GELander",
-    343:    "GECruiser",
-    344:    "GESubmarine",
-    345:    "GEBattleship",
-    346:    "GECarrier",
-
-    401:    "YCInfantry",
-    402:    "YCMech",
-    411:    "YCAPC",
-    412:    "YCRecon",
-    413:    "YCTank",
-    414:    "YCMDTank",
-    415:    "YCNeotank",
-    416:    "YCMegatank",
-    417:    "YCAntiAir",
-    421:    "YCArtillery",
-    422:    "YCRocket",
-    423:    "YCMissile",
-    424:    "YCPipeRunner",
-    425:    "YCOozium",
-    431:    "YCTCopter",
-    432:    "YCBCopter",
-    433:    "YCFighter",
-    434:    "YCBomber",
-    435:    "YCStealth",
-    436:    "YCBBomb",
-    441:    "YCBBoat",
-    442:    "YCLander",
-    443:    "YCCruiser",
-    444:    "YCSubmarine",
-    445:    "YCBattleship",
-    446:    "YCCarrier",
-
-    501:    "BHInfantry",
-    502:    "BHMech",
-    511:    "BHAPC",
-    512:    "BHRecon",
-    513:    "BHTank",
-    514:    "BHMDTank",
-    515:    "BHNeotank",
-    516:    "BHMegatank",
-    517:    "BHAntiAir",
-    521:    "BHArtillery",
-    522:    "BHRocket",
-    523:    "BHMissile",
-    524:    "BHPipeRunner",
-    525:    "BHOozium",
-    531:    "BHTCopter",
-    532:    "BHBCopter",
-    533:    "BHFighter",
-    534:    "BHBomber",
-    535:    "BHStealth",
-    536:    "BHBBomb",
-    541:    "BHBBoat",
-    542:    "BHLander",
-    543:    "BHCruiser",
-    544:    "BHSubmarine",
-    545:    "BHBattleship",
-    546:    "BHCarrier",
-
-    601:    "RFInfantry",
-    602:    "RFMech",
-    611:    "RFAPC",
-    612:    "RFRecon",
-    613:    "RFTank",
-    614:    "RFMDTank",
-    615:    "RFNeotank",
-    616:    "RFMegatank",
-    617:    "RFAntiAir",
-    621:    "RFArtillery",
-    622:    "RFRocket",
-    623:    "RFMissile",
-    624:    "RFPipeRunner",
-    625:    "RFOozium",
-    631:    "RFTCopter",
-    632:    "RFBCopter",
-    633:    "RFFighter",
-    634:    "RFBomber",
-    635:    "RFStealth",
-    636:    "RFBBomb",
-    641:    "RFBBoat",
-    642:    "RFLander",
-    643:    "RFCruiser",
-    644:    "RFSubmarine",
-    645:    "RFBattleship",
-    646:    "RFCarrier",
-
-    701:    "GSInfantry",
-    702:    "GSMech",
-    711:    "GSAPC",
-    712:    "GSRecon",
-    713:    "GSTank",
-    714:    "GSMDTank",
-    715:    "GSNeotank",
-    716:    "GSMegatank",
-    717:    "GSAntiAir",
-    721:    "GSArtillery",
-    722:    "GSRocket",
-    723:    "GSMissile",
-    724:    "GSPipeRunner",
-    725:    "GSOozium",
-    731:    "GSTCopter",
-    732:    "GSBCopter",
-    733:    "GSFighter",
-    734:    "GSBomber",
-    735:    "GSStealth",
-    736:    "GSBBomb",
-    741:    "GSBBoat",
-    742:    "GSLander",
-    743:    "GSCruiser",
-    744:    "GSSubmarine",
-    745:    "GSBattleship",
-    746:    "GSCarrier",
-
-    801:    "BDInfantry",
-    802:    "BDMech",
-    811:    "BDAPC",
-    812:    "BDRecon",
-    813:    "BDTank",
-    814:    "BDMDTank",
-    815:    "BDNeotank",
-    816:    "BDMegatank",
-    817:    "BDAntiAir",
-    821:    "BDArtillery",
-    822:    "BDRocket",
-    823:    "BDMissile",
-    824:    "BDPipeRunner",
-    825:    "BDOozium",
-    831:    "BDTCopter",
-    832:    "BDBCopter",
-    833:    "BDFighter",
-    834:    "BDBomber",
-    835:    "BDStealth",
-    836:    "BDBBomb",
-    841:    "BDBBoat",
-    842:    "BDLander",
-    843:    "BDCruiser",
-    844:    "BDSubmarine",
-    845:    "BDBattleship",
-    846:    "BDCarrier",
-
-    901:    "ABInfantry",
-    902:    "ABMech",
-    911:    "ABAPC",
-    912:    "ABRecon",
-    913:    "ABTank",
-    914:    "ABMDTank",
-    915:    "ABNeotank",
-    916:    "ABMegatank",
-    917:    "ABAntiAir",
-    921:    "ABArtillery",
-    922:    "ABRocket",
-    923:    "ABMissile",
-    924:    "ABPipeRunner",
-    925:    "ABOozium",
-    931:    "ABTCopter",
-    932:    "ABBCopter",
-    933:    "ABFighter",
-    934:    "ABBomber",
-    935:    "ABStealth",
-    936:    "ABBBomb",
-    941:    "ABBBoat",
-    942:    "ABLander",
-    943:    "ABCruiser",
-    944:    "ABSubmarine",
-    945:    "ABBattleship",
-    946:    "ABCarrier",
-
-    1001:   "JSInfantry",
-    1002:   "JSMech",
-    1011:   "JSAPC",
-    1012:   "JSRecon",
-    1013:   "JSTank",
-    1014:   "JSMDTank",
-    1015:   "JSNeotank",
-    1016:   "JSMegatank",
-    1017:   "JSAntiAir",
-    1021:   "JSArtillery",
-    1022:   "JSRocket",
-    1023:   "JSMissile",
-    1024:   "JSPipeRunner",
-    1025:   "JSOozium",
-    1031:   "JSTCopter",
-    1032:   "JSBCopter",
-    1033:   "JSFighter",
-    1034:   "JSBomber",
-    1035:   "JSStealth",
-    1036:   "JSBBomb",
-    1041:   "JSBBoat",
-    1042:   "JSLander",
-    1043:   "JSCruiser",
-    1044:   "JSSubmarine",
-    1045:   "JSBattleship",
-    1046:   "JSCarrier",
-
-    1101:   "CIInfantry",
-    1102:   "CIMech",
-    1111:   "CIAPC",
-    1112:   "CIRecon",
-    1113:   "CITank",
-    1114:   "CIMDTank",
-    1115:   "CINeotank",
-    1116:   "CIMegatank",
-    1117:   "CIAntiAir",
-    1121:   "CIArtillery",
-    1122:   "CIRocket",
-    1123:   "CIMissile",
-    1124:   "CIPipeRunner",
-    1125:   "CIOozium",
-    1131:   "CITCopter",
-    1132:   "CIBCopter",
-    1133:   "CIFighter",
-    1134:   "CIBomber",
-    1135:   "CIStealth",
-    1136:   "CIBBomb",
-    1141:   "CIBBoat",
-    1142:   "CILander",
-    1143:   "CICruiser",
-    1144:   "CISubmarine",
-    1145:   "CIBattleship",
-    1146:   "CICarrier",
-
-    1201:   "PCInfantry",
-    1202:   "PCMech",
-    1211:   "PCAPC",
-    1212:   "PCRecon",
-    1213:   "PCTank",
-    1214:   "PCMDTank",
-    1215:   "PCNeotank",
-    1216:   "PCMegatank",
-    1217:   "PCAntiAir",
-    1221:   "PCArtillery",
-    1222:   "PCRocket",
-    1223:   "PCMissile",
-    1224:   "PCPipeRunner",
-    1225:   "PCOozium",
-    1231:   "PCTCopter",
-    1232:   "PCBCopter",
-    1233:   "PCFighter",
-    1234:   "PCBomber",
-    1235:   "PCStealth",
-    1236:   "PCBBomb",
-    1241:   "PCBBoat",
-    1242:   "PCLander",
-    1243:   "PCCruiser",
-    1244:   "PCSubmarine",
-    1245:   "PCBattleship",
-    1246:   "PCCarrier",
-
-    1301:   "TGInfantry",
-    1302:   "TGMech",
-    1311:   "TGAPC",
-    1312:   "TGRecon",
-    1313:   "TGTank",
-    1314:   "TGMDTank",
-    1315:   "TGNeotank",
-    1316:   "TGMegatank",
-    1317:   "TGAntiAir",
-    1321:   "TGArtillery",
-    1322:   "TGRocket",
-    1323:   "TGMissile",
-    1324:   "TGPipeRunner",
-    1325:   "TGOozium",
-    1331:   "TGTCopter",
-    1332:   "TGBCopter",
-    1333:   "TGFighter",
-    1334:   "TGBomber",
-    1335:   "TGStealth",
-    1336:   "TGBBomb",
-    1341:   "TGBBoat",
-    1342:   "TGLander",
-    1343:   "TGCruiser",
-    1344:   "TGSubmarine",
-    1345:   "TGBattleship",
-    1346:   "TGCarrier",
-
-    1401:   "PLInfantry",
-    1402:   "PLMech",
-    1411:   "PLAPC",
-    1412:   "PLRecon",
-    1413:   "PLTank",
-    1414:   "PLMDTank",
-    1415:   "PLNeotank",
-    1416:   "PLMegatank",
-    1417:   "PLAntiAir",
-    1421:   "PLArtillery",
-    1422:   "PLRocket",
-    1423:   "PLMissile",
-    1424:   "PLPipeRunner",
-    1425:   "PLOozium",
-    1431:   "PLTCopter",
-    1432:   "PLBCopter",
-    1433:   "PLFighter",
-    1434:   "PLBomber",
-    1435:   "PLStealth",
-    1436:   "PLBBomb",
-    1441:   "PLBBoat",
-    1442:   "PLLander",
-    1443:   "PLCruiser",
-    1444:   "PLSubmarine",
-    1445:   "PLBattleship",
-    1446:   "PLCarrier",
 }
 
 
@@ -630,881 +120,1059 @@ MAIN_UNIT = {
 
 # Relate AWS terrain IDs to MAIN terrain IDs
 AWS_TERR = {
-    0:      1,    # Plain
-    1:      4,    # Road
-    2:      5,    # BridgeH
-    3:      9,    # River
-    16:     10,   # Pipe
-    30:     8,    # Reef
-    32:     5,    # BridgeV
-    39:     7,    # Shoal
-    60:     6,    # Sea
-    90:     2,    # Wood
-    150:    3,    # Mountain
-    167:    12,   # BrokenSeam
-    226:    11,   # Seam
-    300:    111,  # OSHQ
-    301:    112,  # OSCity
-    302:    113,  # OSBase
-    303:    114,  # OSAirport
-    304:    115,  # OSSeaport
-    305:    116,  # OSTower
-    306:    117,  # NLab
-    310:    121,  # BMHQ
-    311:    122,  # BMCity
-    312:    123,  # BMBase
-    313:    124,  # BMAirport
-    314:    125,  # BMSeaport
-    315:    126,  # BMTower
-    316:    127,  # NLab
-    320:    131,  # GEHQ
-    321:    132,  # GECity
-    322:    133,  # GEBase
-    323:    134,  # GEAirport
-    324:    135,  # GESeaport
-    325:    136,  # GETower
-    326:    137,  # NLab
-    330:    141,  # YCHQ
-    331:    142,  # YCCity
-    332:    143,  # YCBase
-    333:    144,  # YCAirport
-    334:    145,  # YCSeaport
-    335:    146,  # YCTower
-    336:    147,  # NLab
-    340:    151,  # BHHQ
-    341:    152,  # BHCity
-    342:    153,  # BHBase
-    343:    154,  # BHAirport
-    344:    155,  # BHSeaport
-    345:    156,  # BHTower
-    346:    157,  # NLab
-    350:    13,   # Silo
-    351:    102,  # NCity
-    352:    103,  # Nbase
-    353:    104,  # Nairport
-    354:    105,  # NSeaport
-    355:    106,  # NTower
-    356:    107,  # NLab
-    900:    507,  # MiniCannonNorth
-    901:    510,  # MiniCannonWest
-    902:    511,  # LaserCannon
-    907:    500,  # VolcanoNWNW
-    908:    500,  # VolcanoNWN
-    909:    500,  # VolcanoNEN
-    910:    500,  # VolcanoNENE
-    911:    501,  # GiantMissileNWNW
-    912:    501,  # GiantMissileNWN
-    913:    501,  # GiantMissileNEN
-    914:    501,  # GiantMissileNENE
-    920:    509,  # MiniCannonEast
-    921:    508,  # MiniCannonSouth
-    923:    513,  # Crystal
-    927:    500,  # VolcanoNWW
-    928:    500,  # VolcanoNW
-    929:    500,  # VolcanoNE
-    930:    500,  # VolcanoNEE
-    931:    501,  # GiantMissileNWW
-    932:    501,  # GiantMissileNW
-    933:    501,  # GiantMissileNE
-    934:    501,  # GiantMissileNEE
-    940:    506,  # BlackCannonSouthNW
-    941:    506,  # BlackCannonSouthN
-    942:    506,  # BlackCannonSouthNE
-    943:    505,  # BlackCannonNorthNW
-    944:    505,  # BlackCannonNorthN
-    945:    505,  # BlackCannonNorthNE
-    947:    500,  # VolcanoSWW
-    948:    500,  # VolcanoSW
-    949:    500,  # VolcanoSE
-    950:    500,  # VolcanoSEE
-    951:    501,  # GiantMissileSWW
-    952:    501,  # GiantMissileSW
-    953:    501,  # GiantMissileSE
-    954:    501,  # GiantMissileSEE
-    960:    506,  # BlackCannonSouthW
-    961:    506,  # BlackCannonSouthC
-    962:    506,  # BlackCannonSouthE
-    963:    505,  # BlackCannonNorthW
-    964:    505,  # BlackCannonNorthC
-    965:    505,  # BlackCannonNorthE
-    967:    500,  # VolcanoSWSW
-    968:    500,  # VolcanoSWS
-    969:    500,  # VolcanoSES
-    970:    500,  # VolcanoSESE
-    971:    501,  # GiantMissileSWSW
-    972:    501,  # GiantMissileSWS
-    973:    501,  # GiantMissileSES
-    974:    501,  # GiantMissileSESE
-    980:    506,  # BlackCannonSouthSW
-    981:    506,  # BlackCannonSouthS
-    982:    506,  # BlackCannonSouthSE
-    983:    505,  # BlackCannonNorthSW
-    984:    505,  # BlackCannonNorthS
-    985:    505,  # BlackCannonNorthSE
-    987:    502,  # FortressNWNW
-    988:    502,  # FortressNWN
-    989:    502,  # FortressNEN
-    990:    502,  # FortressNENE
-    991:    503,  # FlyingFortressLandNWNW
-    992:    503,  # FlyingFortressLandNWN
-    993:    503,  # FlyingFortressLandNEN
-    994:    503,  # FlyingFortressLandNENE
-    1000:   512,  # DeathrayNW
-    1001:   512,  # DeathrayN
-    1002:   512,  # DeathrayNE
-    1003:   514,  # BlackCrystalNW
-    1004:   514,  # BlackCrystalN
-    1005:   514,  # BlackCrystalNE
-    1007:   502,  # FortressNWW
-    1008:   502,  # FortressNW
-    1009:   502,  # FortressNE
-    1010:   502,  # FortressNEE
-    1011:   503,  # FlyingFortressLandNWW
-    1012:   503,  # FlyingFortressLandNW
-    1013:   503,  # FlyingFortressLandNE
-    1014:   503,  # FlyingFortressLandNEE
-    1020:   512,  # DeathrayW
-    1021:   512,  # DeathrayC
-    1022:   512,  # DeathrayE
-    1023:   514,  # BlackCrystalW
-    1024:   514,  # BlackCrystalC
-    1025:   514,  # BlackCrystalE
-    1027:   502,  # FortressSWW
-    1028:   502,  # FortressSW
-    1029:   502,  # FortressSE
-    1030:   502,  # FortressSEE
-    1031:   503,  # FlyingFortressLandSWW
-    1032:   503,  # FlyingFortressLandSW
-    1033:   503,  # FlyingFortressLandSE
-    1034:   503,  # FlyingFortressLandSEE
-    1040:   512,  # DeathraySW
-    1041:   512,  # DeathrayS
-    1042:   512,  # DeathraySE
-    1043:   514,  # BlackCrystalSW
-    1044:   514,  # BlackCrystalS
-    1045:   514,  # BlackCrystalSE
-    1047:   502,  # FortressSWSW
-    1048:   502,  # FortressSWS
-    1049:   502,  # FortressSES
-    1050:   502,  # FortressSESE
-    1051:   503,  # FlyingFortressLandSWSW
-    1052:   503,  # FlyingFortressLandSWS
-    1053:   503,  # FlyingFortressLandSES
-    1054:   503,  # FlyingFortressLandSESE  # TODO: Add Flying Fortress SEA
+    0:      (1,   0),  # Plain
+    1:      (4,   0),  # Road
+    2:      (5,   0),  # BridgeH  # TODO: This is why awareness fucks up
+    3:      (9,   0),  # River
+    16:     (10,  0),  # Pipe
+    30:     (8,   0),  # Reef
+    32:     (5,   0),  # BridgeV  # TODO: Guess we need AWS awareness
+    39:     (7,   0),  # Shoal
+    60:     (6,   0),  # Sea
+    90:     (2,   0),  # Wood
+    150:    (3,   0),  # Mountain
+    167:    (12,  0),  # BrokenSeam
+    226:    (11,  0),  # Seam
+    300:    (111, 1),  # OSHQ
+    301:    (112, 1),  # OSCity
+    302:    (113, 1),  # OSBase
+    303:    (114, 1),  # OSAirport
+    304:    (115, 1),  # OSSeaport
+    305:    (116, 1),  # OSTower
+    306:    (117, 1),  # OSLab
+    310:    (121, 2),  # BMHQ
+    311:    (122, 2),  # BMCity
+    312:    (123, 2),  # BMBase
+    313:    (124, 2),  # BMAirport
+    314:    (125, 2),  # BMSeaport
+    315:    (126, 2),  # BMTower
+    316:    (127, 2),  # BMLab
+    320:    (131, 3),  # GEHQ
+    321:    (132, 3),  # GECity
+    322:    (133, 3),  # GEBase
+    323:    (134, 3),  # GEAirport
+    324:    (135, 3),  # GESeaport
+    325:    (136, 3),  # GETower
+    326:    (137, 3),  # GELab
+    330:    (141, 4),  # YCHQ
+    331:    (142, 4),  # YCCity
+    332:    (143, 4),  # YCBase
+    333:    (144, 4),  # YCAirport
+    334:    (145, 4),  # YCSeaport
+    335:    (146, 4),  # YCTower
+    336:    (147, 4),  # YCLab
+    340:    (151, 5),  # BHHQ
+    341:    (152, 5),  # BHCity
+    342:    (153, 5),  # BHBase
+    343:    (154, 5),  # BHAirport
+    344:    (155, 5),  # BHSeaport
+    345:    (156, 5),  # BHTower
+    346:    (157, 5),  # BHLab
+    350:    (13,  0),  # Silo
+    351:    (102, 0),  # NCity
+    352:    (103, 0),  # NBase
+    353:    (104, 0),  # NAirport
+    354:    (105, 0),  # NSeaport
+    355:    (106, 0),  # NTower
+    356:    (107, 0),  # NLab
+    900:    (507, 0),  # MiniCannonNorth
+    901:    (510, 0),  # MiniCannonWest
+    902:    (511, 0),  # LaserCannon
+    907:    (500, 0),  # VolcanoNWNW
+    908:    (500, 0),  # VolcanoNWN
+    909:    (500, 0),  # VolcanoNEN
+    910:    (500, 0),  # VolcanoNENE
+    911:    (501, 0),  # GiantMissileNWNW
+    912:    (501, 0),  # GiantMissileNWN
+    913:    (501, 0),  # GiantMissileNEN
+    914:    (501, 0),  # GiantMissileNENE
+    920:    (509, 0),  # MiniCannonEast
+    921:    (508, 0),  # MiniCannonSouth
+    923:    (513, 0),  # Crystal
+    927:    (500, 0),  # VolcanoNWW
+    928:    (500, 0),  # VolcanoNW
+    929:    (500, 0),  # VolcanoNE
+    930:    (500, 0),  # VolcanoNEE
+    931:    (501, 0),  # GiantMissileNWW
+    932:    (501, 0),  # GiantMissileNW
+    933:    (501, 0),  # GiantMissileNE
+    934:    (501, 0),  # GiantMissileNEE
+    940:    (506, 0),  # BlackCannonSouthNW
+    941:    (506, 0),  # BlackCannonSouthN
+    942:    (506, 0),  # BlackCannonSouthNE
+    943:    (505, 0),  # BlackCannonNorthNW
+    944:    (505, 0),  # BlackCannonNorthN
+    945:    (505, 0),  # BlackCannonNorthNE
+    947:    (500, 0),  # VolcanoSWW
+    948:    (500, 0),  # VolcanoSW
+    949:    (500, 0),  # VolcanoSE
+    950:    (500, 0),  # VolcanoSEE
+    951:    (501, 0),  # GiantMissileSWW
+    952:    (501, 0),  # GiantMissileSW
+    953:    (501, 0),  # GiantMissileSE
+    954:    (501, 0),  # GiantMissileSEE
+    960:    (506, 0),  # BlackCannonSouthW
+    961:    (506, 0),  # BlackCannonSouthC
+    962:    (506, 0),  # BlackCannonSouthE
+    963:    (505, 0),  # BlackCannonNorthW
+    964:    (505, 0),  # BlackCannonNorthC
+    965:    (505, 0),  # BlackCannonNorthE
+    967:    (500, 0),  # VolcanoSWSW
+    968:    (500, 0),  # VolcanoSWS
+    969:    (500, 0),  # VolcanoSES
+    970:    (500, 0),  # VolcanoSESE
+    971:    (501, 0),  # GiantMissileSWSW
+    972:    (501, 0),  # GiantMissileSWS
+    973:    (501, 0),  # GiantMissileSES
+    974:    (501, 0),  # GiantMissileSESE
+    980:    (506, 0),  # BlackCannonSouthSW
+    981:    (506, 0),  # BlackCannonSouthS
+    982:    (506, 0),  # BlackCannonSouthSE
+    983:    (505, 0),  # BlackCannonNorthSW
+    984:    (505, 0),  # BlackCannonNorthS
+    985:    (505, 0),  # BlackCannonNorthSE
+    987:    (502, 0),  # FortressNWNW
+    988:    (502, 0),  # FortressNWN
+    989:    (502, 0),  # FortressNEN
+    990:    (502, 0),  # FortressNENE
+    991:    (503, 0),  # FlyingFortressLandNWNW
+    992:    (503, 0),  # FlyingFortressLandNWN
+    993:    (503, 0),  # FlyingFortressLandNEN
+    994:    (503, 0),  # FlyingFortressLandNENE
+    1000:   (512, 0),  # DeathrayNW
+    1001:   (512, 0),  # DeathrayN
+    1002:   (512, 0),  # DeathrayNE
+    1003:   (514, 0),  # BlackCrystalNW
+    1004:   (514, 0),  # BlackCrystalN
+    1005:   (514, 0),  # BlackCrystalNE
+    1007:   (502, 0),  # FortressNWW
+    1008:   (502, 0),  # FortressNW
+    1009:   (502, 0),  # FortressNE
+    1010:   (502, 0),  # FortressNEE
+    1011:   (503, 0),  # FlyingFortressLandNWW
+    1012:   (503, 0),  # FlyingFortressLandNW
+    1013:   (503, 0),  # FlyingFortressLandNE
+    1014:   (503, 0),  # FlyingFortressLandNEE
+    1020:   (512, 0),  # DeathrayW
+    1021:   (512, 0),  # DeathrayC
+    1022:   (512, 0),  # DeathrayE
+    1023:   (514, 0),  # BlackCrystalW
+    1024:   (514, 0),  # BlackCrystalC
+    1025:   (514, 0),  # BlackCrystalE
+    1027:   (502, 0),  # FortressSWW
+    1028:   (502, 0),  # FortressSW
+    1029:   (502, 0),  # FortressSE
+    1030:   (502, 0),  # FortressSEE
+    1031:   (503, 0),  # FlyingFortressLandSWW
+    1032:   (503, 0),  # FlyingFortressLandSW
+    1033:   (503, 0),  # FlyingFortressLandSE
+    1034:   (503, 0),  # FlyingFortressLandSEE
+    1040:   (512, 0),  # DeathraySW
+    1041:   (512, 0),  # DeathrayS
+    1042:   (512, 0),  # DeathraySE
+    1043:   (514, 0),  # BlackCrystalSW
+    1044:   (514, 0),  # BlackCrystalS
+    1045:   (514, 0),  # BlackCrystalSE
+    1047:   (502, 0),  # FortressSWSW
+    1048:   (502, 0),  # FortressSWS
+    1049:   (502, 0),  # FortressSES
+    1050:   (502, 0),  # FortressSESE
+    1051:   (503, 0),  # FlyingFortressLandSWSW
+    1052:   (503, 0),  # FlyingFortressLandSWS
+    1053:   (503, 0),  # FlyingFortressLandSES
+    1054:   (503, 0),  # FlyingFortressLandSESE  # TODO: Add FlyingFortress SEA
 }
 
 
 # Relate AWS unit IDs to MAIN unit IDs
 AWS_UNIT = {
-    65535:  0,     # Empty
+    65535:  (0,  0),     # Empty
 
-    500:    101,   # OSInfantry
-    520:    102,   # OSMech
-    522:    111,   # OSAPC
-    502:    112,   # OSRecon
-    521:    113,   # OSTank
-    501:    114,   # OSMDTank
-    509:    115,   # OSNeotank
-    510:    116,   # OSMegatank
-    504:    117,   # OSAntiAir
-    503:    121,   # OSArtillery
-    523:    122,   # OSRocket
-    524:    123,   # OSMissile
-    511:    124,   # OSPipeRunner
-    512:    125,   # OSOozium
-    526:    131,   # OSTCopter
-    506:    132,   # OSBCopter
-    505:    133,   # OSFighter
-    525:    134,   # OSBomber
-    531:    135,   # OSStealth
-    532:    136,   # OSBBomb
-    529:    141,   # OSBBoat
-    508:    142,   # OSLander
-    527:    143,   # OSCruiser
-    528:    144,   # OSSubmarine
-    507:    145,   # OSBattleship
-    530:    146,   # OSCarrier
+    500:    (1,  1),   # OSInfantry
+    520:    (2,  1),   # OSMech
+    522:    (11, 1),   # OSAPC
+    502:    (12, 1),   # OSRecon
+    521:    (13, 1),   # OSTank
+    501:    (14, 1),   # OSMDTank
+    509:    (15, 1),   # OSNeotank
+    510:    (16, 1),   # OSMegatank
+    504:    (17, 1),   # OSAntiAir
+    503:    (21, 1),   # OSArtillery
+    523:    (22, 1),   # OSRocket
+    524:    (23, 1),   # OSMissile
+    511:    (24, 1),   # OSPipeRunner
+    512:    (25, 1),   # OSOozium
+    526:    (31, 1),   # OSTCopter
+    506:    (32, 1),   # OSBCopter
+    505:    (33, 1),   # OSFighter
+    525:    (34, 1),   # OSBomber
+    531:    (35, 1),   # OSStealth
+    532:    (36, 1),   # OSBBomb
+    529:    (41, 1),   # OSBBoat
+    508:    (42, 1),   # OSLander
+    527:    (43, 1),   # OSCruiser
+    528:    (44, 1),   # OSSubmarine
+    507:    (45, 1),   # OSBattleship
+    530:    (46, 1),   # OSCarrier
 
-    540:    201,   # BMInfantry
-    560:    202,   # BMMech
-    562:    211,   # BMAPC
-    542:    212,   # BMRecon
-    561:    213,   # BMTank
-    541:    214,   # BMMDTank
-    549:    215,   # BMNeotank
-    550:    216,   # BMMegatank
-    544:    217,   # BMAntiAir
-    543:    221,   # BMArtillery
-    563:    222,   # BMRocket
-    564:    223,   # BMMissile
-    551:    224,   # BMPipeRunner
-    552:    225,   # BMOozium
-    566:    231,   # BMTCopter
-    546:    232,   # BMBCopter
-    545:    233,   # BMFighter
-    565:    234,   # BMBomber
-    571:    235,   # BMStealth
-    572:    236,   # BMBBomb
-    569:    241,   # BMBBoat
-    548:    242,   # BMLander
-    567:    243,   # BMCruiser
-    568:    244,   # BMSubmarine
-    547:    245,   # BMBattleship
-    570:    246,   # BMCarrier
+    540:    (1,  2),   # BMInfantry
+    560:    (2,  2),   # BMMech
+    562:    (11, 2),   # BMAPC
+    542:    (12, 2),   # BMRecon
+    561:    (13, 2),   # BMTank
+    541:    (14, 2),   # BMMDTank
+    549:    (15, 2),   # BMNeotank
+    550:    (16, 2),   # BMMegatank
+    544:    (17, 2),   # BMAntiAir
+    543:    (21, 2),   # BMArtillery
+    563:    (22, 2),   # BMRocket
+    564:    (23, 2),   # BMMissile
+    551:    (24, 2),   # BMPipeRunner
+    552:    (25, 2),   # BMOozium
+    566:    (31, 2),   # BMTCopter
+    546:    (32, 2),   # BMBCopter
+    545:    (33, 2),   # BMFighter
+    565:    (34, 2),   # BMBomber
+    571:    (35, 2),   # BMStealth
+    572:    (36, 2),   # BMBBomb
+    569:    (41, 2),   # BMBBoat
+    548:    (42, 2),   # BMLander
+    567:    (43, 2),   # BMCruiser
+    568:    (44, 2),   # BMSubmarine
+    547:    (45, 2),   # BMBattleship
+    570:    (46, 2),   # BMCarrier
 
-    580:    301,   # GEInfantry
-    600:    302,   # GEMech
-    602:    311,   # GEAPC
-    582:    312,   # GERecon
-    601:    313,   # GETank
-    581:    314,   # GEMDTank
-    589:    315,   # GENeotank
-    590:    316,   # GEMegatank
-    584:    317,   # GEAntiAir
-    583:    321,   # GEArtillery
-    603:    322,   # GERocket
-    604:    323,   # GEMissile
-    591:    324,   # GEPipeRunner
-    592:    325,   # GEOozium
-    606:    331,   # GETCopter
-    586:    332,   # GEBCopter
-    585:    333,   # GEFighter
-    605:    334,   # GEBomber
-    611:    335,   # GEStealth
-    612:    336,   # GEBBomb
-    609:    341,   # GEBBoat
-    588:    342,   # GELander
-    607:    343,   # GECruiser
-    608:    344,   # GESubmarine
-    587:    345,   # GEBattleship
-    610:    346,   # GECarrier
+    580:    (1,  3),   # GEInfantry
+    600:    (2,  3),   # GEMech
+    602:    (11, 3),   # GEAPC
+    582:    (12, 3),   # GERecon
+    601:    (13, 3),   # GETank
+    581:    (14, 3),   # GEMDTank
+    589:    (15, 3),   # GENeotank
+    590:    (16, 3),   # GEMegatank
+    584:    (17, 3),   # GEAntiAir
+    583:    (21, 3),   # GEArtillery
+    603:    (22, 3),   # GERocket
+    604:    (23, 3),   # GEMissile
+    591:    (24, 3),   # GEPipeRunner
+    592:    (25, 3),   # GEOozium
+    606:    (31, 3),   # GETCopter
+    586:    (32, 3),   # GEBCopter
+    585:    (33, 3),   # GEFighter
+    605:    (34, 3),   # GEBomber
+    611:    (35, 3),   # GEStealth
+    612:    (36, 3),   # GEBBomb
+    609:    (41, 3),   # GEBBoat
+    588:    (42, 3),   # GELander
+    607:    (43, 3),   # GECruiser
+    608:    (44, 3),   # GESubmarine
+    587:    (45, 3),   # GEBattleship
+    610:    (46, 3),   # GECarrier
 
-    620:    401,   # YCInfantry
-    640:    402,   # YCMech
-    642:    411,   # YCAPC
-    622:    412,   # YCRecon
-    641:    413,   # YCTank
-    621:    414,   # YCMDTank
-    629:    415,   # YCNeotank
-    630:    416,   # YCMegatank
-    624:    417,   # YCAntiAir
-    623:    421,   # YCArtillery
-    643:    422,   # YCRocket
-    644:    423,   # YCMissile
-    631:    424,   # YCPipeRunner
-    632:    425,   # YCOozium
-    646:    431,   # YCTCopter
-    626:    432,   # YCBCopter
-    625:    433,   # YCFighter
-    645:    434,   # YCBomber
-    651:    435,   # YCStealth
-    652:    436,   # YCBBomb
-    649:    441,   # YCBBoat
-    628:    442,   # YCLander
-    647:    443,   # YCCruiser
-    648:    444,   # YCSubmarine
-    627:    445,   # YCBattleship
-    650:    446,   # YCCarrier
+    620:    (1,  4),   # YCInfantry
+    640:    (2,  4),   # YCMech
+    642:    (11, 4),   # YCAPC
+    622:    (12, 4),   # YCRecon
+    641:    (13, 4),   # YCTank
+    621:    (14, 4),   # YCMDTank
+    629:    (15, 4),   # YCNeotank
+    630:    (16, 4),   # YCMegatank
+    624:    (17, 4),   # YCAntiAir
+    623:    (21, 4),   # YCArtillery
+    643:    (22, 4),   # YCRocket
+    644:    (23, 4),   # YCMissile
+    631:    (24, 4),   # YCPipeRunner
+    632:    (25, 4),   # YCOozium
+    646:    (31, 4),   # YCTCopter
+    626:    (32, 4),   # YCBCopter
+    625:    (33, 4),   # YCFighter
+    645:    (34, 4),   # YCBomber
+    651:    (35, 4),   # YCStealth
+    652:    (36, 4),   # YCBBomb
+    649:    (41, 4),   # YCBBoat
+    628:    (42, 4),   # YCLander
+    647:    (43, 4),   # YCCruiser
+    648:    (44, 4),   # YCSubmarine
+    627:    (45, 4),   # YCBattleship
+    650:    (46, 4),   # YCCarrier
 
-    660:    501,   # BHInfantry
-    680:    502,   # BHMech
-    682:    511,   # BHAPC
-    662:    512,   # BHRecon
-    681:    513,   # BHTank
-    661:    514,   # BHMDTank
-    669:    515,   # BHNeotank
-    670:    516,   # BHMegatank
-    664:    517,   # BHAntiAir
-    663:    521,   # BHArtillery
-    683:    522,   # BHRocket
-    684:    523,   # BHMissile
-    671:    524,   # BHPipeRunner
-    672:    525,   # BHOozium
-    686:    531,   # BHTCopter
-    666:    532,   # BHBCopter
-    665:    533,   # BHFighter
-    685:    534,   # BHBomber
-    691:    535,   # BHStealth
-    692:    536,   # BHBBomb
-    689:    541,   # BHBBoat
-    668:    542,   # BHLander
-    687:    543,   # BHCruiser
-    688:    544,   # BHSubmarine
-    667:    545,   # BHBattleship
-    690:    546,   # BHCarrier
+    660:    (1,  5),   # BHInfantry
+    680:    (2,  5),   # BHMech
+    682:    (11, 5),   # BHAPC
+    662:    (12, 5),   # BHRecon
+    681:    (13, 5),   # BHTank
+    661:    (14, 5),   # BHMDTank
+    669:    (15, 5),   # BHNeotank
+    670:    (16, 5),   # BHMegatank
+    664:    (17, 5),   # BHAntiAir
+    663:    (21, 5),   # BHArtillery
+    683:    (22, 5),   # BHRocket
+    684:    (23, 5),   # BHMissile
+    671:    (24, 5),   # BHPipeRunner
+    672:    (25, 5),   # BHOozium
+    686:    (31, 5),   # BHTCopter
+    666:    (32, 5),   # BHBCopter
+    665:    (33, 5),   # BHFighter
+    685:    (34, 5),   # BHBomber
+    691:    (35, 5),   # BHStealth
+    692:    (36, 5),   # BHBBomb
+    689:    (41, 5),   # BHBBoat
+    668:    (42, 5),   # BHLander
+    687:    (43, 5),   # BHCruiser
+    688:    (44, 5),   # BHSubmarine
+    667:    (45, 5),   # BHBattleship
+    690:    (46, 5),   # BHCarrier
 }
 
 
-# Relate MAIN terrain IDs to AWS terr IDs
-MAIN_TERR_TO_AWS = {k: [x for x in AWS_TERR.keys() if AWS_TERR.get(x, None) == k] for k in MAIN_TERR.keys()}
-MAIN_TERR_TO_AWS[14] = [350]
-MAIN_TERR_TO_AWS[15] = [167]
-MAIN_TERR_TO_AWS[101] = [102]  # TODO: Refactor for Teletiles
-MAIN_TERR_TO_AWS[999] = [921]
-
-
-# Relate MAIN unit IDs to AWS unit IDs
-MAIN_UNIT_TO_AWS = {k: [x for x in AWS_UNIT.keys() if AWS_UNIT.get(x) == k]
-                    for k in MAIN_UNIT.keys()}
-for k, v in MAIN_UNIT_TO_AWS.items():
-    if len(v) == 0:
-        MAIN_UNIT_TO_AWS[k] = 65535
+def main_terr_to_aws(terr: int=1, ctry: int=0) -> list:
+    DEFAULT_VALUE = [0]
+    override = {
+        14:  350,  # EmptySilo overridden to Silo
+        15:  167,  # Ruin      overridden to BrokenSeam
+        101: 102,  # NHQ       overridden to NCity
+        999: 921,  # NullTile  overridden to MinicannonSouth
+    }
+    match = []
+    for k, v in AWS_TERR.items():
+        if terr in override.keys():
+            match.append(override[terr])
+            break
+        if (terr, ctry) == v:
+            match.append(k)
+    if match:
+        return match
     else:
-        MAIN_UNIT_TO_AWS[k] = v[0]
+        return DEFAULT_VALUE
+
+
+def main_unit_to_aws(unit: int=0, ctry: int=1) -> list:
+    DEFAULT_VALUE = [65535]
+    match = []
+    for k, v in AWS_UNIT.items():
+        if (unit, ctry) == v:
+            match.append(k)
+    if match:
+        return match
+    else:
+        return DEFAULT_VALUE
 
 
 """###########################
    # Advance Wars By Web IDs #
    ###########################"""
 
+# # Relate AWBW terrain IDs to MAIN terrain IDs
+# AWBW_TERR = {
+#     "":     999,  # Teleport Tile
+#     1:      1,    # Plain
+#     2:      3,    # Mountain
+#     3:      2,    # Wood
+#     4:      9,    # HRiver
+#     5:      9,    # VRiver
+#     6:      9,    # CRiver
+#     7:      9,    # ESRiver
+#     8:      9,    # SWRiver
+#     9:      9,    # WNRiver
+#     10:     9,    # NERiver
+#     11:     9,    # ESWRiver
+#     12:     9,    # SWNRiver
+#     13:     9,    # WNERiver
+#     14:     9,    # NESRiver
+#     15:     4,    # HRoad
+#     16:     4,    # VRoad
+#     17:     4,    # CRoad
+#     18:     4,    # ESRoad
+#     19:     4,    # SWRoad
+#     20:     4,    # WNRoad
+#     21:     4,    # NERoad
+#     22:     4,    # ESWRoad
+#     23:     4,    # SWNRoad
+#     24:     4,    # WNERoad
+#     25:     4,    # NESRoad
+#     26:     5,    # HBridge
+#     27:     5,    # VBridge
+#     28:     6,    # Sea
+#     29:     7,    # HShoal
+#     30:     7,    # HShoalN
+#     31:     7,    # VShoal
+#     32:     7,    # VShoalE
+#     33:     8,    # Reef
+#     34:     102,  # Neutral City
+#     35:     103,  # Neutral Base
+#     36:     104,  # Neutral Airport
+#     37:     105,  # Neutral Port
+#     38:     112,  # Orange Star City
+#     39:     113,  # Orange Star Base
+#     40:     114,  # Orange Star Airport
+#     41:     115,  # Orange Star Port
+#     42:     111,  # Orange Star HQ
+#     43:     122,  # Blue Moon City
+#     44:     123,  # Blue Moon Base
+#     45:     124,  # Blue Moon Airport
+#     46:     125,  # Blue Moon Port
+#     47:     121,  # Blue Moon HQ
+#     48:     132,  # Green Earth City
+#     49:     133,  # Green Earth Base
+#     50:     134,  # Green Earth Airport
+#     51:     135,  # Green Earth Port
+#     52:     131,  # Green Earth HQ
+#     53:     142,  # Yellow Comet City
+#     54:     143,  # Yellow Comet Base
+#     55:     144,  # Yellow Comet Airport
+#     56:     145,  # Yellow Comet Port
+#     57:     141,  # Yellow Comet HQ
+#     81:     162,  # Red Fire City
+#     82:     163,  # Red Fire Base
+#     83:     164,  # Red Fire Airport
+#     84:     165,  # Red Fire Port
+#     85:     161,  # Red Fire HQ
+#     86:     172,  # Grey Sky City
+#     87:     173,  # Grey Sky Base
+#     88:     174,  # Grey Sky Airport
+#     89:     175,  # Grey Sky Port
+#     90:     171,  # Grey Sky HQ
+#     91:     152,  # Black Hole City
+#     92:     153,  # Black Hole Base
+#     93:     154,  # Black Hole Airport
+#     94:     155,  # Black Hole Port
+#     95:     151,  # Black Hole HQ
+#     96:     182,  # Brown Desert City
+#     97:     183,  # Brown Desert Base
+#     98:     184,  # Brown Desert Airport
+#     99:     185,  # Brown Desert Port
+#     100:    181,  # Brown Desert HQ
+#     101:    10,   # VPipe
+#     102:    10,   # HPipe
+#     103:    10,   # NEPipe
+#     104:    10,   # ESPipe
+#     105:    10,   # SWPipe
+#     106:    10,   # WNPipe
+#     107:    10,   # NPipe End
+#     108:    10,   # EPipe End
+#     109:    10,   # SPipe End
+#     110:    10,   # WPipe End
+#     111:    13,   # Missile Silo
+#     112:    14,   # Missile Silo Empty
+#     113:    11,   # HPipe Seam
+#     114:    11,   # VPipe Seam
+#     115:    12,   # HPipe Rubble
+#     116:    12,   # VPipe Rubble
+#     117:    194,  # Amber Blaze Airport
+#     118:    193,  # Amber Blaze Base
+#     119:    192,  # Amber Blaze City
+#     120:    191,  # Amber Blaze HQ
+#     121:    195,  # Amber Blaze Port
+#     122:    204,  # Jade Sun Airport
+#     123:    203,  # Jade Sun Base
+#     124:    202,  # Jade Sun City
+#     125:    201,  # Jade Sun HQ
+#     126:    205,  # Jade Sun Port
+#     127:    196,  # Amber Blaze Com Tower
+#     128:    156,  # Black Hole Com Tower
+#     129:    126,  # Blue Moon Com Tower
+#     130:    186,  # Brown Desert Com Tower
+#     131:    136,  # Green Earth Com Tower
+#     132:    206,  # Jade Sun Com Tower
+#     133:    106,  # Neutral Com Tower
+#     134:    116,  # Orange Star Com Tower
+#     135:    166,  # Red Fire Com Tower
+#     136:    146,  # Yellow Comet Com Tower
+#     137:    176,  # Grey Sky Com Tower
+#     138:    197,  # Amber Blaze Lab
+#     139:    157,  # Black Hole Lab
+#     140:    127,  # Blue Moon Lab
+#     141:    187,  # Brown Desert Lab
+#     142:    137,  # Green Earth Lab
+#     143:    177,  # Grey Sky Lab
+#     144:    207,  # Jade Sun Lab
+#     145:    107,  # Neutral Lab
+#     146:    117,  # Orange Star Lab
+#     147:    167,  # Red Fire Lab
+#     148:    147,  # Yellow Comet Lab
+#     149:    214,  # Cobalt Ice Airport
+#     150:    213,  # Cobalt Ice Base
+#     151:    212,  # Cobalt Ice City
+#     152:    216,  # Cobalt Ice Com Tower
+#     153:    211,  # Cobalt Ice HQ
+#     154:    217,  # Cobalt Ice Lab
+#     155:    215,  # Cobalt Ice Port
+#     156:    224,  # Pink Cosmos Airport
+#     157:    223,  # Pink Cosmos Base
+#     158:    222,  # Pink Cosmos City
+#     159:    226,  # Pink Cosmos Com Tower
+#     160:    221,  # Pink Cosmos HQ
+#     161:    227,  # Pink Cosmos Lab
+#     162:    225,  # Pink Cosmos Port
+#     163:    234,  # Teal Galaxy Airport
+#     164:    233,  # Teal Galaxy Base
+#     165:    232,  # Teal Galaxy City
+#     166:    236,  # Teal Galaxy Com Tower
+#     167:    231,  # Teal Galaxy HQ
+#     168:    237,  # Teal Galaxy Lab
+#     169:    235,  # Teal Galaxy Port
+#     170:    244,  # Purple Lightning Airport
+#     171:    243,  # Purple Lightning Base
+#     172:    242,  # Purple Lightning City
+#     173:    246,  # Purple Lightning Com Tower
+#     174:    241,  # Purple Lightning HQ
+#     175:    247,  # Purple Lightning Lab
+#     176:    245,  # Purple Lightning Port
+# }
+
+
 # Relate AWBW terrain IDs to MAIN terrain IDs
 AWBW_TERR = {
-    "":     999,  # Teleport Tile
-    1:      1,    # Plain
-    2:      3,    # Mountain
-    3:      2,    # Wood
-    4:      9,    # HRiver
-    5:      9,    # VRiver
-    6:      9,    # CRiver
-    7:      9,    # ESRiver
-    8:      9,    # SWRiver
-    9:      9,    # WNRiver
-    10:     9,    # NERiver
-    11:     9,    # ESWRiver
-    12:     9,    # SWNRiver
-    13:     9,    # WNERiver
-    14:     9,    # NESRiver
-    15:     4,    # HRoad
-    16:     4,    # VRoad
-    17:     4,    # CRoad
-    18:     4,    # ESRoad
-    19:     4,    # SWRoad
-    20:     4,    # WNRoad
-    21:     4,    # NERoad
-    22:     4,    # ESWRoad
-    23:     4,    # SWNRoad
-    24:     4,    # WNERoad
-    25:     4,    # NESRoad
-    26:     5,    # HBridge
-    27:     5,    # VBridge
-    28:     6,    # Sea
-    29:     7,    # HShoal
-    30:     7,    # HShoalN
-    31:     7,    # VShoal
-    32:     7,    # VShoalE
-    33:     8,    # Reef
-    34:     102,  # Neutral City
-    35:     103,  # Neutral Base
-    36:     104,  # Neutral Airport
-    37:     105,  # Neutral Port
-    38:     112,  # Orange Star City
-    39:     113,  # Orange Star Base
-    40:     114,  # Orange Star Airport
-    41:     115,  # Orange Star Port
-    42:     111,  # Orange Star HQ
-    43:     122,  # Blue Moon City
-    44:     123,  # Blue Moon Base
-    45:     124,  # Blue Moon Airport
-    46:     125,  # Blue Moon Port
-    47:     121,  # Blue Moon HQ
-    48:     132,  # Green Earth City
-    49:     133,  # Green Earth Base
-    50:     134,  # Green Earth Airport
-    51:     135,  # Green Earth Port
-    52:     131,  # Green Earth HQ
-    53:     142,  # Yellow Comet City
-    54:     143,  # Yellow Comet Base
-    55:     144,  # Yellow Comet Airport
-    56:     145,  # Yellow Comet Port
-    57:     141,  # Yellow Comet HQ
-    81:     162,  # Red Fire City
-    82:     163,  # Red Fire Base
-    83:     164,  # Red Fire Airport
-    84:     165,  # Red Fire Port
-    85:     161,  # Red Fire HQ
-    86:     172,  # Grey Sky City
-    87:     173,  # Grey Sky Base
-    88:     174,  # Grey Sky Airport
-    89:     175,  # Grey Sky Port
-    90:     171,  # Grey Sky HQ
-    91:     152,  # Black Hole City
-    92:     153,  # Black Hole Base
-    93:     154,  # Black Hole Airport
-    94:     155,  # Black Hole Port
-    95:     151,  # Black Hole HQ
-    96:     182,  # Brown Desert City
-    97:     183,  # Brown Desert Base
-    98:     184,  # Brown Desert Airport
-    99:     185,  # Brown Desert Port
-    100:    181,  # Brown Desert HQ
-    101:    10,   # VPipe
-    102:    10,   # HPipe
-    103:    10,   # NEPipe
-    104:    10,   # ESPipe
-    105:    10,   # SWPipe
-    106:    10,   # WNPipe
-    107:    10,   # NPipe End
-    108:    10,   # EPipe End
-    109:    10,   # SPipe End
-    110:    10,   # WPipe End
-    111:    13,   # Missile Silo
-    112:    14,   # Missile Silo Empty
-    113:    11,   # HPipe Seam
-    114:    11,   # VPipe Seam
-    115:    12,   # HPipe Rubble
-    116:    12,   # VPipe Rubble
-    117:    194,  # Amber Blaze Airport
-    118:    193,  # Amber Blaze Base
-    119:    192,  # Amber Blaze City
-    120:    191,  # Amber Blaze HQ
-    121:    195,  # Amber Blaze Port
-    122:    204,  # Jade Sun Airport
-    123:    203,  # Jade Sun Base
-    124:    202,  # Jade Sun City
-    125:    201,  # Jade Sun HQ
-    126:    205,  # Jade Sun Port
-    127:    196,  # Amber Blaze Com Tower
-    128:    156,  # Black Hole Com Tower
-    129:    126,  # Blue Moon Com Tower
-    130:    186,  # Brown Desert Com Tower
-    131:    136,  # Green Earth Com Tower
-    132:    206,  # Jade Sun Com Tower
-    133:    106,  # Neutral Com Tower
-    134:    116,  # Orange Star Com Tower
-    135:    166,  # Red Fire Com Tower
-    136:    146,  # Yellow Comet Com Tower
-    137:    176,  # Grey Sky Com Tower
-    138:    197,  # Amber Blaze Lab
-    139:    157,  # Black Hole Lab
-    140:    127,  # Blue Moon Lab
-    141:    187,  # Brown Desert Lab
-    142:    137,  # Green Earth Lab
-    143:    177,  # Grey Sky Lab
-    144:    207,  # Jade Sun Lab
-    145:    107,  # Neutral Lab
-    146:    117,  # Orange Star Lab
-    147:    167,  # Red Fire Lab
-    148:    147,  # Yellow Comet Lab
-    149:    214,  # Cobalt Ice Airport
-    150:    213,  # Cobalt Ice Base
-    151:    212,  # Cobalt Ice City
-    152:    216,  # Cobalt Ice Com Tower
-    153:    211,  # Cobalt Ice HQ
-    154:    217,  # Cobalt Ice Lab
-    155:    215,  # Cobalt Ice Port
-    156:    224,  # Pink Cosmos Airport
-    157:    223,  # Pink Cosmos Base
-    158:    222,  # Pink Cosmos City
-    159:    226,  # Pink Cosmos Com Tower
-    160:    221,  # Pink Cosmos HQ
-    161:    227,  # Pink Cosmos Lab
-    162:    225,  # Pink Cosmos Port
-    163:    234,  # Teal Galaxy Airport
-    164:    233,  # Teal Galaxy Base
-    165:    232,  # Teal Galaxy City
-    166:    236,  # Teal Galaxy Com Tower
-    167:    231,  # Teal Galaxy HQ
-    168:    237,  # Teal Galaxy Lab
-    169:    235,  # Teal Galaxy Port
-    170:    244,  # Purple Lightning Airport
-    171:    243,  # Purple Lightning Base
-    172:    242,  # Purple Lightning City
-    173:    246,  # Purple Lightning Com Tower
-    174:    241,  # Purple Lightning HQ
-    175:    247,  # Purple Lightning Lab
-    176:    245,  # Purple Lightning Port
+    "":     (999,  0),  # Teleport Tile
+    1:      (1,    0),  # Plain
+    2:      (3,    0),  # Mountain
+    3:      (2,    0),  # Wood
+    4:      (9,    0),  # HRiver
+    5:      (9,    0),  # VRiver
+    6:      (9,    0),  # CRiver
+    7:      (9,    0),  # ESRiver
+    8:      (9,    0),  # SWRiver
+    9:      (9,    0),  # WNRiver
+    10:     (9,    0),  # NERiver
+    11:     (9,    0),  # ESWRiver
+    12:     (9,    0),  # SWNRiver
+    13:     (9,    0),  # WNERiver
+    14:     (9,    0),  # NESRiver
+    15:     (4,    0),  # HRoad
+    16:     (4,    0),  # VRoad
+    17:     (4,    0),  # CRoad
+    18:     (4,    0),  # ESRoad
+    19:     (4,    0),  # SWRoad
+    20:     (4,    0),  # WNRoad
+    21:     (4,    0),  # NERoad
+    22:     (4,    0),  # ESWRoad
+    23:     (4,    0),  # SWNRoad
+    24:     (4,    0),  # WNERoad
+    25:     (4,    0),  # NESRoad
+    26:     (5,    0),  # HBridge
+    27:     (5,    0),  # VBridge
+    28:     (6,    0),  # Sea
+    29:     (7,    0),  # HShoal
+    30:     (7,    0),  # HShoalN
+    31:     (7,    0),  # VShoal
+    32:     (7,    0),  # VShoalE
+    33:     (8,    0),  # Reef
+    34:     (102,  0),  # Neutral City
+    35:     (103,  0),  # Neutral Base
+    36:     (104,  0),  # Neutral Airport
+    37:     (105,  0),  # Neutral Port
+    38:     (102,  1),  # Orange Star City
+    39:     (103,  1),  # Orange Star Base
+    40:     (104,  1),  # Orange Star Airport
+    41:     (105,  1),  # Orange Star Port
+    42:     (101,  1),  # Orange Star HQ
+    43:     (102,  2),  # Blue Moon City
+    44:     (103,  2),  # Blue Moon Base
+    45:     (104,  2),  # Blue Moon Airport
+    46:     (105,  2),  # Blue Moon Port
+    47:     (101,  2),  # Blue Moon HQ
+    48:     (102,  3),  # Green Earth City
+    49:     (103,  3),  # Green Earth Base
+    50:     (104,  3),  # Green Earth Airport
+    51:     (105,  3),  # Green Earth Port
+    52:     (101,  3),  # Green Earth HQ
+    53:     (102,  4),  # Yellow Comet City
+    54:     (103,  4),  # Yellow Comet Base
+    55:     (104,  4),  # Yellow Comet Airport
+    56:     (105,  4),  # Yellow Comet Port
+    57:     (101,  4),  # Yellow Comet HQ
+    81:     (102,  6),  # Red Fire City
+    82:     (103,  6),  # Red Fire Base
+    83:     (104,  6),  # Red Fire Airport
+    84:     (105,  6),  # Red Fire Port
+    85:     (101,  6),  # Red Fire HQ
+    86:     (102,  7),  # Grey Sky City
+    87:     (103,  7),  # Grey Sky Base
+    88:     (104,  7),  # Grey Sky Airport
+    89:     (105,  7),  # Grey Sky Port
+    90:     (101,  7),  # Grey Sky HQ
+    91:     (102,  5),  # Black Hole City
+    92:     (103,  5),  # Black Hole Base
+    93:     (104,  5),  # Black Hole Airport
+    94:     (105,  5),  # Black Hole Port
+    95:     (101,  5),  # Black Hole HQ
+    96:     (102,  8),  # Brown Desert City
+    97:     (103,  8),  # Brown Desert Base
+    98:     (104,  8),  # Brown Desert Airport
+    99:     (105,  8),  # Brown Desert Port
+    100:    (101,  8),  # Brown Desert HQ
+    101:    (10,   0),  # VPipe
+    102:    (10,   0),  # HPipe
+    103:    (10,   0),  # NEPipe
+    104:    (10,   0),  # ESPipe
+    105:    (10,   0),  # SWPipe
+    106:    (10,   0),  # WNPipe
+    107:    (10,   0),  # NPipe End
+    108:    (10,   0),  # EPipe End
+    109:    (10,   0),  # SPipe End
+    110:    (10,   0),  # WPipe End
+    111:    (13,   0),  # Missile Silo
+    112:    (14,   0),  # Missile Silo Empty
+    113:    (11,   0),  # HPipe Seam
+    114:    (11,   0),  # VPipe Seam
+    115:    (12,   0),  # HPipe Rubble
+    116:    (12,   0),  # VPipe Rubble
+    117:    (104,  9),  # Amber Blaze Airport
+    118:    (103,  9),  # Amber Blaze Base
+    119:    (102,  9),  # Amber Blaze City
+    120:    (101,  9),  # Amber Blaze HQ
+    121:    (105,  9),  # Amber Blaze Port
+    122:    (104, 10),  # Jade Sun Airport
+    123:    (103, 10),  # Jade Sun Base
+    124:    (102, 10),  # Jade Sun City
+    125:    (101, 10),  # Jade Sun HQ
+    126:    (105, 10),  # Jade Sun Port
+    127:    (106,  9),  # Amber Blaze Com Tower
+    128:    (106,  5),  # Black Hole Com Tower
+    129:    (106,  2),  # Blue Moon Com Tower
+    130:    (106,  8),  # Brown Desert Com Tower
+    131:    (106,  3),  # Green Earth Com Tower
+    132:    (106, 10),  # Jade Sun Com Tower
+    133:    (106,  0),  # Neutral Com Tower
+    134:    (106,  1),  # Orange Star Com Tower
+    135:    (106,  6),  # Red Fire Com Tower
+    136:    (106,  4),  # Yellow Comet Com Tower
+    137:    (106,  7),  # Grey Sky Com Tower
+    138:    (107,  9),  # Amber Blaze Lab
+    139:    (107,  5),  # Black Hole Lab
+    140:    (107,  2),  # Blue Moon Lab
+    141:    (107,  8),  # Brown Desert Lab
+    142:    (107,  3),  # Green Earth Lab
+    143:    (107,  7),  # Grey Sky Lab
+    144:    (107, 10),  # Jade Sun Lab
+    145:    (107,  0),  # Neutral Lab
+    146:    (107,  1),  # Orange Star Lab
+    147:    (107,  6),  # Red Fire Lab
+    148:    (107,  4),  # Yellow Comet Lab
+    149:    (104, 11),  # Cobalt Ice Airport
+    150:    (103, 11),  # Cobalt Ice Base
+    151:    (102, 11),  # Cobalt Ice City
+    152:    (106, 11),  # Cobalt Ice Com Tower
+    153:    (101, 11),  # Cobalt Ice HQ
+    154:    (107, 11),  # Cobalt Ice Lab
+    155:    (105, 11),  # Cobalt Ice Port
+    156:    (104, 12),  # Pink Cosmos Airport
+    157:    (103, 12),  # Pink Cosmos Base
+    158:    (102, 12),  # Pink Cosmos City
+    159:    (106, 12),  # Pink Cosmos Com Tower
+    160:    (101, 12),  # Pink Cosmos HQ
+    161:    (107, 12),  # Pink Cosmos Lab
+    162:    (105, 12),  # Pink Cosmos Port
+    163:    (104, 13),  # Teal Galaxy Airport
+    164:    (103, 13),  # Teal Galaxy Base
+    165:    (102, 13),  # Teal Galaxy City
+    166:    (106, 13),  # Teal Galaxy Com Tower
+    167:    (101, 13),  # Teal Galaxy HQ
+    168:    (107, 13),  # Teal Galaxy Lab
+    169:    (105, 13),  # Teal Galaxy Port
+    170:    (104, 14),  # Purple Lightning Airport
+    171:    (103, 14),  # Purple Lightning Base
+    172:    (102, 14),  # Purple Lightning City
+    173:    (106, 14),  # Purple Lightning Com Tower
+    174:    (101, 14),  # Purple Lightning HQ
+    175:    (107, 14),  # Purple Lightning Lab
+    176:    (105, 14),  # Purple Lightning Port
 }
+
+
+def main_terr_to_awbw(terr: int=1, ctry: int=0) -> list:
+    DEFAULT_VALUE = [""]
+    match = []
+    for k, v in AWBW_TERR.items():
+        if (terr, ctry) == v:
+            match.append(k)
+    if match:
+        return match
+    else:
+        return DEFAULT_VALUE
 
 
 # Relate AWBW unit GIF name to MAIN unit IDs
 AWBW_UNIT_SPRITE = {
-    'osinfantry.gif':        101,
-    'bminfantry.gif':        201,
-    'geinfantry.gif':        301,
-    'ycinfantry.gif':        401,
-    'bhinfantry.gif':        501,
-    'rfinfantry.gif':        601,
-    'gsinfantry.gif':        701,
-    'bdinfantry.gif':        801,
-    'abinfantry.gif':        901,
-    'jsinfantry.gif':       1001,
-    'ciinfantry.gif':       1101,
-    'pcinfantry.gif':       1201,
-    'tginfantry.gif':       1301,
-    'plinfantry.gif':       1401,
+    'osinfantry.gif':       (1,  1),
+    'bminfantry.gif':       (1,  2),
+    'geinfantry.gif':       (1,  3),
+    'ycinfantry.gif':       (1,  4),
+    'bhinfantry.gif':       (1,  5),
+    'rfinfantry.gif':       (1,  6),
+    'gsinfantry.gif':       (1,  7),
+    'bdinfantry.gif':       (1,  8),
+    'abinfantry.gif':       (1,  9),
+    'jsinfantry.gif':       (1, 10),
+    'ciinfantry.gif':       (1, 11),
+    'pcinfantry.gif':       (1, 12),
+    'tginfantry.gif':       (1, 13),
+    'plinfantry.gif':       (1, 14),
 
-    'osmech.gif':            102,
-    'bmmech.gif':            202,
-    'gemech.gif':            302,
-    'ycmech.gif':            402,
-    'bhmech.gif':            502,
-    'rfmech.gif':            602,
-    'gsmech.gif':            702,
-    'bdmech.gif':            802,
-    'abmech.gif':            902,
-    'jsmech.gif':           1002,
-    'cimech.gif':           1102,
-    'pcmech.gif':           1202,
-    'tgmech.gif':           1302,
-    'plmech.gif':           1402,
+    'osmech.gif':           (2,  1),
+    'bmmech.gif':           (2,  2),
+    'gemech.gif':           (2,  3),
+    'ycmech.gif':           (2,  4),
+    'bhmech.gif':           (2,  5),
+    'rfmech.gif':           (2,  6),
+    'gsmech.gif':           (2,  7),
+    'bdmech.gif':           (2,  8),
+    'abmech.gif':           (2,  9),
+    'jsmech.gif':           (2, 10),
+    'cimech.gif':           (2, 11),
+    'pcmech.gif':           (2, 12),
+    'tgmech.gif':           (2, 13),
+    'plmech.gif':           (2, 14),
 
-    'osapc.gif':             111,
-    'bmapc.gif':             211,
-    'geapc.gif':             311,
-    'ycapc.gif':             411,
-    'bhapc.gif':             511,
-    'rfapc.gif':             611,
-    'gsapc.gif':             711,
-    'bdapc.gif':             811,
-    'abapc.gif':             911,
-    'jsapc.gif':            1011,
-    'ciapc.gif':            1111,
-    'pcapc.gif':            1211,
-    'tgapc.gif':            1311,
-    'plapc.gif':            1411,
+    'osapc.gif':            (11,  1),
+    'bmapc.gif':            (11,  2),
+    'geapc.gif':            (11,  3),
+    'ycapc.gif':            (11,  4),
+    'bhapc.gif':            (11,  5),
+    'rfapc.gif':            (11,  6),
+    'gsapc.gif':            (11,  7),
+    'bdapc.gif':            (11,  8),
+    'abapc.gif':            (11,  9),
+    'jsapc.gif':            (11, 10),
+    'ciapc.gif':            (11, 11),
+    'pcapc.gif':            (11, 12),
+    'tgapc.gif':            (11, 13),
+    'plapc.gif':            (11, 14),
 
-    'osrecon.gif':           112,
-    'bmrecon.gif':           212,
-    'gerecon.gif':           312,
-    'ycrecon.gif':           412,
-    'bhrecon.gif':           512,
-    'rfrecon.gif':           612,
-    'gsrecon.gif':           712,
-    'bdrecon.gif':           812,
-    'abrecon.gif':           912,
-    'jsrecon.gif':          1012,
-    'cirecon.gif':          1112,
-    'pcrecon.gif':          1212,
-    'tgrecon.gif':          1312,
-    'plrecon.gif':          1412,
+    'osrecon.gif':          (12,  1),
+    'bmrecon.gif':          (12,  2),
+    'gerecon.gif':          (12,  3),
+    'ycrecon.gif':          (12,  4),
+    'bhrecon.gif':          (12,  5),
+    'rfrecon.gif':          (12,  6),
+    'gsrecon.gif':          (12,  7),
+    'bdrecon.gif':          (12,  8),
+    'abrecon.gif':          (12,  9),
+    'jsrecon.gif':          (12, 10),
+    'cirecon.gif':          (12, 11),
+    'pcrecon.gif':          (12, 12),
+    'tgrecon.gif':          (12, 13),
+    'plrecon.gif':          (12, 14),
 
-    'ostank.gif':            113,
-    'bmtank.gif':            213,
-    'getank.gif':            313,
-    'yctank.gif':            413,
-    'bhtank.gif':            513,
-    'rftank.gif':            613,
-    'gstank.gif':            713,
-    'bdtank.gif':            813,
-    'abtank.gif':            913,
-    'jstank.gif':           1013,
-    'citank.gif':           1113,
-    'pctank.gif':           1213,
-    'tgtank.gif':           1313,
-    'pltank.gif':           1413,
+    'ostank.gif':           (13,  1),
+    'bmtank.gif':           (13,  2),
+    'getank.gif':           (13,  3),
+    'yctank.gif':           (13,  4),
+    'bhtank.gif':           (13,  5),
+    'rftank.gif':           (13,  6),
+    'gstank.gif':           (13,  7),
+    'bdtank.gif':           (13,  8),
+    'abtank.gif':           (13,  9),
+    'jstank.gif':           (13, 10),
+    'citank.gif':           (13, 11),
+    'pctank.gif':           (13, 12),
+    'tgtank.gif':           (13, 13),
+    'pltank.gif':           (13, 14),
 
-    'osmd.tank.gif':         114,
-    'bmmd.tank.gif':         214,
-    'gemd.tank.gif':         314,
-    'ycmd.tank.gif':         414,
-    'bhmd.tank.gif':         514,
-    'rfmd.tank.gif':         614,
-    'gsmd.tank.gif':         714,
-    'bdmd.tank.gif':         814,
-    'abmd.tank.gif':         914,
-    'jsmd.tank.gif':        1014,
-    'cimd.tank.gif':        1114,
-    'pcmd.tank.gif':        1214,
-    'tgmd.tank.gif':        1314,
-    'plmd.tank.gif':        1414,
+    'osmd.tank.gif':        (14,  1),
+    'bmmd.tank.gif':        (14,  2),
+    'gemd.tank.gif':        (14,  3),
+    'ycmd.tank.gif':        (14,  4),
+    'bhmd.tank.gif':        (14,  5),
+    'rfmd.tank.gif':        (14,  6),
+    'gsmd.tank.gif':        (14,  7),
+    'bdmd.tank.gif':        (14,  8),
+    'abmd.tank.gif':        (14,  9),
+    'jsmd.tank.gif':        (14, 10),
+    'cimd.tank.gif':        (14, 11),
+    'pcmd.tank.gif':        (14, 12),
+    'tgmd.tank.gif':        (14, 13),
+    'plmd.tank.gif':        (14, 14),
 
-    'osneotank.gif':         115,
-    'bmneotank.gif':         215,
-    'geneotank.gif':         315,
-    'ycneotank.gif':         415,
-    'bhneotank.gif':         515,
-    'rfneotank.gif':         615,
-    'gsneotank.gif':         715,
-    'bdneotank.gif':         815,
-    'abneotank.gif':         915,
-    'jsneotank.gif':        1015,
-    'cineotank.gif':        1115,
-    'pcneotank.gif':        1215,
-    'tgneotank.gif':        1315,
-    'plneotank.gif':        1415,
+    'osneotank.gif':        (15,  1),
+    'bmneotank.gif':        (15,  2),
+    'geneotank.gif':        (15,  3),
+    'ycneotank.gif':        (15,  4),
+    'bhneotank.gif':        (15,  5),
+    'rfneotank.gif':        (15,  6),
+    'gsneotank.gif':        (15,  7),
+    'bdneotank.gif':        (15,  8),
+    'abneotank.gif':        (15,  9),
+    'jsneotank.gif':        (15, 10),
+    'cineotank.gif':        (15, 11),
+    'pcneotank.gif':        (15, 12),
+    'tgneotank.gif':        (15, 13),
+    'plneotank.gif':        (15, 14),
 
-    'osmegatank.gif':        116,
-    'bmmegatank.gif':        216,
-    'gemegatank.gif':        316,
-    'ycmegatank.gif':        416,
-    'bhmegatank.gif':        516,
-    'rfmegatank.gif':        616,
-    'gsmegatank.gif':        716,
-    'bdmegatank.gif':        816,
-    'abmegatank.gif':        916,
-    'jsmegatank.gif':       1016,
-    'cimegatank.gif':       1116,
-    'pcmegatank.gif':       1216,
-    'tgmegatank.gif':       1316,
-    'plmegatank.gif':       1416,
+    'osmegatank.gif':       (16,  1),
+    'bmmegatank.gif':       (16,  2),
+    'gemegatank.gif':       (16,  3),
+    'ycmegatank.gif':       (16,  4),
+    'bhmegatank.gif':       (16,  5),
+    'rfmegatank.gif':       (16,  6),
+    'gsmegatank.gif':       (16,  7),
+    'bdmegatank.gif':       (16,  8),
+    'abmegatank.gif':       (16,  9),
+    'jsmegatank.gif':       (16, 10),
+    'cimegatank.gif':       (16, 11),
+    'pcmegatank.gif':       (16, 12),
+    'tgmegatank.gif':       (16, 13),
+    'plmegatank.gif':       (16, 14),
 
-    'osanti-air.gif':        117,
-    'bmanti-air.gif':        217,
-    'geanti-air.gif':        317,
-    'ycanti-air.gif':        417,
-    'bhanti-air.gif':        517,
-    'rfanti-air.gif':        617,
-    'gsanti-air.gif':        717,
-    'bdanti-air.gif':        817,
-    'abanti-air.gif':        917,
-    'jsanti-air.gif':       1017,
-    'cianti-air.gif':       1117,
-    'pcanti-air.gif':       1217,
-    'tganti-air.gif':       1317,
-    'planti-air.gif':       1417,
+    'osanti-air.gif':       (17,  1),
+    'bmanti-air.gif':       (17,  2),
+    'geanti-air.gif':       (17,  3),
+    'ycanti-air.gif':       (17,  4),
+    'bhanti-air.gif':       (17,  5),
+    'rfanti-air.gif':       (17,  6),
+    'gsanti-air.gif':       (17,  7),
+    'bdanti-air.gif':       (17,  8),
+    'abanti-air.gif':       (17,  9),
+    'jsanti-air.gif':       (17, 10),
+    'cianti-air.gif':       (17, 11),
+    'pcanti-air.gif':       (17, 12),
+    'tganti-air.gif':       (17, 13),
+    'planti-air.gif':       (17, 14),
 
-    'osartillery.gif':       121,
-    'bmartillery.gif':       221,
-    'geartillery.gif':       321,
-    'ycartillery.gif':       421,
-    'bhartillery.gif':       521,
-    'rfartillery.gif':       621,
-    'gsartillery.gif':       721,
-    'bdartillery.gif':       821,
-    'abartillery.gif':       921,
-    'jsartillery.gif':      1021,
-    'ciartillery.gif':      1121,
-    'pcartillery.gif':      1221,
-    'tgartillery.gif':      1321,
-    'plartillery.gif':      1421,
+    'osartillery.gif':      (21,  1),
+    'bmartillery.gif':      (21,  2),
+    'geartillery.gif':      (21,  3),
+    'ycartillery.gif':      (21,  4),
+    'bhartillery.gif':      (21,  5),
+    'rfartillery.gif':      (21,  6),
+    'gsartillery.gif':      (21,  7),
+    'bdartillery.gif':      (21,  8),
+    'abartillery.gif':      (21,  9),
+    'jsartillery.gif':      (21, 10),
+    'ciartillery.gif':      (21, 11),
+    'pcartillery.gif':      (21, 12),
+    'tgartillery.gif':      (21, 13),
+    'plartillery.gif':      (21, 14),
 
-    'osrocket.gif':          122,
-    'bmrocket.gif':          222,
-    'gerocket.gif':          322,
-    'ycrocket.gif':          422,
-    'bhrocket.gif':          522,
-    'rfrocket.gif':          622,
-    'gsrocket.gif':          722,
-    'bdrocket.gif':          822,
-    'abrocket.gif':          922,
-    'jsrocket.gif':         1022,
-    'cirocket.gif':         1122,
-    'pcrocket.gif':         1222,
-    'tgrocket.gif':         1322,
-    'plrocket.gif':         1422,
+    'osrocket.gif':         (22,  1),
+    'bmrocket.gif':         (22,  2),
+    'gerocket.gif':         (22,  3),
+    'ycrocket.gif':         (22,  4),
+    'bhrocket.gif':         (22,  5),
+    'rfrocket.gif':         (22,  6),
+    'gsrocket.gif':         (22,  7),
+    'bdrocket.gif':         (22,  8),
+    'abrocket.gif':         (22,  9),
+    'jsrocket.gif':         (22, 10),
+    'cirocket.gif':         (22, 11),
+    'pcrocket.gif':         (22, 12),
+    'tgrocket.gif':         (22, 13),
+    'plrocket.gif':         (22, 14),
 
-    'osmissile.gif':         123,
-    'bmmissile.gif':         223,
-    'gemissile.gif':         323,
-    'ycmissile.gif':         423,
-    'bhmissile.gif':         523,
-    'rfmissile.gif':         623,
-    'gsmissile.gif':         723,
-    'bdmissile.gif':         823,
-    'abmissile.gif':         923,
-    'jsmissile.gif':        1023,
-    'cimissile.gif':        1123,
-    'pcmissile.gif':        1223,
-    'tgmissile.gif':        1323,
-    'plmissile.gif':        1423,
+    'osmissile.gif':        (23,  1),
+    'bmmissile.gif':        (23,  2),
+    'gemissile.gif':        (23,  3),
+    'ycmissile.gif':        (23,  4),
+    'bhmissile.gif':        (23,  5),
+    'rfmissile.gif':        (23,  6),
+    'gsmissile.gif':        (23,  7),
+    'bdmissile.gif':        (23,  8),
+    'abmissile.gif':        (23,  9),
+    'jsmissile.gif':        (23, 10),
+    'cimissile.gif':        (23, 11),
+    'pcmissile.gif':        (23, 12),
+    'tgmissile.gif':        (23, 13),
+    'plmissile.gif':        (23, 14),
 
-    'ospiperunner.gif':      124,
-    'bmpiperunner.gif':      224,
-    'gepiperunner.gif':      324,
-    'ycpiperunner.gif':      424,
-    'bhpiperunner.gif':      524,
-    'rfpiperunner.gif':      624,
-    'gspiperunner.gif':      724,
-    'bdpiperunner.gif':      824,
-    'abpiperunner.gif':      924,
-    'jspiperunner.gif':     1024,
-    'cipiperunner.gif':     1124,
-    'pcpiperunner.gif':     1224,
-    'tgpiperunner.gif':     1324,
-    'plpiperunner.gif':     1424,
+    'ospiperunner.gif':     (24,  1),
+    'bmpiperunner.gif':     (24,  2),
+    'gepiperunner.gif':     (24,  3),
+    'ycpiperunner.gif':     (24,  4),
+    'bhpiperunner.gif':     (24,  5),
+    'rfpiperunner.gif':     (24,  6),
+    'gspiperunner.gif':     (24,  7),
+    'bdpiperunner.gif':     (24,  8),
+    'abpiperunner.gif':     (24,  9),
+    'jspiperunner.gif':     (24, 10),
+    'cipiperunner.gif':     (24, 11),
+    'pcpiperunner.gif':     (24, 12),
+    'tgpiperunner.gif':     (24, 13),
+    'plpiperunner.gif':     (24, 14),
 
-    'ost-copter.gif':        131,
-    'bmt-copter.gif':        231,
-    'get-copter.gif':        331,
-    'yct-copter.gif':        431,
-    'bht-copter.gif':        531,
-    'rft-copter.gif':        631,
-    'gst-copter.gif':        731,
-    'bdt-copter.gif':        831,
-    'abt-copter.gif':        931,
-    'jst-copter.gif':       1031,
-    'cit-copter.gif':       1131,
-    'pct-copter.gif':       1231,
-    'tgt-copter.gif':       1331,
-    'plt-copter.gif':       1431,
+    'ost-copter.gif':       (31,  1),
+    'bmt-copter.gif':       (31,  2),
+    'get-copter.gif':       (31,  3),
+    'yct-copter.gif':       (31,  4),
+    'bht-copter.gif':       (31,  5),
+    'rft-copter.gif':       (31,  6),
+    'gst-copter.gif':       (31,  7),
+    'bdt-copter.gif':       (31,  8),
+    'abt-copter.gif':       (31,  9),
+    'jst-copter.gif':       (31, 10),
+    'cit-copter.gif':       (31, 11),
+    'pct-copter.gif':       (31, 12),
+    'tgt-copter.gif':       (31, 13),
+    'plt-copter.gif':       (31, 14),
 
-    'osb-copter.gif':        132,
-    'bmb-copter.gif':        232,
-    'geb-copter.gif':        332,
-    'ycb-copter.gif':        432,
-    'bhb-copter.gif':        532,
-    'rfb-copter.gif':        632,
-    'gsb-copter.gif':        732,
-    'bdb-copter.gif':        832,
-    'abb-copter.gif':        932,
-    'jsb-copter.gif':       1032,
-    'cib-copter.gif':       1132,
-    'pcb-copter.gif':       1232,
-    'tgb-copter.gif':       1332,
-    'plb-copter.gif':       1432,
+    'osb-copter.gif':       (32,  1),
+    'bmb-copter.gif':       (32,  2),
+    'geb-copter.gif':       (32,  3),
+    'ycb-copter.gif':       (32,  4),
+    'bhb-copter.gif':       (32,  5),
+    'rfb-copter.gif':       (32,  6),
+    'gsb-copter.gif':       (32,  7),
+    'bdb-copter.gif':       (32,  8),
+    'abb-copter.gif':       (32,  9),
+    'jsb-copter.gif':       (32, 10),
+    'cib-copter.gif':       (32, 11),
+    'pcb-copter.gif':       (32, 12),
+    'tgb-copter.gif':       (32, 13),
+    'plb-copter.gif':       (32, 14),
 
-    'osfighter.gif':         133,
-    'bmfighter.gif':         233,
-    'gefighter.gif':         333,
-    'ycfighter.gif':         433,
-    'bhfighter.gif':         533,
-    'rffighter.gif':         633,
-    'gsfighter.gif':         733,
-    'bdfighter.gif':         833,
-    'abfighter.gif':         933,
-    'jsfighter.gif':        1033,
-    'cifighter.gif':        1133,
-    'pcfighter.gif':        1233,
-    'tgfighter.gif':        1333,
-    'plfighter.gif':        1433,
+    'osfighter.gif':        (33,  1),
+    'bmfighter.gif':        (33,  2),
+    'gefighter.gif':        (33,  3),
+    'ycfighter.gif':        (33,  4),
+    'bhfighter.gif':        (33,  5),
+    'rffighter.gif':        (33,  6),
+    'gsfighter.gif':        (33,  7),
+    'bdfighter.gif':        (33,  8),
+    'abfighter.gif':        (33,  9),
+    'jsfighter.gif':        (33, 10),
+    'cifighter.gif':        (33, 11),
+    'pcfighter.gif':        (33, 12),
+    'tgfighter.gif':        (33, 13),
+    'plfighter.gif':        (33, 14),
 
-    'osbomber.gif':          134,
-    'bmbomber.gif':          234,
-    'gebomber.gif':          334,
-    'ycbomber.gif':          434,
-    'bhbomber.gif':          534,
-    'rfbomber.gif':          634,
-    'gsbomber.gif':          734,
-    'bdbomber.gif':          834,
-    'abbomber.gif':          934,
-    'jsbomber.gif':         1034,
-    'cibomber.gif':         1134,
-    'pcbomber.gif':         1234,
-    'tgbomber.gif':         1334,
-    'plbomber.gif':         1434,
+    'osbomber.gif':         (34,  1),
+    'bmbomber.gif':         (34,  2),
+    'gebomber.gif':         (34,  3),
+    'ycbomber.gif':         (34,  4),
+    'bhbomber.gif':         (34,  5),
+    'rfbomber.gif':         (34,  6),
+    'gsbomber.gif':         (34,  7),
+    'bdbomber.gif':         (34,  8),
+    'abbomber.gif':         (34,  9),
+    'jsbomber.gif':         (34, 10),
+    'cibomber.gif':         (34, 11),
+    'pcbomber.gif':         (34, 12),
+    'tgbomber.gif':         (34, 13),
+    'plbomber.gif':         (34, 14),
 
-    'osstealth.gif':         135,
-    'bmstealth.gif':         235,
-    'gestealth.gif':         335,
-    'ycstealth.gif':         435,
-    'bhstealth.gif':         535,
-    'rfstealth.gif':         635,
-    'gsstealth.gif':         735,
-    'bdstealth.gif':         835,
-    'abstealth.gif':         935,
-    'jsstealth.gif':        1035,
-    'cistealth.gif':        1135,
-    'pcstealth.gif':        1235,
-    'tgstealth.gif':        1335,
-    'plstealth.gif':        1435,
+    'osstealth.gif':        (35,  1),
+    'bmstealth.gif':        (35,  2),
+    'gestealth.gif':        (35,  3),
+    'ycstealth.gif':        (35,  4),
+    'bhstealth.gif':        (35,  5),
+    'rfstealth.gif':        (35,  6),
+    'gsstealth.gif':        (35,  7),
+    'bdstealth.gif':        (35,  8),
+    'abstealth.gif':        (35,  9),
+    'jsstealth.gif':        (35, 10),
+    'cistealth.gif':        (35, 11),
+    'pcstealth.gif':        (35, 12),
+    'tgstealth.gif':        (35, 13),
+    'plstealth.gif':        (35, 14),
 
-    'osblackbomb.gif':       136,
-    'bmblackbomb.gif':       236,
-    'geblackbomb.gif':       336,
-    'ycblackbomb.gif':       436,
-    'bhblackbomb.gif':       536,
-    'rfblackbomb.gif':       636,
-    'gsblackbomb.gif':       736,
-    'bdblackbomb.gif':       836,
-    'abblackbomb.gif':       936,
-    'jsblackbomb.gif':      1036,
-    'ciblackbomb.gif':      1136,
-    'pcblackbomb.gif':      1236,
-    'tgblackbomb.gif':      1336,
-    'plblackbomb.gif':      1436,
+    'osblackbomb.gif':      (36,  1),
+    'bmblackbomb.gif':      (36,  2),
+    'geblackbomb.gif':      (36,  3),
+    'ycblackbomb.gif':      (36,  4),
+    'bhblackbomb.gif':      (36,  5),
+    'rfblackbomb.gif':      (36,  6),
+    'gsblackbomb.gif':      (36,  7),
+    'bdblackbomb.gif':      (36,  8),
+    'abblackbomb.gif':      (36,  9),
+    'jsblackbomb.gif':      (36, 10),
+    'ciblackbomb.gif':      (36, 11),
+    'pcblackbomb.gif':      (36, 12),
+    'tgblackbomb.gif':      (36, 13),
+    'plblackbomb.gif':      (36, 14),
 
-    'osblackboat.gif':       141,
-    'bmblackboat.gif':       241,
-    'geblackboat.gif':       341,
-    'ycblackboat.gif':       441,
-    'bhblackboat.gif':       541,
-    'rfblackboat.gif':       641,
-    'gsblackboat.gif':       741,
-    'bdblackboat.gif':       841,
-    'abblackboat.gif':       941,
-    'jsblackboat.gif':      1041,
-    'ciblackboat.gif':      1141,
-    'pcblackboat.gif':      1241,
-    'tgblackboat.gif':      1341,
-    'plblackboat.gif':      1441,
+    'osblackboat.gif':      (41,  1),
+    'bmblackboat.gif':      (41,  2),
+    'geblackboat.gif':      (41,  3),
+    'ycblackboat.gif':      (41,  4),
+    'bhblackboat.gif':      (41,  5),
+    'rfblackboat.gif':      (41,  6),
+    'gsblackboat.gif':      (41,  7),
+    'bdblackboat.gif':      (41,  8),
+    'abblackboat.gif':      (41,  9),
+    'jsblackboat.gif':      (41, 10),
+    'ciblackboat.gif':      (41, 11),
+    'pcblackboat.gif':      (41, 12),
+    'tgblackboat.gif':      (41, 13),
+    'plblackboat.gif':      (41, 14),
 
-    'oslander.gif':          142,
-    'bmlander.gif':          242,
-    'gelander.gif':          342,
-    'yclander.gif':          442,
-    'bhlander.gif':          542,
-    'rflander.gif':          642,
-    'gslander.gif':          742,
-    'bdlander.gif':          842,
-    'ablander.gif':          942,
-    'jslander.gif':         1042,
-    'cilander.gif':         1142,
-    'pclander.gif':         1242,
-    'tglander.gif':         1342,
-    'pllander.gif':         1442,
+    'oslander.gif':         (42,  1),
+    'bmlander.gif':         (42,  2),
+    'gelander.gif':         (42,  3),
+    'yclander.gif':         (42,  4),
+    'bhlander.gif':         (42,  5),
+    'rflander.gif':         (42,  6),
+    'gslander.gif':         (42,  7),
+    'bdlander.gif':         (42,  8),
+    'ablander.gif':         (42,  9),
+    'jslander.gif':         (42, 10),
+    'cilander.gif':         (42, 11),
+    'pclander.gif':         (42, 12),
+    'tglander.gif':         (42, 13),
+    'pllander.gif':         (42, 14),
 
-    'oscruiser.gif':         143,
-    'bmcruiser.gif':         243,
-    'gecruiser.gif':         343,
-    'yccruiser.gif':         443,
-    'bhcruiser.gif':         543,
-    'rfcruiser.gif':         643,
-    'gscruiser.gif':         743,
-    'bdcruiser.gif':         843,
-    'abcruiser.gif':         943,
-    'jscruiser.gif':        1043,
-    'cicruiser.gif':        1143,
-    'pccruiser.gif':        1243,
-    'tgcruiser.gif':        1343,
-    'plcruiser.gif':        1443,
+    'oscruiser.gif':        (43,  1),
+    'bmcruiser.gif':        (43,  2),
+    'gecruiser.gif':        (43,  3),
+    'yccruiser.gif':        (43,  4),
+    'bhcruiser.gif':        (43,  5),
+    'rfcruiser.gif':        (43,  6),
+    'gscruiser.gif':        (43,  7),
+    'bdcruiser.gif':        (43,  8),
+    'abcruiser.gif':        (43,  9),
+    'jscruiser.gif':        (43, 10),
+    'cicruiser.gif':        (43, 11),
+    'pccruiser.gif':        (43, 12),
+    'tgcruiser.gif':        (43, 13),
+    'plcruiser.gif':        (43, 14),
 
-    'ossub.gif':             144,
-    'bmsub.gif':             244,
-    'gesub.gif':             344,
-    'ycsub.gif':             444,
-    'bhsub.gif':             544,
-    'rfsub.gif':             644,
-    'gssub.gif':             744,
-    'bdsub.gif':             844,
-    'absub.gif':             944,
-    'jssub.gif':            1044,
-    'cisub.gif':            1144,
-    'pcsub.gif':            1244,
-    'tgsub.gif':            1344,
-    'plsub.gif':            1444,
+    'ossub.gif':            (44,  1),
+    'bmsub.gif':            (44,  2),
+    'gesub.gif':            (44,  3),
+    'ycsub.gif':            (44,  4),
+    'bhsub.gif':            (44,  5),
+    'rfsub.gif':            (44,  6),
+    'gssub.gif':            (44,  7),
+    'bdsub.gif':            (44,  8),
+    'absub.gif':            (44,  9),
+    'jssub.gif':            (44, 10),
+    'cisub.gif':            (44, 11),
+    'pcsub.gif':            (44, 12),
+    'tgsub.gif':            (44, 13),
+    'plsub.gif':            (44, 14),
 
-    'osbattleship.gif':      145,
-    'bmbattleship.gif':      245,
-    'gebattleship.gif':      345,
-    'ycbattleship.gif':      445,
-    'bhbattleship.gif':      545,
-    'rfbattleship.gif':      645,
-    'gsbattleship.gif':      745,
-    'bdbattleship.gif':      845,
-    'abbattleship.gif':      945,
-    'jsbattleship.gif':     1045,
-    'cibattleship.gif':     1145,
-    'pcbattleship.gif':     1245,
-    'tgbattleship.gif':     1345,
-    'plbattleship.gif':     1445,
+    'osbattleship.gif':     (45,  1),
+    'bmbattleship.gif':     (45,  2),
+    'gebattleship.gif':     (45,  3),
+    'ycbattleship.gif':     (45,  4),
+    'bhbattleship.gif':     (45,  5),
+    'rfbattleship.gif':     (45,  6),
+    'gsbattleship.gif':     (45,  7),
+    'bdbattleship.gif':     (45,  8),
+    'abbattleship.gif':     (45,  9),
+    'jsbattleship.gif':     (45, 10),
+    'cibattleship.gif':     (45, 11),
+    'pcbattleship.gif':     (45, 12),
+    'tgbattleship.gif':     (45, 13),
+    'plbattleship.gif':     (45, 14),
 
-    'oscarrier.gif':         146,
-    'bmcarrier.gif':         246,
-    'gecarrier.gif':         346,
-    'yccarrier.gif':         446,
-    'bhcarrier.gif':         546,
-    'rfcarrier.gif':         646,
-    'gscarrier.gif':         746,
-    'bdcarrier.gif':         846,
-    'abcarrier.gif':         946,
-    'jscarrier.gif':        1046,
-    'cicarrier.gif':        1146,
-    'pccarrier.gif':        1246,
-    'tgcarrier.gif':        1346,
-    'plcarrier.gif':        1446
+    'oscarrier.gif':        (46,  1),
+    'bmcarrier.gif':        (46,  2),
+    'gecarrier.gif':        (46,  3),
+    'yccarrier.gif':        (46,  4),
+    'bhcarrier.gif':        (46,  5),
+    'rfcarrier.gif':        (46,  6),
+    'gscarrier.gif':        (46,  7),
+    'bdcarrier.gif':        (46,  8),
+    'abcarrier.gif':        (46,  9),
+    'jscarrier.gif':        (46, 10),
+    'cicarrier.gif':        (46, 11),
+    'pccarrier.gif':        (46, 12),
+    'tgcarrier.gif':        (46, 13),
+    'plcarrier.gif':        (46, 14),
 }
 
 
-# Relate MAIN IDs to AWBW IDs
-MAIN_TERR_TO_AWBW = {k: [x for x in AWBW_TERR.keys() if AWBW_TERR.get(x, None) == k] for k in MAIN_TERR.keys()}
-MAIN_TERR_TO_AWBW[999] = [""]
-for k, v in MAIN_TERR_TO_AWBW.items():  # Non-AWBW tiles become warp-tiles
-    if len(v) == 0:
-        MAIN_TERR_TO_AWBW[k] = [""]  # TODO: Part of fixing Warp Tiles
-
-
 # From MAIN terrain IDs, find the offset for appropriate tile orientation based on surroundings.
-MAIN_TERR_TO_AWBW_AWARENESS = {
+AWBW_AWARENESS = {
     # Roads: Offset from 15
     # Additionally aware of Bridge and Properties
     4:      {
@@ -1663,3 +1331,7 @@ MAIN_TERR_TO_AWBW_AWARENESS = {
         12: [10, 11, 12],  # Destroyed Pipe Seam
     }
 }
+
+
+def get_awareness_override(terr: int) -> int:
+    pass
