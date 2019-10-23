@@ -412,6 +412,26 @@ SPEC = {
             "fill": PALETTE["purple2"]
         }
     ],
+    "arprop":   [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": PALETTE["purple1"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": PALETTE["purple2"]
+        }
+    ],
+    "wnprop":   [
+        {
+            "xy":   layer("1110111011100000b0"),
+            "fill": PALETTE["purple1"]
+        },
+        {
+            "xy":   layer("0001000100011111b0"),
+            "fill": PALETTE["purple2"]
+        }
+    ],
     # "seam":     [
     #     {
     #         "xy":   [layer("1010010110100101b0")] * 8,
@@ -573,6 +593,26 @@ SPEC = {
         }
     ],
     "plhq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["purple1"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "arhq":     [
+        {
+            "xy":   [layer("0000011001100000b0")] * 8,
+            "fill": [PALETTE["purple1"]] * 8
+        },
+        {
+            "xy":   [layer("1111100110011111b0")] * 8,
+            "fill": PALETTE["BLINK"]
+        }
+    ],
+    "wnhq":     [
         {
             "xy":   [layer("0000011001100000b0")] * 8,
             "fill": [PALETTE["purple1"]] * 8
@@ -788,6 +828,34 @@ SPEC = {
             "fill": PALETTE["white"]
         }
     ],
+    "arunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["purple1"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["purple2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
+    "wnunit":   [
+        {
+            "xy":   layer("0000001001100000b0"),
+            "fill": PALETTE["purple1"]
+        },
+        {
+            "xy":   layer("0110100110010110b0"),
+            "fill": PALETTE["purple2"]
+        },
+        {
+            "xy":   layer("0000010000000000b0"),
+            "fill": PALETTE["white"]
+        }
+    ],
 }
 
 
@@ -917,7 +985,7 @@ class AWMinimap:
     @staticmethod
     def get_sprite(
             sprite_id: int,
-            unit: bool=False
+            unit: bool = False
     ) -> Union[Tuple[Image.Image, bool], Tuple[List[Image.Image], bool]]:
         if unit:
             if sprite_id in [i for v in UNIT_ID_TO_SPEC.values() for i in v]:

@@ -8,6 +8,9 @@ from typing import Union
 from . import tile_data, minimap
 
 
+MAPS_API = "https://awbw.amarriner.com/matsuzen/api/map/map_info.php"
+
+
 # try:
 #     from awmapconverter import tile_data, minimap
 # except ImportError:  # Relative Path hackfix for including in other projects.
@@ -127,106 +130,37 @@ class AWMap:
 
     def from_awbw(
             self,
-            data: str="",
-            title: str="",
-            awbw_id: int=None
+            data: str = "",
+            title: str = "",
+            awbw_id: int = ""
     ):
-        self.raw_data = data
-
         if awbw_id:
-            payload = {
-                "maps_id": awbw_id
-            }
+            payload = {"maps_id": awbw_id}
 
-            # Get
-            r_prev = requests.get(
-                "http://awbw.amarriner.com/prevmaps.php",
-                params=payload
-            )
-            s_prev = Soup(r_prev.text, 'html.parser')
+            # Get map info JSON
+            r_map = requests.get(MAPS_API, params=payload)
+            j_map = r_map.json()
 
-            # Get text_map page for map containing AWBW map CSV
-            r_text = requests.get(
-                "http://awbw.amarriner.com/text_map.php",
-                params=payload
-            )
-            s_text = Soup(r_text.text, 'html.parser')
+            if j_map.get("err", False):
+                self._parse_awbw_csv(j_map["Terrain Map"])
 
-            # <a> tag containing map preview page's URL
-            # Will be absent and return `None` if map ID is not valid
-            title_href = s_text.find_all(
-                "a",
-                href=f"prevmaps.php?maps_id={awbw_id}"
-            )
-
-            # Will not be a title if Invalid Map
-            if len(title_href) == 0:
-                return
-
-            # Cut the CSV text map out of the text_map.php page
-            map_table = s_text.find_all("td", "menu")[0].find_next(
-                "table").find_next("table").find_all_next("td")
-            map_csv = "\n".join([t.contents[0] for t in map_table])
-
-            # Catch AssertionError if not all map rows are same length
-            self._parse_awbw_csv(map_csv)
-
-            # Find exact location of map image on page (top, left
-            divmap = s_prev.find(id="map")
-            map_style = divmap.find(id="mapImage").get("style").replace(
-                ";", "").split(" ")
-            map_style = {x: y for x, y in [z.split(':') for z in map_style]}
-            origin = {
-                x: int(y.replace("px", ""))
-                for x, y in map_style.items() if x in ["top", "left"]
-            }
-
-            # Find all unit sprites and mod them into the map
-            sprites = divmap.find_all("img")[1:]
-            if sprites:
-                for sprite in sprites:
-                    main_id, main_ctry = tile_data.AWBW_UNIT_SPRITE.get(
-                        sprite.get("src").split("/")[-1], (0, 0)
-                    )
-
-                    if main_id:
-                        sprite_style = sprite.parent.get("style").replace(
-                            ";", "").split(" ")[:2]
-
-                        sprite_style = {
-                            x: y for x, y in [
-                                z.split(':') for z in sprite_style
-                            ]
-                        }
-
+                if j_map["Predeployed Units"]:
+                    for unit in j_map["Predeployed Units"]:
+                        main_id = tile_data.AWBW_UNIT_CODE.get(unit["Unit ID"])
+                        main_ctry = tile_data.AWBW_COUNTRY_CODE.get(unit["Country Code"])
                         coords = {
-                            x: int(y.replace("px", ""))
-                            for x, y in sprite_style.items()
-                            if x in ["top", "left"]
-                        }
-
-                        coords = {
-                            "x": (coords["left"] - origin["left"]) // 16,
-                            "y": (coords["top"] - origin["top"]) // 16,
+                            "x":    unit["Unit X"],
+                            "y":    unit["Unit Y"]
                         }
 
                         self.tile(**coords).mod_unit(main_id, main_ctry)
 
-            # Add the map meta data
-            author_span = s_prev.find_all("td", "menu")[0].next_sibling.span
+                self.author = j_map["Author"]
+                self.title = j_map["Name"]
+                self.awbw_id = str(awbw_id)
+                self.desc = f"https://awbw.amarriner.com/prevmaps.php?maps_id={awbw_id}"
 
-            if author_span.contents[0].startswith("(Design Map by "):
-                author = author_span.a.contents[0]
-            else:
-                author = "[Unknown]"
-
-            if author:
-                self.author = author
-            self.title = title_href[0].contents[0]
-            self.awbw_id = str(awbw_id)
-            self.desc = r_prev.url
-
-            return self
+                return self
 
         elif data:
             self._parse_awbw_csv(data)
@@ -236,6 +170,118 @@ class AWMap:
             return self
 
         return
+
+    # def from_awbw(
+    #         self,
+    #         data: str = "",
+    #         title: str = "",
+    #         awbw_id: int = None
+    # ):
+    #     self.raw_data = data
+    #
+    #     if awbw_id:
+    #         payload = {
+    #             "maps_id": awbw_id
+    #         }
+    #
+    #         # Get
+    #         r_prev = requests.get(
+    #             "http://awbw.amarriner.com/prevmaps.php",
+    #             params=payload
+    #         )
+    #         s_prev = Soup(r_prev.text, 'html.parser')
+    #
+    #         # Get text_map page for map containing AWBW map CSV
+    #         r_text = requests.get(
+    #             "http://awbw.amarriner.com/text_map.php",
+    #             params=payload
+    #         )
+    #         s_text = Soup(r_text.text, 'html.parser')
+    #
+    #         # <a> tag containing map preview page's URL
+    #         # Will be absent and return `None` if map ID is not valid
+    #         title_href = s_text.find_all(
+    #             "a",
+    #             href=f"prevmaps.php?maps_id={awbw_id}"
+    #         )
+    #
+    #         # Will not be a title if Invalid Map
+    #         if len(title_href) == 0:
+    #             return
+    #
+    #         # Cut the CSV text map out of the text_map.php page
+    #         map_table = s_text.find_all("td", "menu")[0].find_next(
+    #             "table").find_next("table").find_all_next("td")
+    #         map_csv = "\n".join([t.contents[0] for t in map_table])
+    #
+    #         # Catch AssertionError if not all map rows are same length
+    #         self._parse_awbw_csv(map_csv)
+    #
+    #         # Find exact location of map image on page (top, left
+    #         divmap = s_prev.find(id="map")
+    #         map_style = divmap.find(id="mapImage").get("style").replace(
+    #             ";", "").split(" ")
+    #         map_style = {x: y for x, y in [z.split(':') for z in map_style]}
+    #         origin = {
+    #             x: int(y.replace("px", ""))
+    #             for x, y in map_style.items() if x in ["top", "left"]
+    #         }
+    #
+    #         # Find all unit sprites and mod them into the map
+    #         sprites = divmap.find_all("img")[1:]
+    #         if sprites:
+    #             for sprite in sprites:
+    #                 main_id, main_ctry = tile_data.AWBW_UNIT_SPRITE.get(
+    #                     sprite.get("src").split("/")[-1], (0, 0)
+    #                 )
+    #
+    #                 if main_id:
+    #                     sprite_style = sprite.parent.get("style").replace(
+    #                         ";", "").split(" ")[:2]
+    #
+    #                     sprite_style = {
+    #                         x: y for x, y in [
+    #                             z.split(':') for z in sprite_style
+    #                         ]
+    #                     }
+    #
+    #                     coords = {
+    #                         x: int(y.replace("px", ""))
+    #                         for x, y in sprite_style.items()
+    #                         if x in ["top", "left"]
+    #                     }
+    #
+    #                     coords = {
+    #                         "x": (coords["left"] - origin["left"]) // 16,
+    #                         "y": (coords["top"] - origin["top"]) // 16,
+    #                     }
+    #
+    #                     self.tile(**coords).mod_unit(main_id, main_ctry)
+    #
+    #         # Add the map meta data
+    #         author_span = s_prev.find_all("td", "menu")[0].next_sibling.span
+    #
+    #         if author_span.contents[0].startswith("(Design Map by "):
+    #             author = author_span.a.contents[0]
+    #         else:
+    #             author = "[Unknown]"
+    #
+    #         if author:
+    #             self.author = author
+    #         self.title = title_href[0].contents[0]
+    #         self.awbw_id = str(awbw_id)
+    #         self.desc = r_prev.url
+    #
+    #         return self
+    #
+    #     elif data:
+    #         self._parse_awbw_csv(data)
+    #
+    #         self.title = title if title else "[Untitled]"
+    #
+    #         return self
+    #
+    #     return
 
     def _parse_awbw_csv(self, data):
         csv_map = [*csv.reader(data.strip('\n').split('\n'))]
