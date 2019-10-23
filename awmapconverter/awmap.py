@@ -4,7 +4,7 @@ import requests
 
 # from bs4 import BeautifulSoup as Soup
 from math import cos, sin, pi, trunc
-from typing import Union
+from typing import Union, List
 
 from . import tile_data, minimap
 
@@ -133,7 +133,7 @@ class AWMap:
             self,
             data: str = "",
             title: str = "",
-            awbw_id: int = ""
+            awbw_id: int = None
     ):
         if awbw_id:
             payload = {"maps_id": awbw_id}
@@ -142,8 +142,8 @@ class AWMap:
             r_map = requests.get(MAPS_API, params=payload)
             j_map = r_map.json()
 
-            if j_map.get("err", False):
-                self._parse_awbw_csv(j_map["Terrain Map"])
+            if not j_map.get("err", False):
+                self._parse_awbw_csv(data=j_map["Terrain Map"])
 
                 if j_map["Predeployed Units"]:
                     for unit in j_map["Predeployed Units"]:
@@ -164,7 +164,7 @@ class AWMap:
                 return self
 
         elif data:
-            self._parse_awbw_csv(data)
+            self._parse_awbw_csv(strcsv=data)  # TODO: Refactor these names
 
             self.title = title if title else "[Untitled]"
 
@@ -284,8 +284,13 @@ class AWMap:
     #
     #     return
 
-    def _parse_awbw_csv(self, data):
-        csv_map = [*csv.reader(data.strip('\n').split('\n'))]
+    def _parse_awbw_csv(self, strcsv: str = None, data: List[List[int]] = None):
+        if strcsv:
+            csv_map = [*csv.reader(strcsv.strip('\n').split('\n'))]
+        elif data:
+            csv_map = data
+        else:
+            raise Exception
 
         # Make sure all rows passed are equal length
         # Calling method will need to catch AssertionError

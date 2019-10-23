@@ -1,9 +1,9 @@
 from awmapconverter.awmap import AWMap
 
 
-def bread(infile='TestFiles\\SpangIsland.aws'):
-    with open(infile, 'rb') as bin_file:
-        return AWMap().from_aws(bin_file.read())
+# def bread(infile='TestFiles\\SpangIsland.aws'):
+#     with open(infile, 'rb') as bin_file:
+#         return AWMap().from_aws(bin_file.read())
 
 
 # newmap = bread()
@@ -29,4 +29,3 @@ newmap = AWMap().from_awbw(awbw_id=73487)
 #     out_file.write(newmap.to_aws)
 
 newmap.minimap.save("TestFiles\\73487.gif", save_all=True)
-# print(newmap.to_awbw)
