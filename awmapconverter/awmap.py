@@ -1,7 +1,7 @@
 import csv
 import requests
 
-from bs4 import BeautifulSoup as Soup
+# from bs4 import BeautifulSoup as Soup
 from math import cos, sin, pi, trunc
 from typing import Union
 
