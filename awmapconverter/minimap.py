@@ -1,33 +1,45 @@
-from PIL import Image, ImageDraw, ImageSequence
+
 from io import BytesIO
+from PIL import Image, ImageDraw, ImageSequence
+from PIL.ImagePalette import ImagePalette
+from typing import Union, Tuple, List, TypeVar
 from pprint import pprint
 
-
-class Iterator(ImageSequence.Iterator):
-
-    def __len__(self):
-        _len = 0
-        try:
-            self.im.seek(0)
-            while True:
-                _ = self.__getitem__(_len)
-                _len += 1
-        except IndexError:
-            return _len
-
-    def len(self):
-        return self.__len__()
-
-    @property
-    def animated(self):
-        return len(self) > 1
-
-    @property
-    def static(self):
-        return not self.animated
+# import imageio
+# from uuid import uuid4
 
 
-def layer(bitmask):
+# TODO: Refactor Sprite IDs and junk into tile_data
+
+
+AWMap = TypeVar("AWMap")
+
+
+# class Iterator(ImageSequence.Iterator):
+#
+#     def __len__(self):
+#         _len = 0
+#         try:
+#             self.im.seek(0)
+#             while True:
+#                 _ = self.__getitem__(_len)
+#                 _len += 1
+#         except IndexError:
+#             return _len
+#
+#     def len(self):
+#         return self.__len__()
+#
+#     @property
+#     def animated(self):
+#         return len(self) > 1
+#
+#     @property
+#     def static(self):
+#         return not self.animated
+
+
+def layer(bitmask: Union[str, int]) -> List[Tuple[int, int]]:
     if isinstance(bitmask, str):
         if bitmask[-2] == "b":
             bitmask = bitmask[::-1]
@@ -90,8 +102,10 @@ PALETTE = {
     # "BLINK":    [(45,  40,  30),  (81,  76,  65),  (108, 103, 92),  (182, 177, 166),
     #              (238, 233, 233), (182, 177, 166), (108, 103, 92),  (81,  76,  65)],
 
-    "BLINK":    [(43,  37,  32),  (79,  69,  60),  (122, 106, 92),  (196, 186, 176),
-                 (239, 236, 233), (196, 186, 176), (122, 106, 92),  (79,  69,  60)],
+    "BLINK":    [
+        (43,  37,  32),  (79,  69,  60),  (122, 106, 92),  (196, 186, 176),
+        (239, 236, 233), (196, 186, 176), (122, 106, 92),  (79,  69,  60)
+    ],
 
     # "blink1":   (45,  40,  30),
     # "blink2":   (81,  76,  65),
@@ -848,7 +862,7 @@ UNIT_ID_TO_SPEC = {
 
 class AWMinimap:
 
-    def __init__(self, awmap):
+    def __init__(self, awmap: AWMap) -> None:
         self.im = Image.new("RGBA", (4 * awmap.size_w, 4 * awmap.size_h))
         self.ims = []
         self.animated = False
@@ -870,7 +884,7 @@ class AWMinimap:
             for y in range(awmap.size_h):
                 unit = awmap.tile(x, y).unit + (awmap.tile(x, y).u_ctry * 100)
                 if unit:
-                    sprite = AWMinimap.get_sprite(unit, True)
+                    sprite, _ = AWMinimap.get_sprite(unit, True)
                     self.animated = True
                     self.anim_buffer.append((x, y, sprite))
 
@@ -890,8 +904,10 @@ class AWMinimap:
         # Smaller maps can be sized up
         if awmap.size_w * awmap.size_h <= 1600:
             if self.animated:
-                for i in range(len(self.ims)):
-                    self.ims[i] = self.ims[i].resize((awmap.size_w * 8, awmap.size_h * 8))
+                for i, f in enumerate(self.ims):
+                    self.ims[i] = f.resize(
+                        (awmap.size_w * 8, awmap.size_h * 8)
+                    )
             else:
                 self.im = self.im.resize((awmap.size_w * 8, awmap.size_h * 8))
 
@@ -899,7 +915,10 @@ class AWMinimap:
             self.im = AWMinimap.compile_gif(self.ims)
 
     @staticmethod
-    def get_sprite(sprite_id, unit=False):
+    def get_sprite(
+            sprite_id: int,
+            unit: bool=False
+    ) -> Union[Tuple[Image.Image, bool], Tuple[List[Image.Image], bool]]:
         if unit:
             if sprite_id in [i for v in UNIT_ID_TO_SPEC.values() for i in v]:
                 sprite_name = [k for k, v in UNIT_ID_TO_SPEC.items() if sprite_id in v][0]
@@ -908,7 +927,12 @@ class AWMinimap:
                 return Image.new("RGBA", (4, 4)), False
         else:
             if sprite_id in [i for v in STATIC_ID_TO_SPEC.values() for i in v]:
-                sprite_name = [k for k, v in STATIC_ID_TO_SPEC.items() if sprite_id in v][0]
+                sprite_name = [
+                    k
+                    for k, v
+                    in STATIC_ID_TO_SPEC.items()
+                    if sprite_id in v
+                ][0]
                 return AWMinimap.get_static_sprite(sprite_name)
             elif sprite_id in [i for v in ANIM_ID_TO_SPEC.values() for i in v]:
                 sprite_name = [k for k, v in ANIM_ID_TO_SPEC.items() if sprite_id in v][0]
@@ -917,7 +941,7 @@ class AWMinimap:
                 return Image.new("RGBA", (4, 4)), False
 
     @staticmethod
-    def get_static_sprite(sprite_name):
+    def get_static_sprite(sprite_name: str) -> Tuple[List[Image.Image], bool]:
         im = Image.new("RGBA", (4, 4))
         draw = ImageDraw.Draw(im)
         spec = SPEC[sprite_name]
@@ -926,7 +950,7 @@ class AWMinimap:
         return im, False  # .resize((8, 8))
 
     @staticmethod
-    def get_anim_sprite(sprite_name):
+    def get_anim_sprite(sprite_name: str) -> Tuple[List[Image.Image], bool]:
         ims = []
         for _ in range(8):
             ims.append(Image.new("RGBA", (4, 4)))
@@ -938,7 +962,7 @@ class AWMinimap:
         return ims, True
 
     @staticmethod
-    def get_unit_sprite(sprite_name):
+    def get_unit_sprite(sprite_name: str) -> Tuple[List[Image.Image], bool]:
         ims = []
         for _ in range(8):
             ims.append(Image.new("RGBA", (4, 4)))
@@ -948,22 +972,62 @@ class AWMinimap:
                 draw = ImageDraw.Draw(ims[i])
                 for _layer in spec:
                     draw.point(**_layer)
-        return ims
+        return ims, True
+
+    # @staticmethod  # Current working
+    # def compile_gif(frames: List[Image.Image]) -> Image.Image:
+    #     img_bytes = BytesIO()
+    #     first_frame = frames.pop(0)
+    #     first_frame.save(
+    #         img_bytes, "GIF", save_all=True, append_images=frames, loop=0,
+    #         duration=150, optimize=False, version='GIF89a'
+    #     )
+    #     img_bytes.seek(0)
+    #     compiled_gif = Image.open(img_bytes)
+    #     return compiled_gif
 
     @staticmethod
-    def compile_gif(frames):
+    def compile_gif(frames: List[Image.Image]) -> Image.Image:
+
+        # List for frames converted to "P" and frame palettes
+        cvt_frames, frame_palettes = [], []
+
+        # Convert frames to "P" and create frame palettes
+        for i, frame in enumerate(frames):
+
+            # Convert frame and add to converted frames list
+            cvt_frame = frame.convert("P", palette=Image.ADAPTIVE)
+            cvt_frames.append(cvt_frame)
+
+            # Create palette from frame and add to frame palettes list
+            pal = cvt_frame.resize((256, 1))
+            pal.putdata(range(256))
+            frame_palettes.append(pal.convert("RGB").getdata())
+
+        __import__("time").sleep(1)
+        for frame in cvt_frames:
+            frame.show()
+            pprint(frame.palette.getdata())
+
+        # Create bytes object and save all frames to it as GIF data
         img_bytes = BytesIO()
-        first_frame = frames.pop(0)
+        first_frame = cvt_frames.pop(0)
         first_frame.save(
-            img_bytes, "GIF", save_all=True, append_images=frames, loop=0,
-            duration=150, optimize=True, version='GIF89a'
+            img_bytes, "GIF", save_all=True, append_images=cvt_frames, loop=0,
+            duration=150, optimize=False, version='GIF89a'
         )
         img_bytes.seek(0)
+
+        # Open GIF and apply palette to each frame
         compiled_gif = Image.open(img_bytes)
+        iterator = ImageSequence.Iterator(compiled_gif)
+        for i, frame in enumerate(iterator):
+            frame.putpalette(frame_palettes[i])
+
         return compiled_gif
 
     # @staticmethod
-    # def compile_gif(frames):
+    # def compile_gif(frames: List[Image.Image]):
     #     bin_frames = []
     #     for frame in frames:
     #         bytes_frame = BytesIO()
@@ -973,7 +1037,7 @@ class AWMinimap:
     #
     #     imageio_frames = []
     #     for frame in bin_frames:
-    #         imageio_frame = imageio.get_reader(frame.read(), format='i')
+    #         imageio_frame = imageio.get_reader(frame.read(), format='png')
     #         imageio_frames.append(imageio_frame)
     #
     #     imageio_gif = BytesIO()
@@ -999,5 +1063,5 @@ class AWMinimap:
     #     return compiled_gif
 
     @property
-    def map(self):
+    def map(self) -> Image.Image:
         return self.im

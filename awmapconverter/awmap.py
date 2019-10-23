@@ -1,15 +1,18 @@
 import csv
 import requests
-from bs4 import BeautifulSoup as bs
+
+from bs4 import BeautifulSoup as Soup
 from math import cos, sin, pi, trunc
 from typing import Union
 
-try:
-    import tile_data
-    import minimap
-except ImportError:  # Relative Path hackfix for including in other projects.
-    print("ImportError")
-    from . import tile_data, minimap
+from . import tile_data, minimap
+
+
+# try:
+#     from awmapconverter import tile_data, minimap
+# except ImportError:  # Relative Path hackfix for including in other projects.
+#     print("ImportError")
+#     from . import tile_data, minimap
 
 
 # Warp tile = 0 or an empty CSV cell
@@ -140,14 +143,14 @@ class AWMap:
                 "http://awbw.amarriner.com/prevmaps.php",
                 params=payload
             )
-            s_prev = bs(r_prev.text, 'html.parser')
+            s_prev = Soup(r_prev.text, 'html.parser')
 
             # Get text_map page for map containing AWBW map CSV
             r_text = requests.get(
                 "http://awbw.amarriner.com/text_map.php",
                 params=payload
             )
-            s_text = bs(r_text.text, 'html.parser')
+            s_text = Soup(r_text.text, 'html.parser')
 
             # <a> tag containing map preview page's URL
             # Will be absent and return `None` if map ID is not valid

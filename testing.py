@@ -1,4 +1,4 @@
-from awmap import AWMap
+from awmapconverter.awmap import AWMap
 
 
 def bread(infile='TestFiles\\SpangIsland.aws'):

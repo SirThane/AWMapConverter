@@ -111,6 +111,8 @@ MAIN_CTRY = {
     12:     "Pink Cosmos",
     13:     "Teal Galaxy",
     14:     "Purple Lightning",
+    15:     "Acid Rain",
+    16:     "White Nova"
 }
 
 
@@ -426,7 +428,7 @@ AWS_UNIT = {
 
 
 def main_terr_to_aws(terr: int=1, ctry: int=0) -> list:
-    DEFAULT_VALUE = [0]
+    default_value = [0]
     override = {
         14:  350,  # EmptySilo overridden to Silo
         15:  167,  # Ruin      overridden to BrokenSeam
@@ -443,11 +445,11 @@ def main_terr_to_aws(terr: int=1, ctry: int=0) -> list:
     if match:
         return match
     else:
-        return DEFAULT_VALUE
+        return default_value
 
 
 def main_unit_to_aws(unit: int=0, ctry: int=1) -> list:
-    DEFAULT_VALUE = [65535]
+    default_value = [65535]
     match = []
     for k, v in AWS_UNIT.items():
         if (unit, ctry) == v:
@@ -455,7 +457,7 @@ def main_unit_to_aws(unit: int=0, ctry: int=1) -> list:
     if match:
         return match
     else:
-        return DEFAULT_VALUE
+        return default_value
 
 
 """###########################
@@ -777,11 +779,25 @@ AWBW_TERR = {
     174:    (101, 14),  # Purple Lightning HQ
     175:    (107, 14),  # Purple Lightning Lab
     176:    (105, 14),  # Purple Lightning Port
+    181:    (104, 15),  # Acid Rain Airport
+    182:    (103, 15),  # Acid Rain Base
+    183:    (102, 15),  # Acid Rain City
+    184:    (106, 15),  # Acid Rain Com Tower
+    185:    (101, 15),  # Acid Rain HQ
+    186:    (107, 15),  # Acid Rain Lab
+    187:    (105, 15),  # Acid Rain Port
+    188:    (104, 16),  # White Nova Airport
+    189:    (103, 16),  # White Nova Base
+    190:    (102, 16),  # White Nova City
+    191:    (106, 16),  # White Nova Com Tower
+    192:    (101, 16),  # White Nova HQ
+    193:    (107, 16),  # White Nova Lab
+    194:    (105, 16),  # White Nova Port
 }
 
 
-def main_terr_to_awbw(terr: int=1, ctry: int=0) -> list:
-    DEFAULT_VALUE = [""]
+def main_terr_to_awbw(terr: int = 1, ctry: int = 0) -> list:
+    default_value = [""]
     match = []
     for k, v in AWBW_TERR.items():
         if (terr, ctry) == v:
@@ -789,7 +805,7 @@ def main_terr_to_awbw(terr: int=1, ctry: int=0) -> list:
     if match:
         return match
     else:
-        return DEFAULT_VALUE
+        return default_value
 
 
 # Relate AWBW unit GIF name to MAIN unit IDs
