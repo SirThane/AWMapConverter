@@ -6,8 +6,8 @@ import requests
 from math import cos, sin, pi, trunc
 from typing import Union, List
 
-from . import tile_data, minimap
-
+import tile_data
+import minimap
 
 MAPS_API = "https://awbw.amarriner.com/matsuzen/api/map/map_info.php"
 
